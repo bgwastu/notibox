@@ -23,6 +23,9 @@ class AppThemes {
     scaffoldBackgroundColor: textSwatch.shade100,
     backgroundColor: textSwatch.shade100,
     cardColor: Colors.white,
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(),
+    ),
     bottomAppBarColor: Colors.white,
     dividerColor: const Color(0x1C000000),
     textTheme: TextTheme(
