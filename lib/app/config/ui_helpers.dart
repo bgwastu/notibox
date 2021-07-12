@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:notibox/config/theme.dart';
 
 // Horizontal spacing
 const Widget horizontalSpaceTiny = SizedBox(width: 4);

@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:notibox/onboarding/onboarding_service.dart';
-import 'package:notibox/config/ui_helpers.dart';
-import 'package:notibox/onboarding/onboarding_database_page.dart';
+import 'package:get/get.dart';
+import 'package:notibox/app/config/ui_helpers.dart';
+import 'package:notibox/app/modules/onboarding/controllers/onboarding_controller.dart';
 
-class OnboardingTokenPage extends ConsumerWidget {
-  const OnboardingTokenPage({Key? key}) : super(key: key);
+class OnboardingTokenPage extends StatelessWidget {
+  const OnboardingTokenPage({ Key? key }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authServiceProvider);
-    final inputController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-
+  Widget build(BuildContext context) {
+    final controller = Get.find<OnboardingController>();
+  
     return Form(
-      key: formKey,
+      key: controller.tokenFormKey,
       child: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16),
@@ -49,7 +46,7 @@ class OnboardingTokenPage extends ConsumerWidget {
               ),
               verticalSpaceMedium,
               TextFormField(
-                controller: inputController,
+                controller: controller.tokenController,
                 decoration: InputDecoration(labelText: 'Notion API Token'),
                 minLines: 1,
                 maxLines: null,
@@ -62,21 +59,7 @@ class OnboardingTokenPage extends ConsumerWidget {
               Align(
                   alignment: Alignment.centerRight,
                   child: OutlinedButton.icon(
-                      onPressed: () async {
-                        hideInput();
-                        if (formKey.currentState!.validate()) {
-                          EasyLoading.show();
-                          final isCorrect = await authService
-                              .checkToken(inputController.text);
-                          if (!isCorrect) {
-                            await EasyLoading.dismiss();
-                            EasyLoading.showError('Token is not valid');
-                            return;
-                          }
-                          EasyLoading.dismiss();
-                          Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => OnboardingDatabasePage()),);
-                        }
-                      },
+                      onPressed: controller.tokenNext,
                       icon: Icon(Icons.chevron_right),
                       label: Text('Next'.toUpperCase())))
             ],
