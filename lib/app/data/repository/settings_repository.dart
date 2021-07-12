@@ -12,8 +12,8 @@ class SettingsRepository {
   }
 
   void setToken(String token) => box.put('token', token);
-  String getToken() => box.get('token');
+  String? getToken() => box.get('token');
 
   void setDatabaseId(String databaseId) => box.put('database_id', databaseId);
-  String getDatabaseId() => box.get('database_id');
+  String? getDatabaseId() => box.get('database_id');
 }

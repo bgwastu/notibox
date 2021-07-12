@@ -13,7 +13,7 @@ class NotionProvider {
 
     final res = await _dio.get(BASE_URL + 'databases',
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token,
+          'Authorization': 'Bearer ' + token!,
           'Notion-Version': NOTION_VERSION
         }));
 

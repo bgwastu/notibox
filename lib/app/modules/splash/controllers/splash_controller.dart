@@ -8,7 +8,7 @@ class SplashController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     // Check is user already have token and database id
     final settings = await SettingsRepository.instance();
     final token = settings.getToken();
