@@ -12,19 +12,22 @@ class OnboardingController extends GetxController {
   final index = Rx<int>(0);
   final tokenController = TextEditingController();
   final tokenFormKey = GlobalKey<FormState>();
-
+  final databaseController = TextEditingController();
+  final databaseFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
     super.onInit();
     // Check is user already have token and database id
-    final token = SettingsRepository.getToken();
-    final databaseId = SettingsRepository.getDatabaseId();
+    SettingsRepository.instance().then((settings) {
+      final token = settings.getToken();
+      final databaseId = settings.getDatabaseId();
 
-    // Go to home if the value is not null
-    if(token != null && databaseId != null){
-      Get.toNamed(Routes.HOME);
-    }
+      // Go to home if the value is not null
+      if (token != null && databaseId != null) {
+        Get.toNamed(Routes.HOME);
+      }
+    });
   }
 
   @override
@@ -34,6 +37,8 @@ class OnboardingController extends GetxController {
 
   @override
   void onClose() {}
+
+  Future<void> databaseNext() async {}
 
   Future<void> tokenNext() async {
     hideInput();
@@ -49,8 +54,10 @@ class OnboardingController extends GetxController {
       }
 
       // Save token
-      SettingsRepository.setToken(tokenController.text);
-      
+      await SettingsRepository.instance().then((settings) {
+        settings.setToken(tokenController.text);
+      });
+
       await EasyLoading.dismiss();
       index.value++;
     }

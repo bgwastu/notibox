@@ -9,7 +9,7 @@ import 'package:notibox/app/config/ui_helpers.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
-  hiveInit();
+  await Hive.initFlutter();
   runApp(
     GetMaterialApp(
       title: "Notibox",
@@ -25,11 +25,6 @@ void main() async {
     ),
   );
   easyLoadingConfig();
-}
-
-void hiveInit() async {
-  await Hive.initFlutter();
-  Hive.openBox('settings');
 }
 
 void easyLoadingConfig() {

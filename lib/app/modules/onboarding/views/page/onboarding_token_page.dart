@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
@@ -57,6 +56,7 @@ class OnboardingTokenPage extends StatelessWidget {
                   }
                 },
               ),
+              verticalSpaceSmall,
               Align(
                   alignment: Alignment.centerRight,
                   child: OutlinedButton.icon(
