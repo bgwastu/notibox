@@ -34,7 +34,7 @@ class OnboardingController extends GetxController {
 
   Future<void> databaseNext() async {
     // Test database
-    EasyLoading.show(status: 'Checking the database...');
+    EasyLoading.show(status: 'Checking a database...');
     // Check database
     // When system detect 2 database, system will throw error
     // If there is 1 database, then save the id and go to dashboard

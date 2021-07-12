@@ -19,6 +19,10 @@ class AppThemes {
 
   static final lightTheme = ThemeData(
     primarySwatch: Colors.brown,
+    appBarTheme: AppBarTheme(
+      color: primaryColor.shade800,
+      brightness: Brightness.dark,
+    ),
     brightness: Brightness.light,
     scaffoldBackgroundColor: textSwatch.shade100,
     backgroundColor: textSwatch.shade100,
@@ -75,9 +79,12 @@ class AppThemes {
   static final darkTheme = lightTheme.copyWith(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: const Color(0xFF24242a),
-    backgroundColor: const Color(0xFF24242a),
-    cardColor: const Color(0xFF2f2f34),
-    bottomAppBarColor: const Color(0xFF35353a),
+    backgroundColor: const Color(0xFF1B1B1B),
+    cardColor: const Color(0xFF212121),
+    appBarTheme: AppBarTheme(
+      color: primaryColor.shade600,
+      brightness: Brightness.dark,
+    ),
     dividerColor: const Color(0x1CFFFFFF),
     textTheme: TextTheme(
       headline1: TextStyle(
