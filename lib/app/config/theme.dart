@@ -19,6 +19,7 @@ class AppThemes {
 
   static final lightTheme = ThemeData(
     primarySwatch: Colors.brown,
+    accentColor: Colors.amber,
     appBarTheme: AppBarTheme(
       color: primaryColor.shade800,
       brightness: Brightness.dark,

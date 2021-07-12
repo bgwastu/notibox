@@ -17,7 +17,6 @@ class OnboardingView extends GetView<OnboardingController> {
             children: [
               OnboardingTokenPage(),
               OnboardingDatabasePage(),
-              Center(child: Text('3')),
             ],
           )),
     );
