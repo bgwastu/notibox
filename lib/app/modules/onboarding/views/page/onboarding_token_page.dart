@@ -50,6 +50,7 @@ class OnboardingTokenPage extends StatelessWidget {
                 decoration: InputDecoration(labelText: 'Notion API Token'),
                 minLines: 1,
                 maxLines: null,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
                     return 'Notion API cannot be empty';
