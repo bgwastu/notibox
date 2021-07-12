@@ -22,16 +22,6 @@ class OnboardingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Check is user already have token and database id
-    SettingsRepository.instance().then((settings) {
-      final token = settings.getToken();
-      final databaseId = settings.getDatabaseId();
-
-      // Go to home if the value is not null
-      if (token != null && databaseId != null) {
-        Get.toNamed(Routes.HOME);
-      }
-    });
   }
 
   @override
