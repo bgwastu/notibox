@@ -18,6 +18,7 @@ dependencies:
   flutter_native_splash: ^1.2.0
   get: 4.1.4
   url_launcher: ^6.0.8
+  intl: ^0.17.0
 
   flutter: 
     sdk: flutter
