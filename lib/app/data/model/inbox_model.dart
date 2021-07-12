@@ -5,8 +5,8 @@ class Inbox {
   final String? pageId;
   final String title;
   final String? description;
-  final DateTime reminder;
-  final Select labels;
+  final DateTime? reminder;
+  final Select? labels;
 
   Inbox({
     this.pageId,
@@ -21,8 +21,8 @@ class Inbox {
   return {
     'Title': {'title': [{'text': {'content': title}}]},
     'Description': {'rich_text': [{'text': {'content': description}}]},
-    'Reminder': {'date': {'start': dateFormat.format(reminder)}},
-    'Label': {'select': labels.toMap()}
+    'Reminder': {'date': {'start': dateFormat.format(reminder!)}},
+    'Label': {'select': labels!.toMap()}
   };
   }
 
@@ -30,12 +30,12 @@ class Inbox {
     final properties = map['properties'] as Map<String, dynamic>;
     final listTitle = (properties['Title']['title'] ?? []) as List;
     final description = properties['Description']?['rich_text'] as List;
-    final labels = Select.fromMap(properties['Label']?['select']);
+    final labels = properties['Label']?['select'] != null ? Select.fromMap(properties['Label']?['select']) : null;
 
     return Inbox(
       pageId: map['id'],
       title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] : 'Untitled',
-      reminder: DateTime.tryParse(properties['Reminder']?['date']?['start']) ??
+      reminder: DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '') ??
           DateTime(0),
       labels: labels,
       description: description.isNotEmpty ? description[0]['plain_text'] : '-',

@@ -22,34 +22,4 @@ class AuthProvider {
       throw e;
     }
   }
-
-  Future<List<Inbox>> getListInbox({required String databaseId}) async {
-    final token = (await SettingsRepository.instance()).getToken();
-    final res = await Dio().post('$BASE_URL/databases/$databaseId/query',
-        options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
-        }),
-        data: {
-          'sorts': [
-            {'timestamp': 'created_time', 'direction': 'descending'}
-          ]
-        });
-    return (res.data['results'] as List).map((e) => Inbox.fromMap(e)).toList();
-  }
-
-  Future createInbox({required Inbox inbox, required String databaseId}) async {
-    final token = (await SettingsRepository.instance()).getToken();
-    await Dio().post('$BASE_URL/pages',
-        data: {
-          'parent': {
-            'database_id': databaseId,
-          },
-          'properties': inbox.toMap()
-        },
-        options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
-        }));
-  }
 }

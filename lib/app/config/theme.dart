@@ -33,48 +33,6 @@ class AppThemes {
     ),
     bottomAppBarColor: Colors.white,
     dividerColor: const Color(0x1C000000),
-    textTheme: TextTheme(
-      headline1: TextStyle(
-        color: textSwatch.shade700,
-        fontWeight: FontWeight.w300,
-      ),
-      headline2: TextStyle(
-        color: textSwatch.shade600,
-      ),
-      headline3: TextStyle(
-        color: textSwatch.shade700,
-      ),
-      headline4: TextStyle(
-        color: textSwatch.shade700,
-      ),
-      headline5: TextStyle(
-        color: textSwatch.shade600,
-      ),
-      headline6: TextStyle(
-        color: textSwatch.shade700,
-      ),
-      subtitle1: TextStyle(
-        color: textSwatch.shade700,
-      ),
-      subtitle2: TextStyle(
-        color: textSwatch.shade600,
-      ),
-      bodyText1: TextStyle(
-        color: textSwatch.shade700,
-      ),
-      bodyText2: TextStyle(
-        color: textSwatch.shade500,
-      ),
-      button: TextStyle(
-        color: textSwatch.shade500,
-      ),
-      caption: TextStyle(
-        color: textSwatch.shade500,
-      ),
-      overline: TextStyle(
-        color: textSwatch.shade500,
-      ),
-    ),
   );
 
   static final darkTheme = lightTheme.copyWith(
