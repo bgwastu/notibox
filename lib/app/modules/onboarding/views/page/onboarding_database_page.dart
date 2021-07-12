@@ -5,7 +5,7 @@ import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/modules/onboarding/controllers/onboarding_controller.dart';
 
 class OnboardingDatabasePage extends StatelessWidget {
-  const OnboardingDatabasePage({ Key? key }) : super(key: key);
+  const OnboardingDatabasePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,44 +26,37 @@ class OnboardingDatabasePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Add your Notion token',
+                    'Clone the database',
                     style: Theme.of(context).textTheme.headline6,
                     textAlign: TextAlign.center,
                   ),
                   IconButton(
-                      onPressed: () {
-                        //TODO: add help for Notion database
-                      },
-                      icon: Icon(Icons.help),
-                      iconSize: 22,
-                      tooltip: 'Get Help')
+                    onPressed: () {
+                      //TODO: add help for Notion database
+                    },
+                    icon: Icon(Icons.help),
+                    iconSize: 22,
+                    tooltip: 'Get Help',
+                  )
                 ],
               ),
               Text(
-                'This application needs your Notion integration API to be able to work properly.',
+                'This application uses custom database, duplicate it to your workspace and invite Notibox integration that you have created earlier.',
                 style: Theme.of(context).textTheme.subtitle1,
                 textAlign: TextAlign.center,
               ),
               verticalSpaceMedium,
-              TextFormField(
-                controller: controller.databaseController,
-                decoration: InputDecoration(labelText: 'Notion API Token'),
-                minLines: 1,
-                maxLines: null,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'Notion API cannot be empty';
-                  }
-                },
-              ),
+              OutlinedButton.icon(
+                  onPressed: controller.duplicateDatabase,
+                  icon: Icon(Icons.copy),
+                  label: Text('Duplicate Notibox Database'.toUpperCase())),
               verticalSpaceSmall,
               Align(
                   alignment: Alignment.centerRight,
                   child: OutlinedButton.icon(
                       onPressed: controller.databaseNext,
-                      icon: Icon(Icons.chevron_right),
-                      label: Text('Next'.toUpperCase())))
+                      icon: Icon(Icons.check_circle_outline),
+                      label: Text('Finish'.toUpperCase())))
             ],
           ),
         ),

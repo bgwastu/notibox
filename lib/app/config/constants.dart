@@ -4,3 +4,4 @@ const String INTEGRATION_HELP_URL =
     'https://www.notion.so/Getting-started-Notiary-939c110565a2421ab538fbb13c539055#d5bd7dcf40724dd3a6c3abcaa64abb2d';
 const String GET_API_HELP_URL =
     'https://www.notion.so/Getting-started-Notiary-939c110565a2421ab538fbb13c539055#964cad9f3d2949169c20ca6b8764250a';
+const String DATABASE_TEMPLATE_URL = 'https://www.notion.so/385e58cb01f145eeaab50a76c0324628?v=8aecf98b2b2d4676a8551ede3ca72358';

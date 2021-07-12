@@ -17,6 +17,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_native_splash: ^1.2.0
   get: 4.1.4
+  url_launcher: ^6.0.8
+
   flutter: 
     sdk: flutter
 

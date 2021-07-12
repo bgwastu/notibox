@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:notibox/app/config/constants.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/auth_provider.dart';
+import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'package:notibox/app/routes/app_pages.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OnboardingController extends GetxController {
   final _authService = Get.put(AuthProvider());
+  final _notionProvider = Get.put(NotionProvider());
 
   final index = Rx<int>(0);
   final tokenController = TextEditingController();
@@ -38,7 +42,29 @@ class OnboardingController extends GetxController {
   @override
   void onClose() {}
 
-  Future<void> databaseNext() async {}
+  Future<void> databaseNext() async {
+    // Test database
+    EasyLoading.show(status: 'Checking the database...');
+    // Check database
+    // When system detect 2 database, system will throw error
+    // If there is 1 database, then save the id and go to dashboard
+    try {
+      final listDatabase = await _notionProvider.getListDatabase();
+      EasyLoading.dismiss();
+
+      if (listDatabase.length == 1) {
+        (await SettingsRepository.instance()).setDatabaseId(listDatabase.first.id);
+        Get.offNamed(Routes.HOME);
+      } else if (listDatabase.length > 1) {
+        EasyLoading.showError('Integration has detects more than one database', dismissOnTap: true);
+      } else if (listDatabase.isEmpty) {
+        EasyLoading.showError('Database not found', dismissOnTap: true);
+      }
+    } catch (e) {
+      EasyLoading.showError('Error has been occurred');
+      throw e;
+    }
+  }
 
   Future<void> tokenNext() async {
     hideInput();
@@ -60,6 +86,17 @@ class OnboardingController extends GetxController {
 
       await EasyLoading.dismiss();
       index.value++;
+    }
+  }
+
+  Future<void> duplicateDatabase() async {
+    EasyLoading.show();
+    try {
+      await launch(DATABASE_TEMPLATE_URL);
+    } catch (e) {
+      Get.snackbar('Error', 'Could not launch URL');
+    }finally{
+      EasyLoading.dismiss();
     }
   }
 }
