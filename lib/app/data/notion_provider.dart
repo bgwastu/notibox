@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/config/constants.dart';
 import 'package:notibox/app/data/model/database_model.dart';
@@ -25,7 +26,7 @@ class NotionProvider {
 
   Future<List<Inbox>> getListInbox() async {
     final cacheOptions = CacheOptions(
-      store: MemCacheStore(),
+      store: HiveCacheStore(null),
       policy: CachePolicy.refresh,
       hitCacheOnErrorExcept: [401, 403],
       maxStale: const Duration(days: 7),

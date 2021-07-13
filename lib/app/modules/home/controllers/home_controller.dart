@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
@@ -10,13 +13,23 @@ class HomeController extends GetxController {
   Rx<List<Inbox>> listInbox = Rx([]);
   Rx<String> errorMessage = ''.obs;
   Rx<bool> init = true.obs;
-
+  Rx<bool> isOffline = false.obs;
   final indicator = GlobalKey<RefreshIndicatorState>();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          isOffline.value = false;
+          break;
+        case InternetConnectionStatus.disconnected:
+          isOffline.value = true;
+          break;
+      }
+    });
+
   }
 
   @override
@@ -31,7 +44,7 @@ class HomeController extends GetxController {
     return errorMessage.value != '';
   }
 
-    bool isEmpty() {
+  bool isEmpty() {
     return listInbox.value.isEmpty;
   }
 

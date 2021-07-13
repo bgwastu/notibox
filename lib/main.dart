@@ -24,7 +24,7 @@ void main() async {
       darkTheme: AppThemes.darkTheme,
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-
+      enableLog: true,
     ),
   );
   easyLoadingConfig();

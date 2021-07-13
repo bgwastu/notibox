@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
+import 'package:open_settings/open_settings.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -11,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.black38));
+        SystemUiOverlayStyle(statusBarColor: Colors.black26));
     final controller = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(
@@ -31,13 +32,15 @@ class HomeView extends GetView<HomeController> {
         ],
       ),
       floatingActionButton: Obx(() => Visibility(
-        visible: !controller.init.value && !controller.isError(),
-        child: FloatingActionButton.extended(
+            visible: !controller.init.value &&
+                !controller.isError() &&
+                !controller.isOffline.value,
+            child: FloatingActionButton.extended(
               label: Text('Create'.toUpperCase()),
               icon: Icon(Icons.add),
               onPressed: () {},
             ),
-      )),
+          )),
       body: Obx(() => RefreshIndicator(
             key: controller.indicator,
             onRefresh: controller.getListInbox,
@@ -47,15 +50,46 @@ class HomeView extends GetView<HomeController> {
                     ? _errorState(controller, context)
                     : controller.isEmpty()
                         ? _emptyState(controller, context)
-                        : ListView.builder(
-                            itemCount: controller.listInbox.value.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final inbox = controller.listInbox.value[index];
+                        : Column(
+                            children: [
+                              controller.isOffline.value
+                                  ? _noInternetBanner()
+                                  : Container(),
+                              Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: controller.listInbox.value.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final inbox =
+                                        controller.listInbox.value[index];
 
-                              return Text(inbox.title);
-                            },
+                                    return Text(inbox.title);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
           )),
+    );
+  }
+
+  Material _noInternetBanner() {
+    return Material(
+      elevation: 2,
+      child: MaterialBanner(
+          content: Text(
+            'No internet connection.',
+          ),
+          leading: Icon(
+            Icons.sync_disabled,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Network Settting'.toUpperCase()),
+              onPressed: () => OpenSettings.openNetworkOperatorSetting(),
+            ),
+          ]),
     );
   }
 
