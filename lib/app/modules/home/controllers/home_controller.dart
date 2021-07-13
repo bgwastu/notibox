@@ -29,7 +29,6 @@ class HomeController extends GetxController {
           break;
       }
     });
-
   }
 
   @override
@@ -38,6 +37,11 @@ class HomeController extends GetxController {
     indicator.currentState!.show();
     await getListInbox();
     init.value = false;
+  }
+
+  Future<void> manualRefresh() async {
+    indicator.currentState!.show();
+    await getListInbox();
   }
 
   bool isError() {

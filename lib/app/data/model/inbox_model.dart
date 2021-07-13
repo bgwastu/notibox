@@ -16,27 +16,54 @@ class Inbox {
     required this.label,
   });
 
-  Map<String, dynamic> toMap(){
-  final dateFormat = DateFormat('yyyy-dd-MM');
-  return {
-    'Title': {'title': [{'text': {'content': title}}]},
-    'Description': {'rich_text': [{'text': {'content': description}}]},
-    'Reminder': {'date': {'start': dateFormat.format(reminder!)}},
-    'Label': {'select': label!.toMap()}
-  };
+  Map<String, dynamic> toMap() {
+    final dateFormat = DateFormat('yyyy-dd-MM');
+    Map<String, dynamic> map = Map();
+    map['Title'] = {
+      'title': [
+        {
+          'text': {'content': title}
+        }
+      ]
+    };
+
+    map['Description'] = description != null
+        ? {
+            'rich_text': [
+              {
+                'text': {'content': description}
+              }
+            ]
+          }
+        : '';
+
+    if (reminder != null) {
+      map['Reminder'] = {
+        'date': {'start': reminder!.toIso8601String()}
+      };
+    }
+
+    if (label != null) {
+      map['Label'] = {'select': label!.toMap()};
+    }
+
+    return map;
   }
 
   factory Inbox.fromMap(Map<String, dynamic> map) {
     final properties = map['properties'] as Map<String, dynamic>;
     final listTitle = (properties['Title']['title'] ?? []) as List;
     final description = properties['Description']?['rich_text'] as List;
-    final label = properties['Label']?['select'] != null ? Select.fromMap(properties['Label']?['select']) : null;
+    final label = properties['Label']?['select'] != null
+        ? Select.fromMap(properties['Label']?['select'])
+        : null;
 
     return Inbox(
       pageId: map['id'],
       title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] : 'Untitled',
-      reminder: DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '') ??
-          null,
+      reminder:
+          DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '') ??
+              null,
       label: label,
       description: description.isNotEmpty ? description[0]['plain_text'] : null,
     );

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
+import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 import 'package:open_settings/open_settings.dart';
 
 import '../controllers/home_controller.dart';
@@ -39,7 +40,13 @@ class HomeView extends GetView<HomeController> {
             child: FloatingActionButton.extended(
               label: Text('Create'.toUpperCase()),
               icon: Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () async {
+                final res = await Get.dialog(CreateInboxDialog());
+                // Refresh if the result was true;
+                if(res as bool){
+                  controller.manualRefresh();
+                }
+              },
             ),
           )),
       body: Obx(() => RefreshIndicator(

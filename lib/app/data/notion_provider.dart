@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/config/constants.dart';
 import 'package:notibox/app/data/model/database_model.dart';
@@ -24,6 +25,25 @@ class NotionProvider {
         .toList();
   }
 
+  Future<List<Select>> getListLabel() async {
+    final databaseId = SettingsRepository.getDatabaseId();
+    final token = SettingsRepository.getToken();
+
+    final res = await _dio.get(BASE_URL + 'databases/' + databaseId!,
+        options: Options(headers: {
+          'Authorization': 'Bearer ' + token!,
+          'Notion-Version': NOTION_VERSION
+        }));
+    final listLabel =
+        (res.data['properties']['Label']['select']['options'] as List)
+            .map<Select>((e) => Select.fromMap(e))
+            .toList();
+    final noLabel =
+        Select(id: 'no-label', name: 'No Label', color: Colors.grey);
+
+    return [noLabel, ...listLabel];
+  }
+
   Future<List<Inbox>> getListInbox() async {
     final cacheOptions = CacheOptions(
       store: HiveCacheStore(null),
@@ -38,7 +58,8 @@ class NotionProvider {
 
     final token = SettingsRepository.getToken();
     final databaseId = SettingsRepository.getDatabaseId();
-    final dio = _dio..interceptors.add(DioCacheInterceptor(options: cacheOptions));
+    final dio = _dio
+      ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
     final res = await dio.post(BASE_URL + 'databases/$databaseId/query',
         options: Options(headers: {
