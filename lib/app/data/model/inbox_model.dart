@@ -36,9 +36,9 @@ class Inbox {
       pageId: map['id'],
       title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] : 'Untitled',
       reminder: DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '') ??
-          DateTime(0),
+          null,
       label: label,
-      description: description.isNotEmpty ? description[0]['plain_text'] : '-',
+      description: description.isNotEmpty ? description[0]['plain_text'] : null,
     );
   }
 }

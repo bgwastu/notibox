@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:open_settings/open_settings.dart';
 
@@ -59,12 +60,29 @@ class HomeView extends GetView<HomeController> {
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: controller.listInbox.value.length,
+                                  padding: EdgeInsets.only(top: 8),
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     final inbox =
                                         controller.listInbox.value[index];
 
-                                    return Text(inbox.title);
+                                    return Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            inbox.reminder != null ? Padding(
+                                              padding: EdgeInsets.only(bottom: 8),
+                                              child: Text(DateFormat('EEE, dd MMM y').format(inbox.reminder!).toUpperCase(), style: Theme.of(context).textTheme.subtitle2,),
+                                            ) : Container(),
+                                            Text(inbox.title, style: Theme.of(context).textTheme.headline6),
+                                            verticalSpaceSmall,
+                                            inbox.description != null ? Text(inbox.description!, style: Theme.of(context).textTheme.bodyText2!.copyWith(height: 1.3), ) : Container(),
+                                          ],
+                                        ),
+                                      )
+                                    );
                                   },
                                 ),
                               ),
