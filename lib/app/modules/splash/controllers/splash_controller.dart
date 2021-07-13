@@ -10,9 +10,8 @@ class SplashController extends GetxController {
     super.onInit();
     await Future.delayed(Duration(seconds: 1));
     // Check is user already have token and database id
-    final settings = await SettingsRepository.instance();
-    final token = settings.getToken();
-    final databaseId = settings.getDatabaseId();
+    final token = SettingsRepository.getToken();
+    final databaseId = SettingsRepository.getDatabaseId();
     // Go to home if the value is not null
     if (token != null && databaseId != null) {
       Get.offNamed(Routes.HOME);

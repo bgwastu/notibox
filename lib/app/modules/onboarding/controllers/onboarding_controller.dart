@@ -43,10 +43,11 @@ class OnboardingController extends GetxController {
       EasyLoading.dismiss();
 
       if (listDatabase.length == 1) {
-        (await SettingsRepository.instance()).setDatabaseId(listDatabase.first.id);
+        SettingsRepository.setDatabaseId(listDatabase.first.id);
         Get.offNamed(Routes.HOME);
       } else if (listDatabase.length > 1) {
-        EasyLoading.showError('Integration has detects more than one database', dismissOnTap: true);
+        EasyLoading.showError('Integration has detects more than one database',
+            dismissOnTap: true);
       } else if (listDatabase.isEmpty) {
         EasyLoading.showError('Database not found', dismissOnTap: true);
       }
@@ -61,18 +62,19 @@ class OnboardingController extends GetxController {
     if (tokenFormKey.currentState!.validate()) {
       EasyLoading.show();
 
-      final isCorrect = await _authService.checkToken(tokenController.text);
-
-      if (!isCorrect) {
-        await EasyLoading.dismiss();
-        EasyLoading.showError('Token is not valid');
-        return;
+      try {
+        final isCorrect = await _authService.checkToken(tokenController.text);
+        if (!isCorrect) {
+          await EasyLoading.dismiss();
+          EasyLoading.showError('Token is not valid');
+          return;
+        }
+      } catch (e) {
+        EasyLoading.showError('Error has occurred');
       }
 
       // Save token
-      await SettingsRepository.instance().then((settings) {
-        settings.setToken(tokenController.text);
-      });
+      SettingsRepository.setToken(tokenController.text);
 
       await EasyLoading.dismiss();
       index.value++;
@@ -85,7 +87,7 @@ class OnboardingController extends GetxController {
       await launch(DATABASE_TEMPLATE_URL);
     } catch (e) {
       Get.snackbar('Error', 'Could not launch URL');
-    }finally{
+    } finally {
       EasyLoading.dismiss();
     }
   }

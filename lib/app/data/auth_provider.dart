@@ -16,8 +16,10 @@ class AuthProvider {
           }));
       return response.statusCode == 200;
     } on DioError catch (e) {
-      if (e.response!.statusCode == 401) {
-        return false;
+      if (e.response != null) {
+        if (e.response!.statusCode == 401) {
+          return false;
+        }
       }
       throw e;
     }

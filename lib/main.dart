@@ -10,7 +10,7 @@ import 'package:notibox/app/config/theme.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
-  await Hive.initFlutter();
+  await hiveInit();
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   
@@ -28,6 +28,11 @@ void main() async {
     ),
   );
   easyLoadingConfig();
+}
+
+Future<void> hiveInit() async{
+  await Hive.initFlutter();
+  await Hive.openBox<String>('settings');
 }
 
 void easyLoadingConfig() {

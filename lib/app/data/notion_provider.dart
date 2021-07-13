@@ -10,7 +10,7 @@ class NotionProvider {
   final _dio = Get.put(Dio());
 
   Future<List<Database>> getListDatabase() async {
-    final token = (await SettingsRepository.instance()).getToken();
+    final token = SettingsRepository.getToken();
 
     final res = await _dio.get(BASE_URL + 'databases',
         options: Options(headers: {
@@ -24,8 +24,8 @@ class NotionProvider {
   }
 
   Future<List<Inbox>> getListInbox() async {
-    final token = (await SettingsRepository.instance()).getToken();
-    final databaseId = (await SettingsRepository.instance()).getDatabaseId();
+    final token = SettingsRepository.getToken();
+    final databaseId = SettingsRepository.getDatabaseId();
     final res = await _dio.post(BASE_URL + 'databases/$databaseId/query',
         options: Options(headers: {
           'Authorization': 'Bearer ' + token!,
@@ -40,8 +40,8 @@ class NotionProvider {
   }
 
   Future createInbox({required Inbox inbox}) async {
-    final token = (await SettingsRepository.instance()).getToken();
-    final databaseId = (await SettingsRepository.instance()).getDatabaseId();
+    final token = SettingsRepository.getToken();
+    final databaseId = SettingsRepository.getDatabaseId();
     await _dio.post(BASE_URL + 'pages',
         data: {
           'parent': {

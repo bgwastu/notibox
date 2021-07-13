@@ -1,19 +1,13 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SettingsRepository {
-  Box box;
-  SettingsRepository({
-    required this.box,
-  });
 
-  static Future<SettingsRepository> instance() async {
-    final box = await Hive.openBox('settings');
-    return SettingsRepository(box: box);
-  }
+  static Box<String> instance() =>
+      Hive.box<String>('settings');
 
-  void setToken(String token) => box.put('token', token);
-  String? getToken() => box.get('token');
+  static void setToken(String token) => instance().put('token', token);
+  static String? getToken() => instance().get('token');
 
-  void setDatabaseId(String databaseId) => box.put('database_id', databaseId);
-  String? getDatabaseId() => box.get('database_id');
+  static void setDatabaseId(String databaseId) => instance().put('database_id', databaseId);
+  static String? getDatabaseId() => instance().get('database_id');
 }
