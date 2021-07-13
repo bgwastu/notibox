@@ -8,7 +8,6 @@ import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
   Rx<List<Inbox>> listInbox = Rx([]);
-  Rx<bool> isError = false.obs;
   Rx<String> errorMessage = ''.obs;
 
   final indicator = GlobalKey<RefreshIndicatorState>();
@@ -32,8 +31,6 @@ class HomeController extends GetxController {
       errorMessage.value = '';
     } on DioError catch (e) {
       errorMessage.value = HomeException.fromDioError(e).message;
-    } catch (e) {
-      isError.value = true;
     }
   }
 }
