@@ -19,8 +19,8 @@ dependencies:
   get: 4.1.4
   url_launcher: ^6.0.8
   intl: ^0.17.0
-  internet_connection_checker: ^0.0.1+1
-
+  dio_cache_interceptor: ^3.0.1  
+  
   flutter: 
     sdk: flutter
 

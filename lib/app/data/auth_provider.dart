@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/config/constants.dart';
-import 'package:notibox/app/data/model/inbox_model.dart';
-import 'package:notibox/app/data/repository/settings_repository.dart';
 
 class AuthProvider {
   final _dio = Get.put(Dio());
