@@ -26,7 +26,7 @@ class NotionProvider {
   Future<List<Inbox>> getListInbox() async {
     final token = (await SettingsRepository.instance()).getToken();
     final databaseId = (await SettingsRepository.instance()).getDatabaseId();
-    final res = await Dio().post(BASE_URL + 'databases/$databaseId/query',
+    final res = await _dio.post(BASE_URL + 'databases/$databaseId/query',
         options: Options(headers: {
           'Authorization': 'Bearer ' + token!,
           'Notion-Version': NOTION_VERSION
@@ -42,7 +42,7 @@ class NotionProvider {
   Future createInbox({required Inbox inbox}) async {
     final token = (await SettingsRepository.instance()).getToken();
     final databaseId = (await SettingsRepository.instance()).getDatabaseId();
-    await Dio().post(BASE_URL + 'pages',
+    await _dio.post(BASE_URL + 'pages',
         data: {
           'parent': {
             'database_id': databaseId!,
