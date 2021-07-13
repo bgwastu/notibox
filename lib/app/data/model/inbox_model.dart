@@ -6,14 +6,14 @@ class Inbox {
   final String title;
   final String? description;
   final DateTime? reminder;
-  final Select? labels;
+  final Select? label;
 
   Inbox({
     this.pageId,
     required this.title,
     required this.description,
     required this.reminder,
-    required this.labels,
+    required this.label,
   });
 
   Map<String, dynamic> toMap(){
@@ -22,7 +22,7 @@ class Inbox {
     'Title': {'title': [{'text': {'content': title}}]},
     'Description': {'rich_text': [{'text': {'content': description}}]},
     'Reminder': {'date': {'start': dateFormat.format(reminder!)}},
-    'Label': {'select': labels!.toMap()}
+    'Label': {'select': label!.toMap()}
   };
   }
 
@@ -30,14 +30,14 @@ class Inbox {
     final properties = map['properties'] as Map<String, dynamic>;
     final listTitle = (properties['Title']['title'] ?? []) as List;
     final description = properties['Description']?['rich_text'] as List;
-    final labels = properties['Label']?['select'] != null ? Select.fromMap(properties['Label']?['select']) : null;
+    final label = properties['Label']?['select'] != null ? Select.fromMap(properties['Label']?['select']) : null;
 
     return Inbox(
       pageId: map['id'],
       title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] : 'Untitled',
       reminder: DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '') ??
           DateTime(0),
-      labels: labels,
+      label: label,
       description: description.isNotEmpty ? description[0]['plain_text'] : '-',
     );
   }

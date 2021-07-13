@@ -30,26 +30,31 @@ class HomeView extends GetView<HomeController> {
               icon: Icon(Icons.more_vert))
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text('Create'.toUpperCase()),
-        icon: Icon(Icons.add),
-        onPressed: () {},
-      ),
+      floatingActionButton: Obx(() => Visibility(
+        visible: !controller.init.value && !controller.isError(),
+        child: FloatingActionButton.extended(
+              label: Text('Create'.toUpperCase()),
+              icon: Icon(Icons.add),
+              onPressed: () {},
+            ),
+      )),
       body: Obx(() => RefreshIndicator(
             key: controller.indicator,
             onRefresh: controller.getListInbox,
-            child: controller.errorMessage.value != ''
-                ? _errorState(controller, context)
-                : controller.listInbox.value.isEmpty
-                    ? _emptyState(controller, context)
-                    : ListView.builder(
-                        itemCount: controller.listInbox.value.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final inbox = controller.listInbox.value[index];
+            child: controller.init.value
+                ? Container()
+                : controller.isError()
+                    ? _errorState(controller, context)
+                    : controller.isEmpty()
+                        ? _emptyState(controller, context)
+                        : ListView.builder(
+                            itemCount: controller.listInbox.value.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final inbox = controller.listInbox.value[index];
 
-                          return Text(inbox.title);
-                        },
-                      ),
+                              return Text(inbox.title);
+                            },
+                          ),
           )),
     );
   }

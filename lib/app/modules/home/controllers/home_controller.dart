@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
   Rx<List<Inbox>> listInbox = Rx([]);
   Rx<String> errorMessage = ''.obs;
+  Rx<bool> init = true.obs;
 
   final indicator = GlobalKey<RefreshIndicatorState>();
 
@@ -19,10 +20,19 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
     indicator.currentState!.show();
-    getListInbox();
+    await getListInbox();
+    init.value = false;
+  }
+
+  bool isError() {
+    return errorMessage.value != '';
+  }
+
+    bool isEmpty() {
+    return listInbox.value.isEmpty;
   }
 
   Future<void> getListInbox() async {
