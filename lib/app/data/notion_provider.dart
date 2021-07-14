@@ -90,4 +90,15 @@ class NotionProvider {
           'Notion-Version': NOTION_VERSION
         }));
   }
+
+  /// Archive page in Notion
+  Future<void> deleteInbox({required String pageId}) async {
+    final token = SettingsRepository.getToken();
+    await _dio.patch(BASE_URL + 'pages/$pageId',
+        data: {'archived': true},
+        options: Options(headers: {
+          'Authorization': 'Bearer ' + token!,
+          'Notion-Version': NOTION_VERSION
+        }));
+  }
 }

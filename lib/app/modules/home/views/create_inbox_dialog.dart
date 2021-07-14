@@ -24,11 +24,11 @@ class CreateInboxDialog extends AlertDialog {
               TextButton(
                   onPressed: () {
                     Get.back();
-                    Get.back(result: false);
+                    Get.back();
                   },
                   child: Text('Discard'.toUpperCase())),
             ],
-          ));
+          ), barrierDismissible: false);
         }
 
         return true;

@@ -82,7 +82,7 @@ class HomeView extends GetView<HomeController> {
   Card _listItem(Inbox inbox, BuildContext context) {
     return Card(
           child: InkWell(
-            onTap: () => Get.dialog(ViewInboxDialog(inbox)),
+            onTap: () => controller.viewInbox(inbox),
             child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

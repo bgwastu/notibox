@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
+import 'package:notibox/app/modules/home/controllers/view_inbox_controller.dart';
 
 class ViewInboxDialog extends AlertDialog {
   final Inbox inbox;
@@ -12,6 +12,8 @@ class ViewInboxDialog extends AlertDialog {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ViewInboxController());
+
     return Padding(
       padding: EdgeInsets.all(8),
       child: AlertDialog(
@@ -54,7 +56,16 @@ class ViewInboxDialog extends AlertDialog {
         ),
         actions: [
           TextButton(onPressed: (){}, child: Text('Edit'.toUpperCase())),
-          TextButton(onPressed: (){}, child: Text('Delete'.toUpperCase()))
+          TextButton(onPressed: (){
+            Get.dialog(AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text('This inbox will be deleted.'),
+              actions: [
+                TextButton(onPressed: () => Get.back(), child: Text('Cancel'.toUpperCase())),
+                TextButton(onPressed: () => controller.deleteInbox(inbox), child: Text('Delete'.toUpperCase())),
+              ],
+            ), barrierDismissible: false);
+          }, child: Text('Delete'.toUpperCase()))
         ],
       ),
     );

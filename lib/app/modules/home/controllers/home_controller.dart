@@ -8,6 +8,7 @@ import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
+import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -43,8 +44,17 @@ class HomeController extends GetxController {
 
   Future<void> createInbox() async {
     final res = await Get.dialog(CreateInboxDialog());
-    // Refresh if the result was true;
-    if (res as bool) {
+    // Refresh if the result was not null;
+    if (res != null) {
+      manualRefresh();
+    }
+  }
+
+  Future<void> viewInbox(Inbox inbox) async {
+    final res = await Get.dialog(ViewInboxDialog(inbox));
+
+    // Refresh  if the result was not null
+    if(res != null){
       manualRefresh();
     }
   }
