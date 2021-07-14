@@ -10,7 +10,7 @@ class ViewInboxController extends GetxController {
   Future<void> updateInbox(Inbox inbox) async {
     final res = await Get.dialog(UpdateInboxDialog(inbox));
     // if updated then return true (refresh)
-    if(res != null){
+    if (res != null) {
       Get.back(result: true);
     }
   }
@@ -21,6 +21,5 @@ class ViewInboxController extends GetxController {
     EasyLoading.dismiss();
     Get.back();
     Get.back(result: true);
-
   }
 }

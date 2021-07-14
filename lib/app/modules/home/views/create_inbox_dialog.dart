@@ -14,21 +14,23 @@ class CreateInboxDialog extends AlertDialog {
     return WillPopScope(
       onWillPop: () async {
         if (controller.isDraft()) {
-          await Get.dialog(AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('Your current progress will be removed.'),
-            actions: [
-              TextButton(
-                  onPressed: () => Get.back(),
-                  child: Text('Cancel'.toUpperCase())),
-              TextButton(
-                  onPressed: () {
-                    Get.back();
-                    Get.back();
-                  },
-                  child: Text('Discard'.toUpperCase())),
-            ],
-          ), barrierDismissible: false);
+          final res = await Get.dialog(
+              AlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('Your current progress will be removed.'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Get.back(result: false),
+                      child: Text('Cancel'.toUpperCase())),
+                  TextButton(
+                      onPressed: () {
+                        Get.back(result: true);
+                      },
+                      child: Text('Discard'.toUpperCase())),
+                ],
+              ),
+              barrierDismissible: false);
+          return res;
         }
 
         return true;
@@ -85,8 +87,7 @@ class CreateInboxDialog extends AlertDialog {
                 final label = snapshot.data![index];
                 return Obx(() => FilterChip(
                       label: Text(label.name),
-                      backgroundColor:
-                          label.color!.withOpacity(0.3),
+                      backgroundColor: label.color!.withOpacity(0.3),
                       selected: controller.chipIndex.value == index,
                       selectedColor: label.color,
                       shape: StadiumBorder(side: BorderSide()),

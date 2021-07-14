@@ -16,11 +16,12 @@ class HomeException implements Exception {
         message = _handleError(dioError.response!.statusCode!);
         break;
       case DioErrorType.other:
-        message = 'Failed connect to server, please check your internet connection.';
+        message =
+            'Failed connect to server, please check your internet connection.';
         break;
       case DioErrorType.sendTimeout:
         message = 'Send timeout in connection with API server.';
-      break;
+        break;
       default:
         message = 'Something went wrong.';
         break;

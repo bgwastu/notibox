@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
-import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
 import 'package:open_settings/open_settings.dart';
 
 import '../controllers/home_controller.dart';
@@ -81,39 +80,39 @@ class HomeView extends GetView<HomeController> {
 
   Card _listItem(Inbox inbox, BuildContext context) {
     return Card(
-          child: InkWell(
-            onTap: () => controller.viewInbox(inbox),
-            child: Padding(
+        child: InkWell(
+      onTap: () => controller.viewInbox(inbox),
+      child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              inbox.reminder != null
-                  ? Padding(
-                      padding: EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        DateFormat('EEE, dd MMM y')
-                            .format(inbox.reminder!)
-                            .toUpperCase(),
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    )
-                  : Container(),
-              Text(inbox.title, style: Theme.of(context).textTheme.headline6),
-              verticalSpaceSmall,
-              inbox.description != null
-                  ? Text(
-                      inbox.description!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(height: 1.3),
-                    )
-                  : Container(),
-            ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            inbox.reminder != null
+                ? Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      DateFormat('EEE, dd MMM y')
+                          .format(inbox.reminder!)
+                          .toUpperCase(),
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                  )
+                : Container(),
+            Text(inbox.title, style: Theme.of(context).textTheme.headline6),
+            verticalSpaceSmall,
+            inbox.description != null
+                ? Text(
+                    inbox.description!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(height: 1.3),
+                  )
+                : Container(),
+          ],
         ),
       ),
-          ));
+    ));
   }
 
   Material _noInternetBanner() {

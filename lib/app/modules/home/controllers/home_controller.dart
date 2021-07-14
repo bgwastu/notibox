@@ -54,7 +54,7 @@ class HomeController extends GetxController {
     final res = await Get.dialog(ViewInboxDialog(inbox));
 
     // Refresh  if the result was not null
-    if(res != null){
+    if (res != null) {
       manualRefresh();
     }
   }
