@@ -64,7 +64,9 @@ class HomeController extends GetxController {
               channelKey: 'reminder',
               title: inbox.title,
               body: inbox.description,
-              autoCancel: false,
+
+              autoCancel: true,
+              createdLifeCycle: NotificationLifeCycle.Background,
             ),
             schedule: NotificationCalendar.fromDate(date: inbox.reminder!));
       }
