@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:notibox/utils.dart';
 
 class Inbox {
   final String? pageId;
@@ -39,7 +40,7 @@ class Inbox {
 
     if (reminder != null) {
       map['Reminder'] = {
-        'date': {'start': reminder!.toIso8601String()}
+        'date': {'start': formatISOTime(reminder!)}
       };
     }
 
