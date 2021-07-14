@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/modules/home/controllers/view_inbox_controller.dart';
+import 'package:notibox/app/modules/home/views/update_inbox_dialog.dart';
 
 class ViewInboxDialog extends AlertDialog {
   final Inbox inbox;
@@ -55,7 +56,7 @@ class ViewInboxDialog extends AlertDialog {
           )),
         ),
         actions: [
-          TextButton(onPressed: (){}, child: Text('Edit'.toUpperCase())),
+          TextButton(onPressed: () => controller.updateInbox(inbox), child: Text('Edit'.toUpperCase())),
           TextButton(onPressed: (){
             Get.dialog(AlertDialog(
               title: Text('Are you sure?'),

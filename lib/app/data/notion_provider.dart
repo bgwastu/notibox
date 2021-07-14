@@ -91,7 +91,18 @@ class NotionProvider {
         }));
   }
 
-  /// Archive page in Notion
+  Future updateInbox({required Inbox inbox, required String pageId}) async {
+    final token = SettingsRepository.getToken();
+    await _dio.patch(BASE_URL + 'pages/$pageId',
+        data: {
+          'properties': inbox.toMap()
+        },
+        options: Options(headers: {
+          'Authorization': 'Bearer ' + token!,
+          'Notion-Version': NOTION_VERSION
+        }));
+  }
+
   Future<void> deleteInbox({required String pageId}) async {
     final token = SettingsRepository.getToken();
     await _dio.patch(BASE_URL + 'pages/$pageId',
