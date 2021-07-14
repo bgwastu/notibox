@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:notibox/utils.dart';
 
 class Inbox {
   final String? pageId;
@@ -40,8 +39,10 @@ class Inbox {
 
     if (reminder != null) {
       map['Reminder'] = {
-        'date': {'start': formatISOTime(reminder!)}
+        'date': {'start': reminder!.toUtc().toIso8601String()}
       };
+    } else {
+      map['Reminder'] = {'date': null};
     }
 
     if (label != null) {
@@ -63,7 +64,8 @@ class Inbox {
       pageId: map['id'],
       title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] : 'Untitled',
       reminder:
-          DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '') ??
+          DateTime.tryParse(properties['Reminder']?['date']?['start'] ?? '')
+                  ?.toLocal() ??
               null,
       label: label,
       description: description.isNotEmpty ? description[0]['plain_text'] : null,
@@ -77,6 +79,7 @@ class Select {
   final Color? color;
 
   Select({this.id, required this.name, this.color});
+
   factory Select.fromMap(Map<String, dynamic> map) {
     late Color color;
     switch (map['color']) {
@@ -116,6 +119,7 @@ class Select {
     }
     return Select(id: map['id'], name: map['name'], color: color);
   }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
