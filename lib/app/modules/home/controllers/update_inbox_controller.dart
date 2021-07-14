@@ -28,7 +28,7 @@ class UpdateInboxController extends GetxController {
 
     if (currentInbox.reminder != null) {
       reminderController.text =
-          DateFormat("yyyy-MM-dd HH:mm").format(currentInbox.reminder!);
+          DateFormat.yMMMd().add_jm().format(currentInbox.reminder!);
       reminder = currentInbox.reminder;
     }
   }

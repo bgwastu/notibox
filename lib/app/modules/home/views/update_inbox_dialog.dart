@@ -131,14 +131,14 @@ class UpdateInboxDialog extends AlertDialog {
   DateTimeField _reminder(UpdateInboxController controller) {
     return DateTimeField(
       controller: controller.reminderController,
-      format: DateFormat("yyyy-MM-dd HH:mm"),
+      format: DateFormat.yMMMd().add_jm(),
       decoration:
           InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
-            firstDate: DateTime.now(),
-            initialDate: currentValue ?? DateTime.now(),
+            firstDate: inbox.reminder ?? DateTime.now(),
+            initialDate: inbox.reminder ?? DateTime.now(),
             lastDate: DateTime(2100));
         if (date != null) {
           final time = await showTimePicker(

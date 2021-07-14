@@ -124,7 +124,7 @@ class CreateInboxDialog extends AlertDialog {
 
   DateTimeField _reminder(CreateInboxController controller) {
     return DateTimeField(
-      format: DateFormat("yyyy-MM-dd HH:mm"),
+      format: DateFormat.yMMMd().add_jm(),
       decoration:
           InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
       onShowPicker: (context, currentValue) async {
