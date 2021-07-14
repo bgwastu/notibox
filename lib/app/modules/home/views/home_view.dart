@@ -90,11 +90,18 @@ class HomeView extends GetView<HomeController> {
             inbox.reminder != null
                 ? Padding(
                     padding: EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      DateFormat('EEE, dd MMM y')
-                          .format(inbox.reminder!)
-                          .toUpperCase(),
-                      style: Theme.of(context).textTheme.subtitle2,
+                    child: Row(
+                      children: [
+                        Icon(Icons.notifications, size: 18),
+                        horizontalSpaceTiny,
+                        Text(
+                          DateFormat.yMMMd()
+                              .add_jm()
+                              .format(inbox.reminder!)
+                              .toUpperCase(),
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ],
                     ),
                   )
                 : Container(),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/modules/home/controllers/view_inbox_controller.dart';
 
@@ -20,11 +21,18 @@ class ViewInboxDialog extends AlertDialog {
         insetPadding: EdgeInsets.all(8.0),
         contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
         title: inbox.reminder != null
-            ? Text(
-                DateFormat('EEE, dd MMM y')
-                    .format(inbox.reminder!)
-                    .toUpperCase(),
-                style: Theme.of(context).textTheme.subtitle2,
+            ? Row(
+                children: [
+                  Icon(Icons.notifications, size: 18),
+                  horizontalSpaceTiny,
+                  Text(
+                    DateFormat.yMMMd()
+                        .add_jm()
+                        .format(inbox.reminder!)
+                        .toUpperCase(),
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ],
               )
             : null,
         content: Container(
