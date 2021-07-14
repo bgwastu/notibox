@@ -57,28 +57,18 @@ class HomeController extends GetxController {
 
     // Create notification for each inbox (who has notification)
     listInbox.forEach((inbox) async {
-      if(inbox.reminder != null){
-
+      if (inbox.reminder != null) {
         await AwesomeNotifications().createNotification(
             content: NotificationContent(
               id: inbox.pageId!.hashCode,
               channelKey: 'reminder',
               title: inbox.title,
               body: inbox.description,
-              payload: {
-                'pageId': inbox.pageId.toString(),
-                'title': inbox.title,
-                'description': inbox.description ?? '',
-                'date': formatISOTime(inbox.reminder!),
-                'label': inbox.label != null? inbox.label!.toMap().toString() : ''
-              },
               autoCancel: false,
             ),
             schedule: NotificationCalendar.fromDate(date: inbox.reminder!));
       }
     });
-
-
   }
 
   Future<void> viewInbox(Inbox inbox) async {

@@ -45,7 +45,7 @@ class UpdateInboxDialog extends AlertDialog {
         padding: EdgeInsets.all(8),
         child: AlertDialog(
           insetPadding: EdgeInsets.all(8.0),
-          title: Text('Create Inbox'),
+          title: Text('Update Inbox'),
           content: Container(
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
@@ -137,7 +137,7 @@ class UpdateInboxDialog extends AlertDialog {
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
-            firstDate: inbox.reminder ?? DateTime.now(),
+            firstDate: DateTime.now(),
             initialDate: inbox.reminder ?? DateTime.now(),
             lastDate: DateTime(2100));
         if (date != null) {

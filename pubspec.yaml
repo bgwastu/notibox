@@ -26,7 +26,7 @@ dependencies:
   datetime_picker_formfield: ^2.0.0
   shimmer: ^2.0.0
   awesome_notifications: ^0.0.6+9
-  
+
   flutter: 
     sdk: flutter
 

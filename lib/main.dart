@@ -2,13 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notibox/app/config/theme.dart';
-
 import 'app/routes/app_pages.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await hiveInit();
@@ -32,18 +31,19 @@ void main() async {
 }
 
 void notificationInit() {
-  AwesomeNotifications().initialize('resource://drawable/res_app_icon', [NotificationChannel(
-    channelKey: 'reminder',
-    channelName: 'Reminder',
-    channelDescription: 'Notification for reminder',
-    enableLights: true,
-    importance: NotificationImportance.Max,
-    enableVibration: true,
-    ledColor: Colors.white
-  )]);
+  AwesomeNotifications().initialize('resource://drawable/res_app_icon', [
+    NotificationChannel(
+        channelKey: 'reminder',
+        channelName: 'Reminder',
+        channelDescription: 'Notification for reminder',
+        enableLights: true,
+        importance: NotificationImportance.Max,
+        enableVibration: true,
+        ledColor: Colors.white)
+  ]);
 }
 
-Future<void> hiveInit() async{
+Future<void> hiveInit() async {
   await Hive.initFlutter();
   await Hive.openBox<String>('settings');
 }
