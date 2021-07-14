@@ -7,6 +7,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
+import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -23,6 +24,7 @@ class HomeController extends GetxController {
       switch (status) {
         case InternetConnectionStatus.connected:
           isOffline.value = false;
+          manualRefresh();
           break;
         case InternetConnectionStatus.disconnected:
           isOffline.value = true;
@@ -37,6 +39,14 @@ class HomeController extends GetxController {
     indicator.currentState!.show();
     await getListInbox();
     init.value = false;
+  }
+
+  Future<void> createInbox() async {
+    final res = await Get.dialog(CreateInboxDialog());
+    // Refresh if the result was true;
+    if (res as bool) {
+      manualRefresh();
+    }
   }
 
   Future<void> manualRefresh() async {

@@ -47,116 +47,129 @@ class CreateInboxDialog extends AlertDialog {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      controller: controller.titleController,
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                      ),
-                      minLines: 1,
-                      maxLines: null,
-                      validator: (text) {
-                        if (text == null || text.isEmpty) {
-                          return 'Title cannot be empty';
-                        }
-                      },
-                    ),
+                    _title(controller),
                     verticalSpaceSmall,
-                    TextFormField(
-                      controller: controller.descriptionController,
-                      decoration: InputDecoration(
-                        labelText: 'Description',
-                      ),
-                      minLines: 1,
-                      maxLines: null,
-                    ),
+                    _description(controller),
                     verticalSpaceSmall,
-                    DateTimeField(
-                      format: DateFormat("yyyy-MM-dd HH:mm"),
-                      decoration: InputDecoration(
-                          labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
-                      onShowPicker: (context, currentValue) async {
-                        final date = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime.now(),
-                            initialDate: currentValue ?? DateTime.now(),
-                            lastDate: DateTime(2100));
-                        if (date != null) {
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                                currentValue ?? DateTime.now()),
-                          );
-                          return DateTimeField.combine(date, time);
-                        } else {
-                          return currentValue;
-                        }
-                      },
-                      onChanged: (dateTime) => controller.reminder = dateTime,
-                    ),
+                    _reminder(controller),
                     verticalSpaceSmall,
-                    FutureBuilder<List<Select>>(
-                        future: controller.getListLabel(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Wrap(
-                              spacing: 4,
-                              children: List<Widget>.generate(
-                                  snapshot.data!.length, (int index) {
-                                return Obx(() => FilterChip(
-                                      label: Text(snapshot.data![index].name),
-                                      backgroundColor: snapshot
-                                          .data![index].color!
-                                          .withOpacity(0.3),
-                                      selected:
-                                          controller.chipIndex.value == index,
-                                      selectedColor:
-                                          snapshot.data![index].color,
-                                      shape: StadiumBorder(side: BorderSide()),
-                                      onSelected: (bool selected) {
-                                        if (selected) {
-                                          controller.chipIndex.value = index;
-                                          controller.selectedLabel =
-                                              snapshot.data![index];
-                                        }
-                                      },
-                                    ));
-                              }).toList(),
-                            );
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Shimmer.fromColors(
-                                child: Wrap(
-                                  spacing: 4,
-                                  children:
-                                      List<Widget>.generate(5, (int index) {
-                                    return FilterChip(
-                                      label: Text('dummy'),
-                                      backgroundColor: Colors.white,
-                                      selected: false,
-                                      selectedColor: Colors.white,
-                                      onSelected: null,
-                                    );
-                                  }).toList(),
-                                ),
-                                baseColor: Colors.grey.shade400,
-                                highlightColor: Colors.grey.shade100);
-                          }
-                          return Container();
-                        }),
+                    _label(controller),
                   ],
                 ),
               ),
             ),
           ),
           actions: [
-            Obx(() => TextButton(
-                onPressed:
-                    !controller.isReady.value ? null : controller.saveInbox,
-                child: Text('Save Inbox'.toUpperCase()))),
+            _saveButton(controller),
           ],
         ),
       ),
+    );
+  }
+
+  Obx _saveButton(CreateInboxController controller) {
+    return Obx(() => TextButton(
+        onPressed: !controller.isReady.value ? null : controller.saveInbox,
+        child: Text('Save Inbox'.toUpperCase())));
+  }
+
+  FutureBuilder<List<Select>> _label(CreateInboxController controller) {
+    return FutureBuilder<List<Select>>(
+        future: controller.getListLabel(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Wrap(
+              spacing: 4,
+              children:
+                  List<Widget>.generate(snapshot.data!.length, (int index) {
+                final label = snapshot.data![index];
+                return Obx(() => FilterChip(
+                      label: Text(label.name),
+                      backgroundColor:
+                          label.color!.withOpacity(0.3),
+                      selected: controller.chipIndex.value == index,
+                      selectedColor: label.color,
+                      shape: StadiumBorder(side: BorderSide()),
+                      onSelected: (bool selected) {
+                        if (selected) {
+                          controller.chipIndex.value = index;
+                          controller.selectedLabel = label;
+                        }
+                      },
+                    ));
+              }).toList(),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Shimmer.fromColors(
+                child: Wrap(
+                  spacing: 4,
+                  children: List<Widget>.generate(5, (int index) {
+                    return FilterChip(
+                      label: Text('dummy'),
+                      backgroundColor: Colors.white,
+                      selected: false,
+                      selectedColor: Colors.white,
+                      onSelected: null,
+                    );
+                  }).toList(),
+                ),
+                baseColor: Colors.grey.shade400,
+                highlightColor: Colors.grey.shade100);
+          }
+          return Container();
+        });
+  }
+
+  DateTimeField _reminder(CreateInboxController controller) {
+    return DateTimeField(
+      format: DateFormat("yyyy-MM-dd HH:mm"),
+      decoration:
+          InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
+      onShowPicker: (context, currentValue) async {
+        final date = await showDatePicker(
+            context: context,
+            firstDate: DateTime.now(),
+            initialDate: currentValue ?? DateTime.now(),
+            lastDate: DateTime(2100));
+        if (date != null) {
+          final time = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+          );
+          return DateTimeField.combine(date, time);
+        } else {
+          return currentValue;
+        }
+      },
+      onChanged: (dateTime) => controller.reminder = dateTime,
+    );
+  }
+
+  TextFormField _description(CreateInboxController controller) {
+    return TextFormField(
+      controller: controller.descriptionController,
+      decoration: InputDecoration(
+        labelText: 'Description',
+      ),
+      minLines: 1,
+      maxLines: null,
+    );
+  }
+
+  TextFormField _title(CreateInboxController controller) {
+    return TextFormField(
+      controller: controller.titleController,
+      decoration: InputDecoration(
+        labelText: 'Title',
+      ),
+      minLines: 1,
+      maxLines: null,
+      validator: (text) {
+        if (text == null || text.isEmpty) {
+          return 'Title cannot be empty';
+        }
+      },
     );
   }
 }
