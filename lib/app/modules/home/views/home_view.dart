@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
+import 'package:notibox/app/data/model/inbox_model.dart';
+import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
 import 'package:open_settings/open_settings.dart';
 
 import '../controllers/home_controller.dart';
@@ -72,10 +74,18 @@ class HomeView extends GetView<HomeController> {
       itemBuilder: (BuildContext context, int index) {
         final inbox = controller.listInbox.value[index];
 
-        return Card(
+        return _listItem(inbox, context);
+      },
+    );
+  }
+
+  Card _listItem(Inbox inbox, BuildContext context) {
+    return Card(
+          child: InkWell(
+            onTap: () => Get.dialog(ViewInboxDialog(inbox)),
             child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
+        padding: const EdgeInsets.all(16),
+        child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               inbox.reminder != null
@@ -101,10 +111,9 @@ class HomeView extends GetView<HomeController> {
                     )
                   : Container(),
             ],
-          ),
-        ));
-      },
-    );
+        ),
+      ),
+          ));
   }
 
   Material _noInternetBanner() {
