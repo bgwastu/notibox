@@ -13,22 +13,25 @@ class CreateInboxDialog extends AlertDialog {
     final controller = Get.put(CreateInboxController());
     return WillPopScope(
       onWillPop: () async {
-        await Get.dialog(AlertDialog(
-          title: Text('Are you sure?'),
-          content: Text('Your current progress will be removed.'),
-          actions: [
-            TextButton(
-                onPressed: () => Get.back(),
-                child: Text('Cancel'.toUpperCase())),
-            TextButton(
-                onPressed: () {
-                  Get.back();
-                  Get.back(result: false);
-                },
-                child: Text('Discard'.toUpperCase())),
-          ],
-        ));
-        return false;
+        if (controller.isDraft()) {
+          await Get.dialog(AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Your current progress will be removed.'),
+            actions: [
+              TextButton(
+                  onPressed: () => Get.back(),
+                  child: Text('Cancel'.toUpperCase())),
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                    Get.back(result: false);
+                  },
+                  child: Text('Discard'.toUpperCase())),
+            ],
+          ));
+        }
+
+        return true;
       },
       child: Padding(
         padding: EdgeInsets.all(8),
