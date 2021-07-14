@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
+import 'package:notibox/utils.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -50,6 +52,35 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> createReminder(List<Inbox> listInbox) async {
+    AwesomeNotifications().cancelAllSchedules();
+
+    // Create notification for each inbox (who has notification)
+    listInbox.forEach((inbox) async {
+      if(inbox.reminder != null){
+
+        await AwesomeNotifications().createNotification(
+            content: NotificationContent(
+              id: inbox.pageId!.hashCode,
+              channelKey: 'reminder',
+              title: inbox.title,
+              body: inbox.description,
+              payload: {
+                'pageId': inbox.pageId.toString(),
+                'title': inbox.title,
+                'description': inbox.description ?? '',
+                'date': formatISOTime(inbox.reminder!),
+                'label': inbox.label != null? inbox.label!.toMap().toString() : ''
+              },
+              autoCancel: false,
+            ),
+            schedule: NotificationCalendar.fromDate(date: inbox.reminder!));
+      }
+    });
+
+
+  }
+
   Future<void> viewInbox(Inbox inbox) async {
     final res = await Get.dialog(ViewInboxDialog(inbox));
 
@@ -75,6 +106,9 @@ class HomeController extends GetxController {
   Future<void> getListInbox() async {
     try {
       listInbox.value = await _notionProvider.getListInbox();
+
+      // Add reminder
+      await createReminder(listInbox.value);
       errorMessage.value = '';
     } on DioError catch (e) {
       errorMessage.value = HomeException.fromDioError(e).message;

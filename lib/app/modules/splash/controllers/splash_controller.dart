@@ -1,10 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'package:notibox/app/routes/app_pages.dart';
 
 class SplashController extends GetxController {
-
-  final count = 0.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -15,17 +14,8 @@ class SplashController extends GetxController {
     // Go to home if the value is not null
     if (token != null && databaseId != null) {
       Get.offNamed(Routes.HOME);
-    }else {
+    } else {
       Get.offNamed(Routes.ONBOARDING);
     }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }

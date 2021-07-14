@@ -8,12 +8,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notibox/app/config/theme.dart';
 
 import 'app/routes/app_pages.dart';
-
+import 'package:awesome_notifications/awesome_notifications.dart';
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await hiveInit();
   await Firebase.initializeApp();
+  notificationInit();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  
   runApp(
     GetMaterialApp(
       title: "Notibox",
@@ -28,6 +29,18 @@ void main() async {
     ),
   );
   easyLoadingConfig();
+}
+
+void notificationInit() {
+  AwesomeNotifications().initialize('resource://drawable/res_app_icon', [NotificationChannel(
+    channelKey: 'reminder',
+    channelName: 'Reminder',
+    channelDescription: 'Notification for reminder',
+    enableLights: true,
+    importance: NotificationImportance.Max,
+    enableVibration: true,
+    ledColor: Colors.white
+  )]);
 }
 
 Future<void> hiveInit() async{
