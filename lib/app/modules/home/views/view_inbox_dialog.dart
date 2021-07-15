@@ -14,12 +14,11 @@ class ViewInboxDialog extends AlertDialog {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ViewInboxController());
-
     return Padding(
       padding: EdgeInsets.all(8),
       child: AlertDialog(
         insetPadding: EdgeInsets.all(8.0),
-        contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
+        contentPadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
         title: inbox.reminder != null
             ? Row(
                 children: [
@@ -42,7 +41,7 @@ class ViewInboxDialog extends AlertDialog {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(inbox.title, style: Theme.of(context).textTheme.headline6),
-              inbox.description != null
+              inbox.description?.trim().isNotEmpty ?? false
                   ? Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
