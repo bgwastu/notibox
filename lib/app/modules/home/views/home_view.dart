@@ -14,8 +14,6 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.black26));
     final controller = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(

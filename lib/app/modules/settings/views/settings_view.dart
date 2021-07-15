@@ -60,8 +60,9 @@ class SettingsView extends GetView<SettingsController> {
                         'Notibox is an inbox application that integrates with Notion which is used to store quick notes efficiently.')
                   ],
                   applicationIcon: Container(
-                      height: 40,
-                      width: 40,
+                      height: 50,
+                      width: 50,
+                      padding: EdgeInsets.all(8),
                       child: SvgPicture.asset(Get.isDarkMode
                           ? 'assets/logo/logo_dark.svg'
                           : 'assets/logo/logo_light.svg')));

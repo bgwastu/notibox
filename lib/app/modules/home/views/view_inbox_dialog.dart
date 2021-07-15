@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/modules/home/controllers/view_inbox_controller.dart';
+import 'package:notibox/utils.dart';
 
 class ViewInboxDialog extends AlertDialog {
   final Inbox inbox;
@@ -56,8 +57,8 @@ class ViewInboxDialog extends AlertDialog {
                   ? Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Chip(
-                        label: Text(inbox.label!.name),
-                        backgroundColor: inbox.label!.color,
+                        label: Text(inbox.label!.name, style: Get.isDarkMode ? Theme.of(context).textTheme.subtitle2!.copyWith(color: Colors.black): null),
+                        backgroundColor: Get.isDarkMode ? darken(inbox.label!.color!) : inbox.label!.color,
                       ),
                     )
                   : Container(),
