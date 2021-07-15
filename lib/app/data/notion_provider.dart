@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
@@ -91,7 +94,8 @@ class NotionProvider {
         }));
   }
 
-  Future<void> updateInbox({required Inbox inbox, required String pageId}) async {
+  Future<void> updateInbox(
+      {required Inbox inbox, required String pageId}) async {
     final token = SettingsRepository.getToken();
     await _dio.patch(BASE_URL + 'pages/$pageId',
         data: {'properties': inbox.toMap()},
@@ -109,5 +113,43 @@ class NotionProvider {
           'Authorization': 'Bearer ' + token!,
           'Notion-Version': NOTION_VERSION
         }));
+  }
+
+  Future<List<Inbox>> getListSuggestion(String query) async {
+    final token = SettingsRepository.getToken();
+    final databaseId = SettingsRepository.getDatabaseId();
+
+    print(query);
+    final cacheOptions = CacheOptions(
+      store: MemCacheStore(),
+      policy: CachePolicy.refresh,
+      hitCacheOnErrorExcept: [401, 403],
+      maxStale: const Duration(seconds: 5),
+      priority: CachePriority.high,
+      keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+      allowPostMethod: true,
+    );
+
+    final dio = Dio()
+      ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
+
+    final res = await dio.post(BASE_URL + 'databases/$databaseId/query',
+        options: Options(headers: {
+          'Authorization': 'Bearer ' + token!,
+          'Notion-Version': NOTION_VERSION
+        }),
+        data: {
+          'sorts': [
+            {'timestamp': 'created_time', 'direction': 'descending'}
+          ]
+        });
+    final listInbox =
+        (res.data['results'] as List).map((e) => Inbox.fromMap(e));
+    final filteredList = listInbox
+        .where(
+            (inbox) => inbox.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return filteredList;
   }
 }

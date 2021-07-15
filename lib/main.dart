@@ -23,7 +23,7 @@ void main() async {
       theme: AppThemes.lightTheme,
       builder: EasyLoading.init(),
       darkTheme: AppThemes.darkTheme,
-      themeMode: SettingsRepository.isDarkMode() ?? Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: SettingsRepository.isDarkMode() == null ? ThemeMode.system : SettingsRepository.isDarkMode()! ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       enableLog: true,
     ),

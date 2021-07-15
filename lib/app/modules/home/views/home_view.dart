@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
+import 'package:notibox/app/modules/home/views/inbox_search_delegate.dart';
 import 'package:notibox/app/routes/app_pages.dart';
 import 'package:open_settings/open_settings.dart';
 
@@ -23,7 +24,9 @@ class HomeView extends GetView<HomeController> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.value));
+            },
           ),
           PopupMenuButton<int>(
               itemBuilder: (context) => [
