@@ -46,7 +46,14 @@ class InboxSearchDelegate extends SearchDelegate {
     if (query.isEmpty) {
       return Container();
     }
-    return ListView.builder(
+    return filteredList.isBlank! ? Center(child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.search_off, size: 42,),
+        verticalSpaceSmall,
+        Text('Inbox not found', style: Theme.of(context).textTheme.subtitle1,),
+      ],
+    )) :  ListView.builder(
       itemCount: filteredList.length,
       itemBuilder: (ctx, i) {
         return _listCardItem(filteredList[i], context);
