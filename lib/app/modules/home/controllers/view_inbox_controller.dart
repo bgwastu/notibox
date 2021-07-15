@@ -20,6 +20,8 @@ class ViewInboxController extends GetxController {
     try {
       EasyLoading.show();
       await _notionProvider.deleteInbox(pageId: inbox.pageId!);
+      await EasyLoading.dismiss();
+      Get.back();
       Get.back(result: true);
     } on DioError catch (_) {
       await EasyLoading.dismiss();
