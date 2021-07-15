@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
@@ -16,10 +17,13 @@ class ViewInboxController extends GetxController {
   }
 
   Future<void> deleteInbox(Inbox inbox) async {
-    EasyLoading.show();
-    await _notionProvider.deleteInbox(pageId: inbox.pageId!);
-    EasyLoading.dismiss();
-    Get.back();
-    Get.back(result: true);
+    try {
+      EasyLoading.show();
+      await _notionProvider.deleteInbox(pageId: inbox.pageId!);
+      Get.back(result: true);
+    } on DioError catch (_) {
+      await EasyLoading.dismiss();
+      EasyLoading.showError('An error has occurred');
+    }
   }
 }

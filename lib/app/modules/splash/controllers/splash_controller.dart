@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'package:notibox/app/routes/app_pages.dart';

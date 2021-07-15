@@ -58,7 +58,7 @@ class NotionProvider {
 
     final token = SettingsRepository.getToken();
     final databaseId = SettingsRepository.getDatabaseId();
-    final dio = _dio
+    final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
     final res = await dio.post(BASE_URL + 'databases/$databaseId/query',
@@ -75,7 +75,7 @@ class NotionProvider {
     return (res.data['results'] as List).map((e) => Inbox.fromMap(e)).toList();
   }
 
-  Future createInbox({required Inbox inbox}) async {
+  Future<void> createInbox({required Inbox inbox}) async {
     final token = SettingsRepository.getToken();
     final databaseId = SettingsRepository.getDatabaseId();
     await _dio.post(BASE_URL + 'pages',
@@ -91,12 +91,10 @@ class NotionProvider {
         }));
   }
 
-  Future updateInbox({required Inbox inbox, required String pageId}) async {
+  Future<void> updateInbox({required Inbox inbox, required String pageId}) async {
     final token = SettingsRepository.getToken();
     await _dio.patch(BASE_URL + 'pages/$pageId',
-        data: {
-          'properties': inbox.toMap()
-        },
+        data: {'properties': inbox.toMap()},
         options: Options(headers: {
           'Authorization': 'Bearer ' + token!,
           'Notion-Version': NOTION_VERSION

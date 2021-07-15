@@ -52,9 +52,9 @@ class CreateInboxController extends GetxController {
         ));
         EasyLoading.dismiss();
         Get.back(result: true);
-      } on DioError catch (e) {
+      } on DioError catch (_) {
         await EasyLoading.dismiss();
-        EasyLoading.showError(e.toString());
+        EasyLoading.showError('An error has occurred');
       }
     }
   }

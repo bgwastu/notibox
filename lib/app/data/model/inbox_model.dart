@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Inbox {
   final String? pageId;
@@ -17,7 +16,6 @@ class Inbox {
   });
 
   Map<String, dynamic> toMap() {
-    final dateFormat = DateFormat('yyyy-dd-MM');
     Map<String, dynamic> map = Map();
     map['Title'] = {
       'title': [
