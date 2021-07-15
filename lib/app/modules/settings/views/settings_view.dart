@@ -66,7 +66,13 @@ class SettingsView extends GetView<SettingsController> {
                           ? 'assets/logo/logo_dark.svg'
                           : 'assets/logo/logo_light.svg')));
             },
-          )
+          ),
+          ListTile(
+            title: Text('Privacy Policy'),
+            onTap: () async {
+             //TODO: add privacy policy
+            },
+          ),
         ],
       ),
     );
