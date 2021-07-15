@@ -57,7 +57,7 @@ class SettingsView extends GetView<SettingsController> {
                   applicationVersion: packageInfo.version,
                   children: [
                     Text(
-                        'Notibox is an inbox application that integrates with Notion which is used to store quick notes efficiently.')
+                        'Notibox is an inbox application to store quick notes efficiently in Notion.')
                   ],
                   applicationIcon: Container(
                       height: 50,
