@@ -1,5 +1,5 @@
 name: notibox
-version: 0.0.1-alpha
+version: 0.1.0-alpha
 publish_to: none
 description: Inbox app for Notion.
 environment: 
@@ -26,7 +26,8 @@ dependencies:
   datetime_picker_formfield: ^2.0.0
   shimmer: ^2.0.0
   awesome_notifications: ^0.0.6+9
-
+  package_info_plus: ^1.0.3
+  
   flutter: 
     sdk: flutter
 
