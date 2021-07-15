@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notibox/app/config/theme.dart';
+import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'app/routes/app_pages.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 
@@ -22,7 +23,7 @@ void main() async {
       theme: AppThemes.lightTheme,
       builder: EasyLoading.init(),
       darkTheme: AppThemes.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: SettingsRepository.isDarkMode() ?? Get.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       enableLog: true,
     ),
@@ -39,13 +40,14 @@ void notificationInit() {
         enableLights: true,
         importance: NotificationImportance.Max,
         enableVibration: true,
+        playSound: true,
         ledColor: Colors.white)
   ]);
 }
 
 Future<void> hiveInit() async {
   await Hive.initFlutter();
-  await Hive.openBox<String>('settings');
+  await Hive.openBox<dynamic>('settings');
 }
 
 void easyLoadingConfig() {

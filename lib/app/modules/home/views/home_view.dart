@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
+import 'package:notibox/app/routes/app_pages.dart';
 import 'package:open_settings/open_settings.dart';
 
 import '../controllers/home_controller.dart';
@@ -26,9 +27,15 @@ class HomeView extends GetView<HomeController> {
           ),
           PopupMenuButton<int>(
               itemBuilder: (context) => [
-                    PopupMenuItem(child: Text('Settings')),
-                    PopupMenuItem(child: Text('About')),
+                    PopupMenuItem(child: Text('Settings'), value: 1,),
+                    PopupMenuItem(child: Text('Feedback'), value: 2),
                   ],
+              onSelected: (index){
+                print(index);
+                if(index == 1){
+                  Get.toNamed(Routes.SETTINGS);
+                }
+              },
               icon: Icon(Icons.more_vert))
         ],
       ),

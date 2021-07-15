@@ -10,7 +10,6 @@ import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
-import 'package:notibox/utils.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -57,7 +56,7 @@ class HomeController extends GetxController {
 
     // Create notification for each inbox (who has notification)
     listInbox.forEach((inbox) async {
-      if (inbox.reminder != null) {
+      if (inbox.reminder != null && inbox.reminder!.isAfter(DateTime.now())) {
         await AwesomeNotifications().createNotification(
             content: NotificationContent(
               id: inbox.pageId!.hashCode,
