@@ -1,7 +1,9 @@
 const String BASE_URL = 'https://api.notion.com/v1/';
 const String NOTION_VERSION = '2021-05-13';
 const String INTEGRATION_HELP_URL =
-    'https://www.notion.so/Getting-started-Notiary-939c110565a2421ab538fbb13c539055#d5bd7dcf40724dd3a6c3abcaa64abb2d';
-const String GET_API_HELP_URL =
-    'https://www.notion.so/Getting-started-Notiary-939c110565a2421ab538fbb13c539055#964cad9f3d2949169c20ca6b8764250a';
-const String DATABASE_TEMPLATE_URL = 'https://www.notion.so/385e58cb01f145eeaab50a76c0324628?v=8aecf98b2b2d4676a8551ede3ca72358';
+    'https://atticapps.notion.site/How-to-integrate-database-into-Notibox-5157f7f4c4b74500afe5ca27d64b5c08';
+const String API_HELP_URL =
+    'https://atticapps.notion.site/How-to-get-Notion-Integration-API-089ede661a3a4ac8b8d4e732a472ddd4';
+const String PRIVACY_POLICY_URL = 'https://atticapps.notion.site/Privacy-Policy-d5e818828dc544fd87f68838e922960b';
+const String DATABASE_TEMPLATE_URL =
+    'https://atticapps.notion.site/385e58cb01f145eeaab50a76c0324628';

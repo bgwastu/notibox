@@ -59,7 +59,7 @@ class InboxSearchDelegate extends SearchDelegate {
         return _listCardItem(filteredList[i], context);
       },
     );
-    ;
+    
   }
 
   @override

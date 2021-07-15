@@ -57,6 +57,22 @@ class OnboardingController extends GetxController {
     }
   }
 
+  Future<void> helpToken() async {
+    EasyLoading.show();
+    await canLaunch(API_HELP_URL)
+        ? await launch(API_HELP_URL)
+        : Get.snackbar('Error', 'Could not launch URL');
+    EasyLoading.dismiss();
+  }
+
+  Future<void> helpDatabase() async {
+    EasyLoading.show();
+    await canLaunch(INTEGRATION_HELP_URL)
+        ? await launch(INTEGRATION_HELP_URL)
+        : Get.snackbar('Error', 'Could not launch URL');
+    EasyLoading.dismiss();
+  }
+
   Future<void> tokenNext() async {
     hideInput();
     if (tokenFormKey.currentState!.validate()) {

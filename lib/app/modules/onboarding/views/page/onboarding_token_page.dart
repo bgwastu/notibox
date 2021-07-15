@@ -32,7 +32,7 @@ class OnboardingTokenPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: controller.helpToken,
                       icon: Icon(Icons.help),
                       iconSize: 22,
                       tooltip: 'Get Help')

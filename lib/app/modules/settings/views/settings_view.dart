@@ -70,9 +70,7 @@ class SettingsView extends GetView<SettingsController> {
           ),
           ListTile(
             title: Text('Privacy Policy'),
-            onTap: () async {
-             //TODO: add privacy policy
-            },
+            onTap: controller.showPrivacyPolicy,
           ),
         ],
       ),

@@ -31,9 +31,7 @@ class OnboardingDatabasePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   IconButton(
-                    onPressed: () {
-                      //TODO: add help for Notion database
-                    },
+                    onPressed: controller.helpDatabase,
                     icon: Icon(Icons.help),
                     iconSize: 22,
                     tooltip: 'Get Help',
