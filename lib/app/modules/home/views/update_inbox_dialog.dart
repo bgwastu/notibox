@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/modules/home/controllers/update_inbox_controller.dart';
+import 'package:notibox/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 class UpdateInboxDialog extends AlertDialog {
@@ -92,10 +93,11 @@ class UpdateInboxDialog extends AlertDialog {
                   List<Widget>.generate(snapshot.data!.length, (int index) {
                 final label = snapshot.data![index];
                 return Obx(() => FilterChip(
-                      label: Text(label.name),
-                      backgroundColor: label.color!.withOpacity(0.3),
+                      label: Text(label.name, style: Get.isDarkMode ? Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black) : null,),
+                      backgroundColor: Get.isDarkMode ? label.color! : label.color!.withOpacity(0.3),
                       selected: controller.chipIndex.value == index,
-                      selectedColor: label.color,
+                      checkmarkColor: Get.isDarkMode ? Colors.black : null,
+                      selectedColor: Get.isDarkMode ? darken(label.color!) : label.color,
                       shape: StadiumBorder(side: BorderSide()),
                       onSelected: (bool selected) {
                         if (selected) {
@@ -121,8 +123,8 @@ class UpdateInboxDialog extends AlertDialog {
                     );
                   }).toList(),
                 ),
-                baseColor: Colors.grey.shade400,
-                highlightColor: Colors.grey.shade100);
+                baseColor:Get.isDarkMode ?  Colors.grey.shade600 : Colors.grey.shade400,
+                highlightColor: Get.isDarkMode ? Colors.grey.shade500 : Colors.grey.shade400);
           }
           return Container();
         });
