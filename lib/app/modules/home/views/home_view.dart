@@ -102,14 +102,14 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                     padding: EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Icon(Icons.notifications, size: 18),
+                        Icon(Icons.notifications, size: 18, color: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).errorColor : null,),
                         horizontalSpaceTiny,
                         Text(
                           DateFormat.yMMMd()
                               .add_jm()
                               .format(inbox.reminder!)
                               .toUpperCase(),
-                          style: Theme.of(context).textTheme.subtitle2,
+                          style: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).textTheme.subtitle2?.copyWith(color: Theme.of(context).errorColor) : Theme.of(context).textTheme.subtitle2,
                         ),
                       ],
                     ),

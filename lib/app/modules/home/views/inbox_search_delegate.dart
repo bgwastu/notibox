@@ -5,7 +5,6 @@ import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/modules/home/controllers/home_controller.dart';
 import 'package:notibox/app/modules/home/controllers/inbox_search_controller.dart';
-import 'package:notibox/utils.dart';
 
 class InboxSearchDelegate extends SearchDelegate {
   final List<Inbox> listInbox;
@@ -99,14 +98,14 @@ class InboxSearchDelegate extends SearchDelegate {
                     padding: EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
-                        Icon(Icons.notifications, size: 18),
+                        Icon(Icons.notifications, size: 18, color: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).errorColor : null,),
                         horizontalSpaceTiny,
                         Text(
                           DateFormat.yMMMd()
                               .add_jm()
                               .format(inbox.reminder!)
                               .toUpperCase(),
-                          style: Theme.of(context).textTheme.subtitle2,
+                          style: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).textTheme.subtitle2?.copyWith(color: Theme.of(context).errorColor) : Theme.of(context).textTheme.subtitle2,
                         ),
                       ],
                     ),
