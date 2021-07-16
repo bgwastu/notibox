@@ -52,19 +52,25 @@ class InboxSearchDelegate extends SearchDelegate {
             child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.search_off,
-                size: 42,
-              ),
               AspectRatio(
-                aspectRatio: 2 / 1,
+                aspectRatio: 3 / 1,
                 child: SvgPicture.asset('assets/images/no_data.svg'),
               ),
-              verticalSpaceSmall,
-              Text(
-                'Inbox Not Found',
-                style: Theme.of(context).textTheme.headline6,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Inbox Not Found',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
+              SizedBox(
+                width: 200,
+                child: Text(
+                  '$query is not found in your Inbox List',
+                  style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
+                ),
+              )
             ],
           ))
         : ListView.builder(
