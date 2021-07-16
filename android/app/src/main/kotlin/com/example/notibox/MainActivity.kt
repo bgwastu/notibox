@@ -1,4 +1,4 @@
-package com.bagaswastu.notibox
+package com.atticdev.notibox
 
 import io.flutter.embedding.android.FlutterActivity
 
