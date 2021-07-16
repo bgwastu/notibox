@@ -31,7 +31,6 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                     PopupMenuItem(child: Text('Feedback'), value: 2),
                   ],
               onSelected: (index){
-                print(index);
                 if(index == 1){
                   Get.toNamed(Routes.SETTINGS);
                 }

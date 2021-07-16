@@ -29,6 +29,7 @@ dependencies:
   awesome_notifications: ^0.0.6+9
   package_info_plus: ^1.0.3
   equatable: ^2.0.3
+  background_fetch: ^1.0.1
   
   flutter: 
     sdk: flutter

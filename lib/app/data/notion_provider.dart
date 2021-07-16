@@ -117,7 +117,6 @@ class NotionProvider {
     final token = SettingsRepository.getToken();
     final databaseId = SettingsRepository.getDatabaseId();
 
-    print(query);
     final cacheOptions = CacheOptions(
       store: MemCacheStore(),
       policy: CachePolicy.refresh,

@@ -79,8 +79,6 @@ class UpdateInboxController extends GetxController {
         Get.back(result: inbox);
       } on DioError catch (e) {
         await EasyLoading.dismiss();
-        print(e.response!.data);
-        print(e.requestOptions.data);
         EasyLoading.showError(e.toString());
       }
     }

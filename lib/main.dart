@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,13 +9,17 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notibox/app/config/theme.dart';
 import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'app/routes/app_pages.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'app/services/background_service.dart';
+import 'app/services/notification_service.dart';
+import 'package:background_fetch/background_fetch.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await hiveInit();
   notificationInit();
   await _firebaseInit();
+  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+
   runApp(
     GetMaterialApp(
       title: "Notibox",
@@ -43,20 +48,6 @@ Future<void> _firebaseInit() async {
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   AwesomeNotifications().createNotificationFromJsonData(message.data);
-}
-
-void notificationInit() {
-  AwesomeNotifications().initialize('resource://drawable/res_app_icon', [
-    NotificationChannel(
-        channelKey: 'reminder',
-        channelName: 'Reminder',
-        channelDescription: 'Notification for reminder',
-        enableLights: true,
-        importance: NotificationImportance.Max,
-        enableVibration: true,
-        playSound: true,
-        ledColor: Colors.white)
-  ]);
 }
 
 Future<void> hiveInit() async {

@@ -11,7 +11,6 @@ class SettingsRepository {
   static void setDatabaseId(String databaseId) => _box().put('database_id', databaseId);
   static String? getDatabaseId() => _box().get('database_id');
   static void setThemeMode(bool isDarkMode) {
-    print('darkmode: $isDarkMode');
     _box().put('dark_mode', isDarkMode);
   }
   static bool? isDarkMode() => _box().get('dark_mode');

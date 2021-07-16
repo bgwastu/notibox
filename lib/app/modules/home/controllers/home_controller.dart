@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +9,7 @@ import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
+import 'package:notibox/app/services/notification_service.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -45,7 +44,6 @@ class HomeController extends GetxController {
     init.value = false;
   }
 
-
   @override
   void onClose() {
     super.onClose();
@@ -64,34 +62,11 @@ class HomeController extends GetxController {
     manualRefresh();
   }
 
-  Future<void> createReminder(List<Inbox> listInbox) async {
-    AwesomeNotifications().cancelAllSchedules();
-
-    // Create notification for each inbox (who has notification)
-    listInbox.forEach((inbox) async {
-      if (inbox.reminder != null && inbox.reminder!.isAfter(DateTime.now())) {
-        await AwesomeNotifications().createNotification(
-            content: NotificationContent(
-              id: inbox.pageId!.hashCode,
-              channelKey: 'reminder',
-              title: inbox.title,
-              body: inbox.description,
-              autoCancel: true,
-              createdLifeCycle: NotificationLifeCycle.Background,
-            ),
-            schedule: NotificationCalendar.fromDate(date: inbox.reminder!));
-      }
-    });
-  }
-
   Future<void> viewInbox(Inbox inbox, int index) async {
     final res = await Get.dialog(ViewInboxDialog(inbox));
 
     // Update current inbox only
     if (res != null) {
-      print(res);
-      print('index: $index');
-
       // Status check
       if (res['status'] == 'update') {
         final pageId = listInbox.value[index].pageId;
