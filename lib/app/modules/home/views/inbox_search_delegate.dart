@@ -56,7 +56,7 @@ class InboxSearchDelegate extends SearchDelegate {
     )) :  ListView.builder(
       itemCount: filteredList.length,
       itemBuilder: (ctx, i) {
-        return _listCardItem(filteredList[i], context);
+        return _listCardItem(filteredList[i], context, i);
       },
     );
     
@@ -88,12 +88,12 @@ class InboxSearchDelegate extends SearchDelegate {
     );
   }
 
-  Card _listCardItem(Inbox inbox, BuildContext context) {
+  Card _listCardItem(Inbox inbox, BuildContext context, int index) {
     return Card(
         child: InkWell(
       onTap: () {
         Get.back();
-        homeController.viewInbox(inbox);
+        homeController.viewInbox(inbox, index);
       },
       child: Padding(
         padding: const EdgeInsets.all(16),

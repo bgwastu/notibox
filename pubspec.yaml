@@ -28,6 +28,7 @@ dependencies:
   shimmer: ^2.0.0
   awesome_notifications: ^0.0.6+9
   package_info_plus: ^1.0.3
+  equatable: ^2.0.3
   
   flutter: 
     sdk: flutter

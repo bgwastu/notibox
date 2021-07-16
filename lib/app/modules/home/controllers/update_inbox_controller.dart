@@ -67,16 +67,16 @@ class UpdateInboxController extends GetxController {
 
       try {
         EasyLoading.show();
+        final inbox = Inbox(
+          title: title,
+          description: description,
+          label: selectedLabel,
+          reminder: reminder,
+        );
         await _notionProvider.updateInbox(
-            inbox: Inbox(
-              title: title,
-              description: description,
-              label: selectedLabel,
-              reminder: reminder,
-            ),
-            pageId: currentInbox.pageId!);
+            inbox: inbox, pageId: currentInbox.pageId!);
         EasyLoading.dismiss();
-        Get.back(result: true);
+        Get.back(result: inbox);
       } on DioError catch (e) {
         await EasyLoading.dismiss();
         print(e.response!.data);

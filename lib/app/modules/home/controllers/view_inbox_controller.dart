@@ -12,7 +12,7 @@ class ViewInboxController extends GetxController {
     final res = await Get.dialog(UpdateInboxDialog(inbox));
     // if updated then return true (refresh)
     if (res != null) {
-      Get.back(result: true);
+      Get.back(result: {'data': res, 'status': 'update'});
     }
   }
 
@@ -22,7 +22,7 @@ class ViewInboxController extends GetxController {
       await _notionProvider.deleteInbox(pageId: inbox.pageId!);
       await EasyLoading.dismiss();
       Get.back();
-      Get.back(result: true);
+      Get.back(result: {'data': true, 'status': 'delete'});
     } on DioError catch (_) {
       await EasyLoading.dismiss();
       EasyLoading.showError('An error has occurred');

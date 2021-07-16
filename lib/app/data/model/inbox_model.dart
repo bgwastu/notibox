@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class Inbox {
-  final String? pageId;
+class Inbox extends Equatable{
+  String? pageId;
   final String title;
   final String? description;
   final DateTime? reminder;
@@ -69,6 +70,12 @@ class Inbox {
       description: description.isNotEmpty ? description[0]['plain_text'] : null,
     );
   }
+
+  @override
+  List<Object?> get props => [pageId, title, description, reminder];
+
+  @override
+  bool? get stringify => true;
 }
 
 class Select {

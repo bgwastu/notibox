@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
@@ -17,12 +18,13 @@ class HomeController extends GetxController {
   Rx<String> errorMessage = ''.obs;
   Rx<bool> init = true.obs;
   Rx<bool> isOffline = false.obs;
+  late StreamSubscription<InternetConnectionStatus> internetCheck;
   final indicator = GlobalKey<RefreshIndicatorState>();
 
   @override
   void onInit() {
     super.onInit();
-    InternetConnectionChecker().onStatusChange.listen((status) {
+    internetCheck = InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
           isOffline.value = false;
@@ -43,12 +45,23 @@ class HomeController extends GetxController {
     init.value = false;
   }
 
+
+  @override
+  void onClose() {
+    super.onClose();
+    internetCheck.cancel();
+  }
+
   Future<void> createInbox() async {
     final res = await Get.dialog(CreateInboxDialog());
-    // Refresh if the result was not null;
+
+    // Append the new inbox
     if (res != null) {
-      manualRefresh();
+      listInbox.value = [res, ...listInbox.value];
     }
+
+    // refresh
+    manualRefresh();
   }
 
   Future<void> createReminder(List<Inbox> listInbox) async {
@@ -63,7 +76,6 @@ class HomeController extends GetxController {
               channelKey: 'reminder',
               title: inbox.title,
               body: inbox.description,
-
               autoCancel: true,
               createdLifeCycle: NotificationLifeCycle.Background,
             ),
@@ -72,12 +84,24 @@ class HomeController extends GetxController {
     });
   }
 
-  Future<void> viewInbox(Inbox inbox) async {
+  Future<void> viewInbox(Inbox inbox, int index) async {
     final res = await Get.dialog(ViewInboxDialog(inbox));
 
-    // Refresh  if the result was not null
+    // Update current inbox only
     if (res != null) {
-      manualRefresh();
+      print(res);
+      print('index: $index');
+
+      // Status check
+      if (res['status'] == 'update') {
+        final pageId = listInbox.value[index].pageId;
+        (res['data'] as Inbox).pageId = pageId;
+        listInbox.value.replaceRange(index, index + 1, [res['data']]);
+        Get.forceAppUpdate();
+      } else if (res['status'] == 'delete') {
+        listInbox.value.removeAt(index);
+        Get.forceAppUpdate();
+      }
     }
   }
 

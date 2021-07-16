@@ -43,15 +43,15 @@ class CreateInboxController extends GetxController {
 
       try {
         EasyLoading.show();
-        await _notionProvider.createInbox(
-            inbox: Inbox(
+        final inbox = Inbox(
           title: title,
           description: description,
           label: selectedLabel,
           reminder: reminder,
-        ));
+        );
+        await _notionProvider.createInbox(inbox: inbox);
         EasyLoading.dismiss();
-        Get.back(result: true);
+        Get.back(result: inbox);
       } on DioError catch (_) {
         await EasyLoading.dismiss();
         EasyLoading.showError('An error has occurred');

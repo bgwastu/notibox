@@ -79,16 +79,15 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
       padding: EdgeInsets.only(top: 8),
       itemBuilder: (BuildContext context, int index) {
         final inbox = controller.listInbox.value[index];
-
-        return _listItem(inbox, context);
+        return _listItem(inbox, context, index);
       },
     );
   }
 
-  Card _listItem(Inbox inbox, BuildContext context) {
+  Card _listItem(Inbox inbox, BuildContext context, int index) {
     return Card(
         child: InkWell(
-      onTap: () => controller.viewInbox(inbox),
+      onTap: () => inbox.pageId == null ? null : controller.viewInbox(inbox, index),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
