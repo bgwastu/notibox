@@ -6,7 +6,7 @@ class Database {
 
   factory Database.fromMap(Map<String, dynamic> map){
     final id = map['id'] as String;
-    final titleList = (map['title'] ?? []) as List<Map<String, dynamic>>;
+    final titleList = (map['title'] ?? []) as List<dynamic>;
 
     return Database(
       id: id,

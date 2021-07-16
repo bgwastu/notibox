@@ -31,7 +31,7 @@ Future<void> main() async {
       darkTheme: darkTheme,
       themeMode: SettingsRepository.isDarkMode() == null
           ? ThemeMode.system
-          : SettingsRepository.isDarkMode()!
+          : SettingsRepository.isDarkMode()! as bool
               ? ThemeMode.dark
               : ThemeMode.light,
       debugShowCheckedModeBanner: false,

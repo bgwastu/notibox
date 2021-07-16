@@ -14,8 +14,8 @@ class SettingsController extends GetxController {
   void updateToken(String token) => SettingsRepository.setToken(token);
   void updateDatabaseId(String databaseId) =>
       SettingsRepository.setDatabaseId(databaseId);
-  String getToken() => SettingsRepository.getToken()!;
-  String getDatabaseId() => SettingsRepository.getDatabaseId()!;
+  String getToken() => SettingsRepository.getToken()! as String;
+  String getDatabaseId() => SettingsRepository.getDatabaseId()! as String;
 
   Future<void> showPrivacyPolicy() async {
     EasyLoading.show();

@@ -29,7 +29,7 @@ class SettingsView extends GetView<SettingsController> {
           ListTile(
             title: const Text('Database ID'),
             subtitle: Text(
-              SettingsRepository.getDatabaseId() ?? '',
+              SettingsRepository.getDatabaseId()! as String,
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () async {

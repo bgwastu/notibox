@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
@@ -46,20 +47,32 @@ class InboxSearchDelegate extends SearchDelegate {
     if (query.isEmpty) {
       return Container();
     }
-    return filteredList.isBlank! ? Center(child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Icon(Icons.search_off, size: 42,),
-        verticalSpaceSmall,
-        Text('Inbox not found', style: Theme.of(context).textTheme.subtitle1,),
-      ],
-    )) :  ListView.builder(
-      itemCount: filteredList.length,
-      itemBuilder: (ctx, i) {
-        return _listCardItem(filteredList[i], context, i);
-      },
-    );
-    
+    return filteredList.isBlank!
+        ? Center(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.search_off,
+                size: 42,
+              ),
+              AspectRatio(
+                aspectRatio: 2 / 1,
+                child: SvgPicture.asset('assets/images/no_data.svg'),
+              ),
+              verticalSpaceSmall,
+              Text(
+                'Inbox Not Found',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ],
+          ))
+        : ListView.builder(
+            itemCount: filteredList.length,
+            itemBuilder: (ctx, i) {
+              return _listCardItem(filteredList[i], context, i);
+            },
+          );
   }
 
   @override
@@ -100,31 +113,48 @@ class InboxSearchDelegate extends SearchDelegate {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (inbox.reminder != null) Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      children: [
-                        Icon(Icons.notifications, size: 18, color: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).errorColor : null,),
-                        horizontalSpaceTiny,
-                        Text(
-                          DateFormat.yMMMd()
-                              .add_jm()
-                              .format(inbox.reminder!)
-                              .toUpperCase(),
-                          style: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).textTheme.subtitle2?.copyWith(color: Theme.of(context).errorColor) : Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ],
+            if (inbox.reminder != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.notifications,
+                      size: 18,
+                      color: inbox.reminder!.isBefore(DateTime.now())
+                          ? Theme.of(context).errorColor
+                          : null,
                     ),
-                  ) else Container(),
+                    horizontalSpaceTiny,
+                    Text(
+                      DateFormat.yMMMd()
+                          .add_jm()
+                          .format(inbox.reminder!)
+                          .toUpperCase(),
+                      style: inbox.reminder!.isBefore(DateTime.now())
+                          ? Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(color: Theme.of(context).errorColor)
+                          : Theme.of(context).textTheme.subtitle2,
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(),
             Text(inbox.title, style: Theme.of(context).textTheme.headline6),
             verticalSpaceSmall,
-            if (inbox.description != null) Text(
-                    inbox.description!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(height: 1.3),
-                  ) else Container(),
+            if (inbox.description != null)
+              Text(
+                inbox.description!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(height: 1.3),
+              )
+            else
+              Container(),
           ],
         ),
       ),
