@@ -60,10 +60,8 @@ class HomeController extends GetxController {
     // Append the new inbox
     if (res != null) {
       listInbox.value = [res as Inbox, ...listInbox.value];
+      manualRefresh();
     }
-
-    // refresh
-    manualRefresh();
   }
 
   Future<void> viewInbox(Inbox inbox, int index) async {
@@ -100,7 +98,6 @@ class HomeController extends GetxController {
   Future<void> getListInbox() async {
     try {
       listInbox.value = await _notionProvider.getListInbox();
-
       // Add reminder
       await createReminder(listInbox.value);
       errorMessage.value = '';
