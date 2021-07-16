@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/views/update_inbox_dialog.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class ViewInboxController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -23,8 +24,9 @@ class ViewInboxController extends GetxController {
       await EasyLoading.dismiss();
       Get.back();
       Get.back(result: {'data': true, 'status': 'delete'});
-    } on DioError catch (_) {
+    } on DioError catch (e) {
       await EasyLoading.dismiss();
+      await Sentry.captureException(e, stackTrace: e.stackTrace);
       EasyLoading.showError('An error has occurred');
     }
   }

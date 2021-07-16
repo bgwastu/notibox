@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class UpdateInboxController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -79,6 +80,7 @@ class UpdateInboxController extends GetxController {
         Get.back(result: inbox);
       } on DioError catch (e) {
         await EasyLoading.dismiss();
+        await Sentry.captureException(e, stackTrace: e.stackTrace);
         EasyLoading.showError(e.toString());
       }
     }

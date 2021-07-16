@@ -7,6 +7,7 @@ import 'package:notibox/app/data/auth_provider.dart';
 import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'package:notibox/app/routes/app_pages.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OnboardingController extends GetxController {
@@ -44,6 +45,7 @@ class OnboardingController extends GetxController {
         EasyLoading.showError('Database not found', dismissOnTap: true);
       }
     } catch (e) {
+      await Sentry.captureException(e);
       EasyLoading.showError('Error has been occurred');
       rethrow;
     }
@@ -80,6 +82,7 @@ class OnboardingController extends GetxController {
           return;
         }
       } catch (e) {
+        await Sentry.captureException(e);
         EasyLoading.showError('Error has occurred');
       }
 
@@ -96,6 +99,7 @@ class OnboardingController extends GetxController {
     try {
       await launch(databaseTemplateUrl);
     } catch (e) {
+      await Sentry.captureException(e);
       EasyLoading.showError('Could not launch URL');
     } finally {
       EasyLoading.dismiss();

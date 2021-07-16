@@ -22,18 +22,23 @@ class HomeView extends GetView<HomeController> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.value));
+              showSearch(
+                  context: context,
+                  delegate: InboxSearchDelegate(controller.listInbox.value));
             },
           ),
           PopupMenuButton<int>(
               itemBuilder: (context) => [
-                    const PopupMenuItem(value: 1,child: Text('Settings'),),
+                    const PopupMenuItem(
+                      value: 1,
+                      child: Text('Settings'),
+                    ),
                     const PopupMenuItem(value: 2, child: Text('Feedback')),
                   ],
-              onSelected: (index){
-                if(index == 1){
+              onSelected: (index) {
+                if (index == 1) {
                   Get.toNamed(Routes.settings);
-                }else {
+                } else {
                   controller.feedbackButton();
                 }
               },
@@ -57,16 +62,16 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                 ? Container()
                 : controller.isError()
                     ? _errorState(controller, context)
-                    : controller.isEmpty()
-                        ? _emptyState(controller, context)
-                        : Column(
-                            children: [
-                              if (controller.isOffline.value) _noInternetBanner() else Container(),
-                              Expanded(
-                                child: _listInbox(controller),
-                              ),
-                            ],
+                    : Column(
+                        children: [
+                          if (controller.isOffline.value) _noInternetBanner(),
+                          Expanded(
+                            child: controller.isEmpty()
+                                ? _emptyState(controller, context)
+                                : _listInbox(controller),
                           ),
+                        ],
+                      ),
           )),
     );
   }
@@ -86,37 +91,55 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
   Card _listItem(Inbox inbox, BuildContext context, int index) {
     return Card(
         child: InkWell(
-      onTap: () => inbox.pageId == null ? null : controller.viewInbox(inbox, index),
+      onTap: () =>
+          inbox.pageId == null ? null : controller.viewInbox(inbox, index),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (inbox.reminder != null) Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      children: [
-                        Icon(Icons.notifications, size: 18, color: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).errorColor : null,),
-                        horizontalSpaceTiny,
-                        Text(
-                          DateFormat.yMMMd()
-                              .add_jm()
-                              .format(inbox.reminder!)
-                              .toUpperCase(),
-                          style: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).textTheme.subtitle2?.copyWith(color: Theme.of(context).errorColor) : Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ],
+            if (inbox.reminder != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.notifications,
+                      size: 18,
+                      color: inbox.reminder!.isBefore(DateTime.now())
+                          ? Theme.of(context).errorColor
+                          : null,
                     ),
-                  ) else Container(),
+                    horizontalSpaceTiny,
+                    Text(
+                      DateFormat.yMMMd()
+                          .add_jm()
+                          .format(inbox.reminder!)
+                          .toUpperCase(),
+                      style: inbox.reminder!.isBefore(DateTime.now())
+                          ? Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(color: Theme.of(context).errorColor)
+                          : Theme.of(context).textTheme.subtitle2,
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(),
             Text(inbox.title, style: Theme.of(context).textTheme.headline6),
             verticalSpaceSmall,
-            if (inbox.description != null) Text(
-                    inbox.description!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(height: 1.3),
-                  ) else Container(),
+            if (inbox.description != null)
+              Text(
+                inbox.description!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(height: 1.3),
+              )
+            else
+              Container(),
           ],
         ),
       ),

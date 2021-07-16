@@ -12,6 +12,7 @@ import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
 import 'package:notibox/app/services/notification_service.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
@@ -104,6 +105,7 @@ class HomeController extends GetxController {
       await createReminder(listInbox.value);
       errorMessage.value = '';
     } on DioError catch (e) {
+      await Sentry.captureException(e, stackTrace: e.stackTrace);
       errorMessage.value = HomeException.fromDioError(e).message;
     }
   }

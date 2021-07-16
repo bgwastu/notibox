@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class CreateInboxController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -52,8 +53,9 @@ class CreateInboxController extends GetxController {
         await _notionProvider.createInbox(inbox: inbox);
         EasyLoading.dismiss();
         Get.back(result: inbox);
-      } on DioError catch (_) {
+      } on DioError catch (e) {
         await EasyLoading.dismiss();
+        await Sentry.captureException(e, stackTrace: e.stackTrace);
         EasyLoading.showError('An error has occurred');
       }
     }

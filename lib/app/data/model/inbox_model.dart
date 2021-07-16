@@ -62,7 +62,7 @@ class Inbox {
       pageId: map['id'] as String,
       title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] as String : 'Untitled',
       reminder:
-          DateTime.tryParse(properties['Reminder']?['date']?['start'] as String)
+          DateTime.tryParse((properties['Reminder']?['date']?['start'] ?? '') as String)
                   ?.toLocal(),
       label: label,
       description: description.isNotEmpty ? description[0]['plain_text'] as String : null,

@@ -28,6 +28,7 @@ dependencies:
   awesome_notifications: ^0.0.6+9
   package_info_plus: ^1.0.3
   background_fetch: ^1.0.1
+  sentry_flutter: ^5.1.0
 
   flutter:
     sdk: flutter
