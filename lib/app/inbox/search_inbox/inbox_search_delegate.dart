@@ -39,10 +39,19 @@ class InboxSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     controller.searchQuery.value = query;
-    final filteredList = listInbox
-        .where(
-            (inbox) => inbox.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
+
+    final filteredList = listInbox.where((inbox) {
+      if (inbox.description != null) {
+        // check with title
+        if (inbox.title.toLowerCase().contains(query.toLowerCase()) ||
+            inbox.description!.toLowerCase().contains(query.toLowerCase())) {
+          return true;
+        }
+      }
+
+      // only check title
+      return inbox.title.toLowerCase().contains(query.toLowerCase());
+    }).toList();
 
     if (query.isEmpty) {
       return Container();

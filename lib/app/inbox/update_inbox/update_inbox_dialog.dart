@@ -93,11 +93,22 @@ class UpdateInboxDialog extends AlertDialog {
                   List<Widget>.generate(snapshot.data!.length, (int index) {
                 final label = snapshot.data![index];
                 return Obx(() => FilterChip(
-                      label: Text(label.name, style: Get.isDarkMode ? Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black) : null,),
-                      backgroundColor: Get.isDarkMode ? label.color! : label.color!.withOpacity(0.3),
+                      label: Text(
+                        label.name,
+                        style: Get.isDarkMode
+                            ? Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: Colors.black)
+                            : null,
+                      ),
+                      backgroundColor: Get.isDarkMode
+                          ? label.color!
+                          : label.color!.withOpacity(0.3),
                       selected: controller.chipIndex.value == index,
                       checkmarkColor: Get.isDarkMode ? Colors.black : null,
-                      selectedColor: Get.isDarkMode ? darken(label.color!) : label.color,
+                      selectedColor:
+                          Get.isDarkMode ? darken(label.color!) : label.color,
                       shape: const StadiumBorder(side: BorderSide()),
                       onSelected: (bool selected) {
                         if (selected) {
@@ -117,7 +128,7 @@ class UpdateInboxDialog extends AlertDialog {
                   spacing: 4,
                   children: List<Widget>.generate(5, (int index) {
                     return const FilterChip(
-                      label: Text('dummy'),
+                      label: Text('*********'),
                       backgroundColor: Colors.white,
                       selectedColor: Colors.white,
                       onSelected: null,
