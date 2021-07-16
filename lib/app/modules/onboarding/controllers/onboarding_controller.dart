@@ -59,17 +59,13 @@ class OnboardingController extends GetxController {
 
   Future<void> helpToken() async {
     EasyLoading.show();
-    await canLaunch(API_HELP_URL)
-        ? await launch(API_HELP_URL)
-        : Get.snackbar('Error', 'Could not launch URL');
+    await launch(API_HELP_URL);
     EasyLoading.dismiss();
   }
 
   Future<void> helpDatabase() async {
     EasyLoading.show();
-    await canLaunch(INTEGRATION_HELP_URL)
-        ? await launch(INTEGRATION_HELP_URL)
-        : Get.snackbar('Error', 'Could not launch URL');
+    launch(INTEGRATION_HELP_URL);
     EasyLoading.dismiss();
   }
 
@@ -102,7 +98,7 @@ class OnboardingController extends GetxController {
     try {
       await launch(DATABASE_TEMPLATE_URL);
     } catch (e) {
-      Get.snackbar('Error', 'Could not launch URL');
+      EasyLoading.showError('Could not launch URL');
     } finally {
       EasyLoading.dismiss();
     }

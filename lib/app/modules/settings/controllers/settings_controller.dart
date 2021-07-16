@@ -19,9 +19,7 @@ class SettingsController extends GetxController {
 
   Future<void> showPrivacyPolicy() async {
     EasyLoading.show();
-    await canLaunch(PRIVACY_POLICY_URL)
-        ? await launch(PRIVACY_POLICY_URL)
-        : Get.snackbar('Error', 'Could not launch URL');
+        launch(PRIVACY_POLICY_URL);
     EasyLoading.dismiss();
   }
 }
