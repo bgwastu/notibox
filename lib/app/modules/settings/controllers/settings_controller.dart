@@ -19,7 +19,11 @@ class SettingsController extends GetxController {
 
   Future<void> showPrivacyPolicy() async {
     EasyLoading.show();
-        launch(PRIVACY_POLICY_URL);
-    EasyLoading.dismiss();
+    try {
+      launch(PRIVACY_POLICY_URL);
+    } finally {
+      launch(PRIVACY_POLICY_URL);
+      EasyLoading.dismiss();
+    }
   }
 }

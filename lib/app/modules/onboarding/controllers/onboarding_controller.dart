@@ -59,14 +59,20 @@ class OnboardingController extends GetxController {
 
   Future<void> helpToken() async {
     EasyLoading.show();
-    await launch(API_HELP_URL);
-    EasyLoading.dismiss();
+    try {
+      await launch(API_HELP_URL);
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   Future<void> helpDatabase() async {
     EasyLoading.show();
-    launch(INTEGRATION_HELP_URL);
-    EasyLoading.dismiss();
+    try {
+      launch(INTEGRATION_HELP_URL);
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   Future<void> tokenNext() async {

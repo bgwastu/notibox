@@ -33,6 +33,8 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
               onSelected: (index){
                 if(index == 1){
                   Get.toNamed(Routes.SETTINGS);
+                }else {
+                  controller.feedbackButton();
                 }
               },
               icon: Icon(Icons.more_vert))

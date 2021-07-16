@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:notibox/app/config/constants.dart';
 import 'package:notibox/app/data/model/inbox_model.dart';
 import 'package:notibox/app/data/notion_provider.dart';
 import 'package:notibox/app/modules/home/exceptions/home_exception.dart';
 import 'package:notibox/app/modules/home/views/create_inbox_dialog.dart';
 import 'package:notibox/app/modules/home/views/view_inbox_dialog.dart';
 import 'package:notibox/app/services/notification_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(NotionProvider());
@@ -102,6 +105,15 @@ class HomeController extends GetxController {
       errorMessage.value = '';
     } on DioError catch (e) {
       errorMessage.value = HomeException.fromDioError(e).message;
+    }
+  }
+
+  void feedbackButton() async {
+    EasyLoading.show();
+    try {
+      await launch(GITHUB_ISSUE_URL);
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 }

@@ -7,3 +7,5 @@ const String API_HELP_URL =
 const String PRIVACY_POLICY_URL = 'https://atticapps.notion.site/Privacy-Policy-d5e818828dc544fd87f68838e922960b';
 const String DATABASE_TEMPLATE_URL =
     'https://atticapps.notion.site/385e58cb01f145eeaab50a76c0324628';
+const String GITHUB_ISSUE_URL = ''; //TODO: Add GitHub Issue URL
+
