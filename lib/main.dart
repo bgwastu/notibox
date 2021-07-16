@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:background_fetch/background_fetch.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,12 +9,12 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notibox/app/config/theme.dart';
 import 'package:notibox/app/data/repository/settings_repository.dart';
+
 import 'app/routes/app_pages.dart';
 import 'app/services/background_service.dart';
 import 'app/services/notification_service.dart';
-import 'package:background_fetch/background_fetch.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await hiveInit();
   notificationInit();
@@ -23,11 +24,11 @@ void main() async {
   runApp(
     GetMaterialApp(
       title: "Notibox",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: AppPages.initial,
       getPages: AppPages.routes,
-      theme: AppThemes.lightTheme,
+      theme: lightTheme,
       builder: EasyLoading.init(),
-      darkTheme: AppThemes.darkTheme,
+      darkTheme: darkTheme,
       themeMode: SettingsRepository.isDarkMode() == null
           ? ThemeMode.system
           : SettingsRepository.isDarkMode()!
@@ -59,8 +60,8 @@ void easyLoadingConfig() {
   EasyLoading.instance
     ..maskType = EasyLoadingMaskType.black
     ..animationStyle = EasyLoadingAnimationStyle.scale
-    ..animationDuration = Duration(milliseconds: 100)
-    ..indicatorWidget = CircularProgressIndicator(
+    ..animationDuration = const Duration(milliseconds: 100)
+    ..indicatorWidget = const CircularProgressIndicator(
       color: Colors.white,
     );
 }

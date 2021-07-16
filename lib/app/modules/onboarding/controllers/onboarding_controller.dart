@@ -19,15 +19,7 @@ class OnboardingController extends GetxController {
   final databaseController = TextEditingController();
   final databaseFormKey = GlobalKey<FormState>();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}
@@ -44,7 +36,7 @@ class OnboardingController extends GetxController {
 
       if (listDatabase.length == 1) {
         SettingsRepository.setDatabaseId(listDatabase.first.id);
-        Get.offNamed(Routes.HOME);
+        Get.offNamed(Routes.home);
       } else if (listDatabase.length > 1) {
         EasyLoading.showError('Integration has detects more than one database',
             dismissOnTap: true);
@@ -53,14 +45,14 @@ class OnboardingController extends GetxController {
       }
     } catch (e) {
       EasyLoading.showError('Error has been occurred');
-      throw e;
+      rethrow;
     }
   }
 
   Future<void> helpToken() async {
     EasyLoading.show();
     try {
-      await launch(API_HELP_URL);
+      await launch(apiHelpUrl);
     } finally {
       EasyLoading.dismiss();
     }
@@ -69,7 +61,7 @@ class OnboardingController extends GetxController {
   Future<void> helpDatabase() async {
     EasyLoading.show();
     try {
-      launch(INTEGRATION_HELP_URL);
+      launch(integrationHelpUrl);
     } finally {
       EasyLoading.dismiss();
     }
@@ -102,7 +94,7 @@ class OnboardingController extends GetxController {
   Future<void> duplicateDatabase() async {
     EasyLoading.show();
     try {
-      await launch(DATABASE_TEMPLATE_URL);
+      await launch(databaseTemplateUrl);
     } catch (e) {
       EasyLoading.showError('Could not launch URL');
     } finally {

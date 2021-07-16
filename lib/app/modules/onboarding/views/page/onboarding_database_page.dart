@@ -14,7 +14,7 @@ class OnboardingDatabasePage extends StatelessWidget {
       key: controller.databaseFormKey,
       child: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -32,7 +32,7 @@ class OnboardingDatabasePage extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: controller.helpDatabase,
-                    icon: Icon(Icons.help),
+                    icon: const Icon(Icons.help),
                     iconSize: 22,
                     tooltip: 'Get Help',
                   )
@@ -46,14 +46,14 @@ class OnboardingDatabasePage extends StatelessWidget {
               verticalSpaceMedium,
               OutlinedButton.icon(
                   onPressed: controller.duplicateDatabase,
-                  icon: Icon(Icons.copy),
+                  icon: const Icon(Icons.copy),
                   label: Text('Duplicate Notibox Database'.toUpperCase())),
               verticalSpaceSmall,
               Align(
                   alignment: Alignment.centerRight,
                   child: OutlinedButton.icon(
                       onPressed: controller.databaseNext,
-                      icon: Icon(Icons.check_circle_outline),
+                      icon: const Icon(Icons.check_circle_outline),
                       label: Text('Finish'.toUpperCase())))
             ],
           ),

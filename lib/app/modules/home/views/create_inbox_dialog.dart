@@ -17,8 +17,8 @@ class CreateInboxDialog extends AlertDialog {
         if (controller.isDraft()) {
           final res = await Get.dialog(
               AlertDialog(
-                title: Text('Are you sure?'),
-                content: Text('Your current progress will be removed.'),
+                title: const Text('Are you sure?'),
+                content: const Text('Your current progress will be removed.'),
                 actions: [
                   TextButton(
                       onPressed: () => Get.back(result: false),
@@ -31,17 +31,17 @@ class CreateInboxDialog extends AlertDialog {
                 ],
               ),
               barrierDismissible: false);
-          return res;
+          return res as bool;
         }
 
         return true;
       },
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: AlertDialog(
-          insetPadding: EdgeInsets.all(8.0),
-          title: Text('Create Inbox'),
-          content: Container(
+          insetPadding: const EdgeInsets.all(8.0),
+          title: const Text('Create Inbox'),
+          content: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
               child: Form(
@@ -87,12 +87,23 @@ class CreateInboxDialog extends AlertDialog {
                   List<Widget>.generate(snapshot.data!.length, (int index) {
                 final label = snapshot.data![index];
                 return Obx(() => FilterChip(
-                      label: Text(label.name, style: Get.isDarkMode ? Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black) : null,),
-                      backgroundColor: Get.isDarkMode ? label.color! : label.color!.withOpacity(0.3),
+                      label: Text(
+                        label.name,
+                        style: Get.isDarkMode
+                            ? Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: Colors.black)
+                            : null,
+                      ),
+                      backgroundColor: Get.isDarkMode
+                          ? label.color!
+                          : label.color!.withOpacity(0.3),
                       selected: controller.chipIndex.value == index,
                       checkmarkColor: Get.isDarkMode ? Colors.black : null,
-                      selectedColor: Get.isDarkMode ? darken(label.color!) : label.color,
-                      shape: StadiumBorder(side: BorderSide()),
+                      selectedColor:
+                          Get.isDarkMode ? darken(label.color!) : label.color,
+                      shape: const StadiumBorder(side: BorderSide()),
                       onSelected: (bool selected) {
                         if (selected) {
                           controller.chipIndex.value = index;
@@ -105,20 +116,23 @@ class CreateInboxDialog extends AlertDialog {
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Shimmer.fromColors(
+                baseColor: Get.isDarkMode
+                    ? Colors.grey.shade600
+                    : Colors.grey.shade400,
+                highlightColor: Get.isDarkMode
+                    ? Colors.grey.shade500
+                    : Colors.grey.shade400,
                 child: Wrap(
                   spacing: 4,
                   children: List<Widget>.generate(5, (int index) {
-                    return FilterChip(
+                    return const FilterChip(
                       label: Text('dummy'),
                       backgroundColor: Colors.white,
-                      selected: false,
                       selectedColor: Colors.white,
                       onSelected: null,
                     );
                   }).toList(),
-                ),
-                baseColor:Get.isDarkMode ?  Colors.grey.shade600 : Colors.grey.shade400,
-                highlightColor: Get.isDarkMode ? Colors.grey.shade500 : Colors.grey.shade400);
+                ));
           }
           return Container();
         });
@@ -128,7 +142,7 @@ class CreateInboxDialog extends AlertDialog {
     return DateTimeField(
       format: DateFormat.yMMMd().add_jm(),
       decoration:
-          InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
+          const InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
@@ -152,7 +166,7 @@ class CreateInboxDialog extends AlertDialog {
   TextFormField _description(CreateInboxController controller) {
     return TextFormField(
       controller: controller.descriptionController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Description',
       ),
       minLines: 1,
@@ -163,7 +177,7 @@ class CreateInboxDialog extends AlertDialog {
   TextFormField _title(CreateInboxController controller) {
     return TextFormField(
       controller: controller.titleController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Title',
       ),
       minLines: 1,

@@ -9,12 +9,12 @@ import '../controllers/onboarding_controller.dart';
 class OnboardingView extends GetView<OnboardingController> {
   @override
   Widget build(BuildContext context) {
-    setCurrentOverlay(Get.isDarkMode);
+    setCurrentOverlay(isDarkMode: Get.isDarkMode);
 
     return Scaffold(
       body: Obx(() => IndexedStack(
             index: controller.index.value,
-            children: [
+            children: const [
               OnboardingTokenPage(),
               OnboardingDatabasePage(),
             ],

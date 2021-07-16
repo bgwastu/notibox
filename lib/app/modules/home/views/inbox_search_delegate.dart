@@ -17,7 +17,7 @@ class InboxSearchDelegate extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -28,7 +28,7 @@ class InboxSearchDelegate extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
@@ -49,7 +49,7 @@ class InboxSearchDelegate extends SearchDelegate {
     return filteredList.isBlank! ? Center(child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.search_off, size: 42,),
+        const Icon(Icons.search_off, size: 42,),
         verticalSpaceSmall,
         Text('Inbox not found', style: Theme.of(context).textTheme.subtitle1,),
       ],
@@ -77,7 +77,7 @@ class InboxSearchDelegate extends SearchDelegate {
       itemCount: filteredList.length,
       itemBuilder: (ctx, i) {
         return ListTile(
-          leading: Icon(Icons.search),
+          leading: const Icon(Icons.search),
           title: Text(filteredList[i].title.toLowerCase()),
           onTap: () {
             query = filteredList[i].title.toLowerCase();
@@ -100,9 +100,8 @@ class InboxSearchDelegate extends SearchDelegate {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            inbox.reminder != null
-                ? Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+            if (inbox.reminder != null) Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
                         Icon(Icons.notifications, size: 18, color: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).errorColor : null,),
@@ -116,19 +115,16 @@ class InboxSearchDelegate extends SearchDelegate {
                         ),
                       ],
                     ),
-                  )
-                : Container(),
+                  ) else Container(),
             Text(inbox.title, style: Theme.of(context).textTheme.headline6),
             verticalSpaceSmall,
-            inbox.description != null
-                ? Text(
+            if (inbox.description != null) Text(
                     inbox.description!,
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!
                         .copyWith(height: 1.3),
-                  )
-                : Container(),
+                  ) else Container(),
           ],
         ),
       ),

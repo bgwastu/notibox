@@ -7,11 +7,11 @@ import '../controllers/splash_controller.dart';
 class SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
-    setCurrentOverlay(Get.isDarkMode);
+    setCurrentOverlay(isDarkMode: Get.isDarkMode);
     Get.find<SplashController>();
     return Scaffold(
       body: Center(
-        child: Container(
+        child: SizedBox(
             width: 60,
             child: Image.asset(
               Get.isDarkMode

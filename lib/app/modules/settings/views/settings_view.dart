@@ -13,63 +13,60 @@ class SettingsView extends GetView<SettingsController> {
     final controller = Get.find<SettingsController>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: Text('API Integration Token'),
-            subtitle: Text('Your Notion internal integration token'),
+            title: const Text('API Integration Token'),
+            subtitle: const Text('Your Notion internal integration token'),
             onTap: () async {
               final res = await Get.dialog(
-                  alertDialog('API Token', controller.getToken()));
-              if (res != null) {
-                controller.updateToken(res);
-              }
+                  alertDialog('API Token', controller.getToken())) as String;
+              controller.updateToken(res);
             },
           ),
           ListTile(
-            title: Text('Database ID'),
+            title: const Text('Database ID'),
             subtitle: Text(
               SettingsRepository.getDatabaseId() ?? '',
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () async {
               final res = await Get.dialog(
-                  alertDialog('Database ID', controller.getDatabaseId()));
-              if (res != null) {
-                controller.updateToken(res);
-              }
+                      alertDialog('Database ID', controller.getDatabaseId()))
+                  as String;
+              controller.updateToken(res);
             },
           ),
-          Divider(),
+          const Divider(),
           SwitchListTile(
-              title: Text('Dark Mode'),
+              title: const Text('Dark Mode'),
               value: Get.isDarkMode,
-              onChanged: (val) => controller.toggleDarkMode(val)),
-          Divider(),
+              onChanged: (val) => controller.toggleDarkMode(isDarkMode: val)),
+          const Divider(),
           ListTile(
-            title: Text('About'),
+            title: const Text('About'),
             onTap: () async {
-              PackageInfo packageInfo = await PackageInfo.fromPlatform();
+              final PackageInfo packageInfo = await PackageInfo.fromPlatform();
               showAboutDialog(
                   context: context,
                   applicationVersion: packageInfo.version,
                   children: [
-                    Text(
+                    const Text(
                         'Notibox is an inbox application to store quick notes efficiently in Notion.')
                   ],
                   applicationIcon: Container(
                       height: 50,
                       width: 50,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: SvgPicture.asset(Get.isDarkMode
                           ? 'assets/logo/logo_dark.svg'
                           : 'assets/logo/logo_light.svg')));
             },
           ),
           ListTile(
-            title: Text('Privacy Policy'),
+            title: const Text('Privacy Policy'),
             onTap: controller.showPrivacyPolicy,
           ),
         ],

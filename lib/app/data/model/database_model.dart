@@ -5,12 +5,12 @@ class Database {
   Database({required this.id, required this.title});
 
   factory Database.fromMap(Map<String, dynamic> map){
-    final id = map['id'];
-    final titleList = (map['title'] ?? []) as List;
+    final id = map['id'] as String;
+    final titleList = (map['title'] ?? []) as List<Map<String, dynamic>>;
 
     return Database(
       id: id,
-      title: titleList.isNotEmpty ? titleList[0]['plain_text'] : '(?) Untitled'
+      title: titleList.isNotEmpty ? titleList[0]['plain_text'] as String : '(?) Untitled'
     );
   }
 }

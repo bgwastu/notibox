@@ -10,16 +10,16 @@ import 'package:notibox/utils.dart';
 class ViewInboxDialog extends AlertDialog {
   final Inbox inbox;
 
-  ViewInboxDialog(this.inbox);
+  const ViewInboxDialog(this.inbox);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ViewInboxController());
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: AlertDialog(
-        insetPadding: EdgeInsets.all(8.0),
-        contentPadding: EdgeInsets.fromLTRB(24, 24, 24, 0),
+        insetPadding: const EdgeInsets.all(8.0),
+        contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
         title: inbox.reminder != null
             ? Row(
                 children: [
@@ -34,15 +34,14 @@ class ViewInboxDialog extends AlertDialog {
                 ],
               )
             : null,
-        content: Container(
+        content: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(inbox.title, style: Theme.of(context).textTheme.headline6),
-              inbox.description?.trim().isNotEmpty ?? false
-                  ? Padding(
+              if (inbox.description?.trim().isNotEmpty ?? false) Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         inbox.description!,
@@ -51,17 +50,14 @@ class ViewInboxDialog extends AlertDialog {
                             .bodyText2!
                             .copyWith(height: 1.3),
                       ),
-                    )
-                  : Container(),
-              inbox.label != null
-                  ? Padding(
+                    ) else Container(),
+              if (inbox.label != null) Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Chip(
                         label: Text(inbox.label!.name, style: Get.isDarkMode ? Theme.of(context).textTheme.subtitle2!.copyWith(color: Colors.black): null),
                         backgroundColor: Get.isDarkMode ? darken(inbox.label!.color!) : inbox.label!.color,
                       ),
-                    )
-                  : Container(),
+                    ) else Container(),
             ],
           )),
         ),
@@ -73,8 +69,8 @@ class ViewInboxDialog extends AlertDialog {
               onPressed: () {
                 Get.dialog(
                     AlertDialog(
-                      title: Text('Are you sure?'),
-                      content: Text('This inbox will be deleted.'),
+                      title: const Text('Are you sure?'),
+                      content: const Text('This inbox will be deleted.'),
                       actions: [
                         TextButton(
                             onPressed: () => Get.back(),

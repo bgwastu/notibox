@@ -26,9 +26,9 @@ double screenWidthPercentage(BuildContext context, {double percentage = 1}) =>
     screenWidth(context) * percentage;
 
 // Others
-hideInput() => SystemChannels.textInput.invokeMethod('TextInput.hide');
+Future hideInput() => SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-setCurrentOverlay(bool isDarkMode) {
+void setCurrentOverlay({required bool isDarkMode}) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: isDarkMode ? Brightness.light : Brightness.dark,

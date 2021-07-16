@@ -25,9 +25,9 @@ Future<void> initPlatformState() async {
   });
 }
 
-void backgroundFetchHeadlessTask(HeadlessTask task) async {
-  String taskId = task.taskId;
-  bool isTimeout = task.timeout;
+Future<void> backgroundFetchHeadlessTask(HeadlessTask task) async {
+  final String taskId = task.taskId;
+  final bool isTimeout = task.timeout;
   if (isTimeout) {
     BackgroundFetch.finish(taskId);
     return;

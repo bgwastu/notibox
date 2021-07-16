@@ -11,7 +11,7 @@ import 'package:shimmer/shimmer.dart';
 class UpdateInboxDialog extends AlertDialog {
   final Inbox inbox;
 
-  UpdateInboxDialog(this.inbox);
+  const UpdateInboxDialog(this.inbox);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class UpdateInboxDialog extends AlertDialog {
         if (controller.isDraft()) {
           final res = await Get.dialog(
               AlertDialog(
-                title: Text('Are you sure?'),
-                content: Text('Your current progress will be removed.'),
+                title: const Text('Are you sure?'),
+                content: const Text('Your current progress will be removed.'),
                 actions: [
                   TextButton(
                       onPressed: () => Get.back(result: false),
@@ -37,17 +37,17 @@ class UpdateInboxDialog extends AlertDialog {
                 ],
               ),
               barrierDismissible: false);
-          return res;
+          return res as bool;
         }
 
         return true;
       },
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: AlertDialog(
-          insetPadding: EdgeInsets.all(8.0),
-          title: Text('Update Inbox'),
-          content: Container(
+          insetPadding: const EdgeInsets.all(8.0),
+          title: const Text('Update Inbox'),
+          content: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
               child: Form(
@@ -98,7 +98,7 @@ class UpdateInboxDialog extends AlertDialog {
                       selected: controller.chipIndex.value == index,
                       checkmarkColor: Get.isDarkMode ? Colors.black : null,
                       selectedColor: Get.isDarkMode ? darken(label.color!) : label.color,
-                      shape: StadiumBorder(side: BorderSide()),
+                      shape: const StadiumBorder(side: BorderSide()),
                       onSelected: (bool selected) {
                         if (selected) {
                           controller.chipIndex.value = index;
@@ -111,20 +111,19 @@ class UpdateInboxDialog extends AlertDialog {
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Shimmer.fromColors(
+                baseColor:Get.isDarkMode ?  Colors.grey.shade600 : Colors.grey.shade400,
+                highlightColor: Get.isDarkMode ? Colors.grey.shade500 : Colors.grey.shade400,
                 child: Wrap(
                   spacing: 4,
                   children: List<Widget>.generate(5, (int index) {
-                    return FilterChip(
+                    return const FilterChip(
                       label: Text('dummy'),
                       backgroundColor: Colors.white,
-                      selected: false,
                       selectedColor: Colors.white,
                       onSelected: null,
                     );
                   }).toList(),
-                ),
-                baseColor:Get.isDarkMode ?  Colors.grey.shade600 : Colors.grey.shade400,
-                highlightColor: Get.isDarkMode ? Colors.grey.shade500 : Colors.grey.shade400);
+                ));
           }
           return Container();
         });
@@ -135,7 +134,7 @@ class UpdateInboxDialog extends AlertDialog {
       controller: controller.reminderController,
       format: DateFormat.yMMMd().add_jm(),
       decoration:
-          InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
+          const InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
@@ -159,7 +158,7 @@ class UpdateInboxDialog extends AlertDialog {
   TextFormField _description(UpdateInboxController controller) {
     return TextFormField(
       controller: controller.descriptionController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Description',
       ),
       minLines: 1,
@@ -170,7 +169,7 @@ class UpdateInboxDialog extends AlertDialog {
   TextFormField _title(UpdateInboxController controller) {
     return TextFormField(
       controller: controller.titleController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Title',
       ),
       minLines: 1,

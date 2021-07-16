@@ -16,28 +16,28 @@ class HomeView extends GetView<HomeController> {
     final controller = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.inbox),
-        title: Text('Notibox'),
+        leading: const Icon(Icons.inbox),
+        title: const Text('Notibox'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
 showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.value));
             },
           ),
           PopupMenuButton<int>(
               itemBuilder: (context) => [
-                    PopupMenuItem(child: Text('Settings'), value: 1,),
-                    PopupMenuItem(child: Text('Feedback'), value: 2),
+                    const PopupMenuItem(value: 1,child: Text('Settings'),),
+                    const PopupMenuItem(value: 2, child: Text('Feedback')),
                   ],
               onSelected: (index){
                 if(index == 1){
-                  Get.toNamed(Routes.SETTINGS);
+                  Get.toNamed(Routes.settings);
                 }else {
                   controller.feedbackButton();
                 }
               },
-              icon: Icon(Icons.more_vert))
+              icon: const Icon(Icons.more_vert))
         ],
       ),
       floatingActionButton: Obx(() => Visibility(
@@ -46,7 +46,7 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                 !controller.isOffline.value,
             child: FloatingActionButton.extended(
               label: Text('Create'.toUpperCase()),
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               onPressed: controller.createInbox,
             ),
           )),
@@ -61,9 +61,7 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                         ? _emptyState(controller, context)
                         : Column(
                             children: [
-                              controller.isOffline.value
-                                  ? _noInternetBanner()
-                                  : Container(),
+                              if (controller.isOffline.value) _noInternetBanner() else Container(),
                               Expanded(
                                 child: _listInbox(controller),
                               ),
@@ -77,7 +75,7 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
     return ListView.builder(
       shrinkWrap: true,
       itemCount: controller.listInbox.value.length,
-      padding: EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.only(top: 8),
       itemBuilder: (BuildContext context, int index) {
         final inbox = controller.listInbox.value[index];
         return _listItem(inbox, context, index);
@@ -94,9 +92,8 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            inbox.reminder != null
-                ? Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+            if (inbox.reminder != null) Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: Row(
                       children: [
                         Icon(Icons.notifications, size: 18, color: inbox.reminder!.isBefore(DateTime.now()) ? Theme.of(context).errorColor : null,),
@@ -110,19 +107,16 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                         ),
                       ],
                     ),
-                  )
-                : Container(),
+                  ) else Container(),
             Text(inbox.title, style: Theme.of(context).textTheme.headline6),
             verticalSpaceSmall,
-            inbox.description != null
-                ? Text(
+            if (inbox.description != null) Text(
                     inbox.description!,
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2!
                         .copyWith(height: 1.3),
-                  )
-                : Container(),
+                  ) else Container(),
           ],
         ),
       ),
@@ -133,16 +127,16 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
     return Material(
       elevation: 2,
       child: MaterialBanner(
-          content: Text(
+          content: const Text(
             'No internet connection.',
           ),
-          leading: Icon(
+          leading: const Icon(
             Icons.sync_disabled,
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Network Settting'.toUpperCase()),
               onPressed: () => OpenSettings.openNetworkOperatorSetting(),
+              child: Text('Network Settting'.toUpperCase()),
             ),
           ]),
     );
@@ -153,11 +147,10 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
       children: [
         ListView(),
         Align(
-          alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 200,
                 width: 200,
                 child: SvgPicture.asset('assets/images/road_trip.svg'),
@@ -167,7 +160,7 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                 style: Theme.of(context).textTheme.headline6,
               ),
               verticalSpaceSmall,
-              Container(
+              SizedBox(
                 width: 200,
                 child: Text(
                   controller.errorMessage.value,
@@ -187,11 +180,10 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
       children: [
         ListView(),
         Align(
-          alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 150,
                 width: 150,
                 child: SvgPicture.asset('assets/images/empty_inbox.svg'),
@@ -201,7 +193,7 @@ showSearch(context: context, delegate: InboxSearchDelegate(controller.listInbox.
                 style: Theme.of(context).textTheme.headline6,
               ),
               verticalSpaceSmall,
-              Container(
+              SizedBox(
                 width: 200,
                 child: Text(
                   'Create inbox message, and it will show here.',

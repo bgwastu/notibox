@@ -6,9 +6,9 @@ import 'package:notibox/app/data/repository/settings_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsController extends GetxController {
-  void toggleDarkMode(bool isDarkMode) {
+  void toggleDarkMode({required bool isDarkMode}) {
     Get.changeThemeMode(isDarkMode ? ThemeMode.dark : ThemeMode.light);
-    SettingsRepository.setThemeMode(isDarkMode);
+    SettingsRepository.setThemeMode(isDarkMode: isDarkMode);
   }
 
   void updateToken(String token) => SettingsRepository.setToken(token);
@@ -20,9 +20,9 @@ class SettingsController extends GetxController {
   Future<void> showPrivacyPolicy() async {
     EasyLoading.show();
     try {
-      launch(PRIVACY_POLICY_URL);
+      launch(privacyPolicyUrl);
     } finally {
-      launch(PRIVACY_POLICY_URL);
+      launch(privacyPolicyUrl);
       EasyLoading.dismiss();
     }
   }

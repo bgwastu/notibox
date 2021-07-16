@@ -7,10 +7,10 @@ class AuthProvider {
 
   Future<bool> checkToken(String token) async {
     try {
-      final response = await _dio.get(BASE_URL + 'users',
+      final response = await _dio.get('${baseUrl}users',
           options: Options(headers: {
-            'Authorization': 'Bearer ' + token,
-            'Notion-Version': NOTION_VERSION
+            'Authorization': 'Bearer $token',
+            'Notion-Version': notionVersion
           }));
       return response.statusCode == 200;
     } on DioError catch (e) {
@@ -19,7 +19,7 @@ class AuthProvider {
           return false;
         }
       }
-      throw e;
+      rethrow;
     }
   }
 }

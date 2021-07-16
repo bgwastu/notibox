@@ -5,17 +5,17 @@ import 'package:notibox/app/config/ui_helpers.dart';
 import 'package:notibox/app/modules/onboarding/controllers/onboarding_controller.dart';
 
 class OnboardingTokenPage extends StatelessWidget {
-  const OnboardingTokenPage({ Key? key }) : super(key: key);
+  const OnboardingTokenPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<OnboardingController>();
-  
+
     return Form(
       key: controller.tokenFormKey,
       child: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -33,7 +33,7 @@ class OnboardingTokenPage extends StatelessWidget {
                   ),
                   IconButton(
                       onPressed: controller.helpToken,
-                      icon: Icon(Icons.help),
+                      icon: const Icon(Icons.help),
                       iconSize: 22,
                       tooltip: 'Get Help')
                 ],
@@ -46,7 +46,8 @@ class OnboardingTokenPage extends StatelessWidget {
               verticalSpaceMedium,
               TextFormField(
                 controller: controller.tokenController,
-                decoration: InputDecoration(labelText: 'Notion API Token'),
+                decoration:
+                    const InputDecoration(labelText: 'Notion API Token'),
                 minLines: 1,
                 maxLines: null,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -61,7 +62,7 @@ class OnboardingTokenPage extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: OutlinedButton.icon(
                       onPressed: controller.tokenNext,
-                      icon: Icon(Icons.chevron_right),
+                      icon: const Icon(Icons.chevron_right),
                       label: Text('Next'.toUpperCase())))
             ],
           ),

@@ -2,11 +2,10 @@ name: notibox
 version: 0.1.0-alpha
 publish_to: none
 description: Inbox app for Notion.
-environment: 
+environment:
   sdk: '>=2.12.0 <3.0.0'
 
-dependencies: 
-  cupertino_icons: ^1.0.2
+dependencies:
   dio: ^4.0.0
   firebase_analytics: ^8.2.0
   firebase_core: ^1.4.0
@@ -21,27 +20,27 @@ dependencies:
   url_launcher: ^6.0.8
   intl: ^0.17.0
   internet_connection_checker: ^0.0.1+1
-  dio_cache_interceptor: ^3.0.1  
+  dio_cache_interceptor: ^3.0.1
   open_settings: ^2.0.1
   dio_cache_interceptor_hive_store: ^3.0.1
   datetime_picker_formfield: ^2.0.0
   shimmer: ^2.0.0
   awesome_notifications: ^0.0.6+9
   package_info_plus: ^1.0.3
-  equatable: ^2.0.3
   background_fetch: ^1.0.1
-  
-  flutter: 
+
+  flutter:
     sdk: flutter
 
-dev_dependencies: 
-  flutter_test: 
+dev_dependencies:
+  flutter_test:
     sdk: flutter
   hive_generator: ^1.1.0
   build_runner: ^2.0.6
+  lints: ^1.0.1
 
-flutter: 
-  assets: 
+flutter:
+  assets:
     - assets/images/
     - assets/logo/
   uses-material-design: true

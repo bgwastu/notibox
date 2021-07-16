@@ -40,7 +40,7 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onReady() async {
+  Future<void> onReady() async {
     super.onReady();
     indicator.currentState!.show();
     await getListInbox();
@@ -58,7 +58,7 @@ class HomeController extends GetxController {
 
     // Append the new inbox
     if (res != null) {
-      listInbox.value = [res, ...listInbox.value];
+      listInbox.value = [res as Inbox, ...listInbox.value];
     }
 
     // refresh
@@ -74,7 +74,7 @@ class HomeController extends GetxController {
       if (res['status'] == 'update') {
         final pageId = listInbox.value[index].pageId;
         (res['data'] as Inbox).pageId = pageId;
-        listInbox.value.replaceRange(index, index + 1, [res['data']]);
+        listInbox.value.replaceRange(index, index + 1, [res['data'] as Inbox]);
         Get.forceAppUpdate();
       } else if (res['status'] == 'delete') {
         listInbox.value.removeAt(index);
@@ -108,10 +108,10 @@ class HomeController extends GetxController {
     }
   }
 
-  void feedbackButton() async {
+  Future<void> feedbackButton() async {
     EasyLoading.show();
     try {
-      await launch(GITHUB_ISSUE_URL);
+      await launch(githubIssueUrl);
     } finally {
       EasyLoading.dismiss();
     }

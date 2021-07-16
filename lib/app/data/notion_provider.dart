@@ -15,14 +15,14 @@ class NotionProvider {
   Future<List<Database>> getListDatabase() async {
     final token = SettingsRepository.getToken();
 
-    final res = await _dio.get(BASE_URL + 'databases',
+    final res = await _dio.get('${baseUrl}databases',
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }));
 
     return (res.data['results'] as List)
-        .map((e) => Database.fromMap(e))
+        .map((e) => Database.fromMap(e as Map<String, dynamic>))
         .toList();
   }
 
@@ -30,14 +30,14 @@ class NotionProvider {
     final databaseId = SettingsRepository.getDatabaseId();
     final token = SettingsRepository.getToken();
 
-    final res = await _dio.get(BASE_URL + 'databases/' + databaseId!,
+    final res = await _dio.get('${baseUrl}databases/${databaseId!}',
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }));
     final listLabel =
         (res.data['properties']['Label']['select']['options'] as List)
-            .map<Select>((e) => Select.fromMap(e))
+            .map<Select>((e) => Select.fromMap(e as Map<String, dynamic>))
             .toList();
     final noLabel =
         Select(id: 'no-label', name: 'No Label', color: Colors.grey);
@@ -51,9 +51,6 @@ class NotionProvider {
       policy: CachePolicy.refresh,
       hitCacheOnErrorExcept: [401, 403],
       maxStale: const Duration(days: 7),
-      priority: CachePriority.normal,
-      cipher: null,
-      keyBuilder: CacheOptions.defaultCacheKeyBuilder,
       allowPostMethod: true,
     );
 
@@ -62,10 +59,10 @@ class NotionProvider {
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
-    final res = await dio.post(BASE_URL + 'databases/$databaseId/query',
+    final res = await dio.post('$baseUrl${'databases/$databaseId/query'}',
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }),
         data: {
           'sorts': [
@@ -73,13 +70,13 @@ class NotionProvider {
           ]
         });
 
-    return (res.data['results'] as List).map((e) => Inbox.fromMap(e)).toList();
+    return (res.data['results'] as List).map((e) => Inbox.fromMap(e as Map<String, dynamic>)).toList();
   }
 
   Future<void> createInbox({required Inbox inbox}) async {
     final token = SettingsRepository.getToken();
     final databaseId = SettingsRepository.getDatabaseId();
-    await _dio.post(BASE_URL + 'pages',
+    await _dio.post('${baseUrl}pages',
         data: {
           'parent': {
             'database_id': databaseId!,
@@ -87,29 +84,29 @@ class NotionProvider {
           'properties': inbox.toMap()
         },
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }));
   }
 
   Future<void> updateInbox(
       {required Inbox inbox, required String pageId}) async {
     final token = SettingsRepository.getToken();
-    await _dio.patch(BASE_URL + 'pages/$pageId',
+    await _dio.patch('$baseUrl${'pages/$pageId'}',
         data: {'properties': inbox.toMap()},
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }));
   }
 
   Future<void> deleteInbox({required String pageId}) async {
     final token = SettingsRepository.getToken();
-    await _dio.patch(BASE_URL + 'pages/$pageId',
+    await _dio.patch('$baseUrl${'pages/$pageId'}',
         data: {'archived': true},
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }));
   }
 
@@ -123,17 +120,16 @@ class NotionProvider {
       hitCacheOnErrorExcept: [401, 403],
       maxStale: const Duration(seconds: 5),
       priority: CachePriority.high,
-      keyBuilder: CacheOptions.defaultCacheKeyBuilder,
       allowPostMethod: true,
     );
 
     final dio = Dio()
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
-    final res = await dio.post(BASE_URL + 'databases/$databaseId/query',
+    final res = await dio.post('$baseUrl${'databases/$databaseId/query'}',
         options: Options(headers: {
-          'Authorization': 'Bearer ' + token!,
-          'Notion-Version': NOTION_VERSION
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
         }),
         data: {
           'sorts': [
@@ -141,7 +137,7 @@ class NotionProvider {
           ]
         });
     final listInbox =
-        (res.data['results'] as List).map((e) => Inbox.fromMap(e));
+        (res.data['results'] as List).map((e) => Inbox.fromMap(e as Map<String, dynamic>));
     final filteredList = listInbox
         .where(
             (inbox) => inbox.title.toLowerCase().contains(query.toLowerCase()))
