@@ -118,15 +118,15 @@ class CreateInboxDialog extends AlertDialog {
             return Shimmer.fromColors(
                 baseColor: Get.isDarkMode
                     ? Colors.grey.shade600
-                    : Colors.grey.shade400,
+                    : Colors.grey.shade200,
                 highlightColor: Get.isDarkMode
                     ? Colors.grey.shade500
-                    : Colors.grey.shade400,
+                    : Colors.grey.shade300,
                 child: Wrap(
                   spacing: 4,
                   children: List<Widget>.generate(5, (int index) {
                     return const FilterChip(
-                      label: Text('dummy'),
+                      label: Text('*********'),
                       backgroundColor: Colors.white,
                       selectedColor: Colors.white,
                       onSelected: null,
