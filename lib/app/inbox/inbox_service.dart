@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
@@ -10,12 +9,18 @@ import 'package:notibox/app/settings/settings_repository.dart';
 import 'package:notibox/config/constants.dart';
 
 class InboxService {
-  final _dio = Get.put(Dio());
+  Dio? dio;
+  String? token;
+  String? databaseId;
+
+  InboxService({this.dio, this.token, this.databaseId}) {
+    dio ??= Get.put(Dio());
+    token ??= (SettingsRepository.getToken() ?? '') as String;
+    databaseId ??= (SettingsRepository.getDatabaseId() ?? '') as String;
+  }
 
   Future<List<Database>> getListDatabase() async {
-    final token = SettingsRepository.getToken();
-
-    final res = await _dio.get('${baseUrl}databases',
+    final res = await dio!.get('${baseUrl}databases',
         options: Options(headers: {
           'Authorization': 'Bearer ${token!}',
           'Notion-Version': notionVersion
@@ -27,10 +32,7 @@ class InboxService {
   }
 
   Future<List<Select>> getListLabel() async {
-    final databaseId = SettingsRepository.getDatabaseId();
-    final token = SettingsRepository.getToken();
-
-    final res = await _dio.get('${baseUrl}databases/${databaseId!}',
+    final res = await dio!.get('${baseUrl}databases/${databaseId!}',
         options: Options(headers: {
           'Authorization': 'Bearer ${token!}',
           'Notion-Version': notionVersion
@@ -47,16 +49,13 @@ class InboxService {
 
   Future<List<Inbox>> getListInbox() async {
     final cacheOptions = CacheOptions(
-      store: HiveCacheStore(null),
+      store: token! == 'debug' ? MemCacheStore() : HiveCacheStore(null),
       policy: CachePolicy.refresh,
       hitCacheOnErrorExcept: [401, 403],
       maxStale: const Duration(days: 7),
       allowPostMethod: true,
     );
-
-    final token = SettingsRepository.getToken();
-    final databaseId = SettingsRepository.getDatabaseId();
-    final dio = Dio()
+    final dio = this.dio!
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
     final res = await dio.post('$baseUrl${'databases/$databaseId/query'}',
@@ -70,13 +69,13 @@ class InboxService {
           ]
         });
 
-    return (res.data['results'] as List).map((e) => Inbox.fromMap(e as Map<String, dynamic>)).toList();
+    return (res.data['results'] as List)
+        .map((e) => Inbox.fromMap(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> createInbox({required Inbox inbox}) async {
-    final token = SettingsRepository.getToken();
-    final databaseId = SettingsRepository.getDatabaseId();
-    await _dio.post('${baseUrl}pages',
+    await dio!.post('${baseUrl}pages',
         data: {
           'parent': {
             'database_id': databaseId!,
@@ -91,8 +90,7 @@ class InboxService {
 
   Future<void> updateInbox(
       {required Inbox inbox, required String pageId}) async {
-    final token = SettingsRepository.getToken();
-    await _dio.patch('$baseUrl${'pages/$pageId'}',
+    await dio!.patch('$baseUrl${'pages/$pageId'}',
         data: {'properties': inbox.toMap()},
         options: Options(headers: {
           'Authorization': 'Bearer ${token!}',
@@ -101,8 +99,7 @@ class InboxService {
   }
 
   Future<void> deleteInbox({required String pageId}) async {
-    final token = SettingsRepository.getToken();
-    await _dio.patch('$baseUrl${'pages/$pageId'}',
+    await dio!.patch('$baseUrl${'pages/$pageId'}',
         data: {'archived': true},
         options: Options(headers: {
           'Authorization': 'Bearer ${token!}',
@@ -111,9 +108,6 @@ class InboxService {
   }
 
   Future<List<Inbox>> getListSuggestion(String query) async {
-    final token = SettingsRepository.getToken();
-    final databaseId = SettingsRepository.getDatabaseId();
-
     final cacheOptions = CacheOptions(
       store: MemCacheStore(),
       policy: CachePolicy.refresh,
@@ -123,7 +117,7 @@ class InboxService {
       allowPostMethod: true,
     );
 
-    final dio = Dio()
+    final dio = this.dio!
       ..interceptors.add(DioCacheInterceptor(options: cacheOptions));
 
     final res = await dio.post('$baseUrl${'databases/$databaseId/query'}',
@@ -136,8 +130,8 @@ class InboxService {
             {'timestamp': 'created_time', 'direction': 'descending'}
           ]
         });
-    final listInbox =
-        (res.data['results'] as List).map((e) => Inbox.fromMap(e as Map<String, dynamic>));
+    final listInbox = (res.data['results'] as List)
+        .map((e) => Inbox.fromMap(e as Map<String, dynamic>));
     final filteredList = listInbox
         .where(
             (inbox) => inbox.title.toLowerCase().contains(query.toLowerCase()))
