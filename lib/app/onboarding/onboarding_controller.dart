@@ -20,11 +20,6 @@ class OnboardingController extends GetxController {
   final databaseController = TextEditingController();
   final databaseFormKey = GlobalKey<FormState>();
 
-
-
-  @override
-  void onClose() {}
-
   Future<void> databaseNext() async {
     // Test database
     EasyLoading.show(status: 'Checking a database...');

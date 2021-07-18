@@ -15,11 +15,17 @@ class InboxService {
 
   InboxService({this.dio, this.token, this.databaseId}) {
     dio ??= Get.put(Dio());
-    token ??= (SettingsRepository.getToken() ?? '') as String;
-    databaseId ??= (SettingsRepository.getDatabaseId() ?? '') as String;
+    refreshCredentials();
+  }
+
+  void refreshCredentials() {
+    token = (SettingsRepository.getToken() ?? '') as String;
+    databaseId = (SettingsRepository.getDatabaseId() ?? '') as String;
   }
 
   Future<List<Database>> getListDatabase() async {
+    refreshCredentials();
+
     final res = await dio!.get('${baseUrl}databases',
         options: Options(headers: {
           'Authorization': 'Bearer ${token!}',
@@ -32,6 +38,8 @@ class InboxService {
   }
 
   Future<List<Select>> getListLabel() async {
+    refreshCredentials();
+
     final res = await dio!.get('${baseUrl}databases/${databaseId!}',
         options: Options(headers: {
           'Authorization': 'Bearer ${token!}',
@@ -48,6 +56,8 @@ class InboxService {
   }
 
   Future<List<Inbox>> getListInbox() async {
+    refreshCredentials();
+
     final cacheOptions = CacheOptions(
       store: token! == 'debug' ? MemCacheStore() : HiveCacheStore(null),
       policy: CachePolicy.refresh,
@@ -75,6 +85,8 @@ class InboxService {
   }
 
   Future<void> createInbox({required Inbox inbox}) async {
+    refreshCredentials();
+
     await dio!.post('${baseUrl}pages',
         data: {
           'parent': {
@@ -90,6 +102,8 @@ class InboxService {
 
   Future<void> updateInbox(
       {required Inbox inbox, required String pageId}) async {
+    refreshCredentials();
+
     await dio!.patch('$baseUrl${'pages/$pageId'}',
         data: {'properties': inbox.toMap()},
         options: Options(headers: {
@@ -99,6 +113,8 @@ class InboxService {
   }
 
   Future<void> deleteInbox({required String pageId}) async {
+    refreshCredentials();
+
     await dio!.patch('$baseUrl${'pages/$pageId'}',
         data: {'archived': true},
         options: Options(headers: {
@@ -108,6 +124,7 @@ class InboxService {
   }
 
   Future<List<Inbox>> getListSuggestion(String query) async {
+    refreshCredentials();
     final cacheOptions = CacheOptions(
       store: MemCacheStore(),
       policy: CachePolicy.refresh,
