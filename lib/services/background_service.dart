@@ -13,8 +13,8 @@ Future<void> initPlatformState() async {
           requiresCharging: false,
           requiresStorageNotLow: false,
           requiresDeviceIdle: false,
+          startOnBoot: true,
           requiredNetworkType: NetworkType.ANY), (String taskId) async {
-    await hiveInit();
     notificationInit();
     final listInbox = await InboxService().getListInbox();
     await createReminder(listInbox);
