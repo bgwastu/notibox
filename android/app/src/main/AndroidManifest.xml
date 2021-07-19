@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.atticdev.notibox">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="Notibox"
