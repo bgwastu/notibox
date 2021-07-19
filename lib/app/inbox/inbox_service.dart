@@ -19,8 +19,10 @@ class InboxService {
   }
 
   void refreshCredentials() {
-    token = (SettingsRepository.getToken() ?? '') as String;
-    databaseId = (SettingsRepository.getDatabaseId() ?? '') as String;
+    if (token != 'debug' || databaseId != 'debug') {
+      token = (SettingsRepository.getToken() ?? '') as String;
+      databaseId = (SettingsRepository.getDatabaseId() ?? '') as String;
+    }
   }
 
   Future<List<Database>> getListDatabase() async {
