@@ -122,8 +122,12 @@ class UpdateInboxDialog extends AlertDialog {
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Shimmer.fromColors(
-                baseColor:Get.isDarkMode ?  Colors.grey.shade600 : Colors.grey.shade400,
-                highlightColor: Get.isDarkMode ? Colors.grey.shade500 : Colors.grey.shade400,
+                baseColor: Get.isDarkMode
+                    ? Colors.grey.shade600
+                    : Colors.grey.shade200,
+                highlightColor: Get.isDarkMode
+                    ? Colors.grey.shade500
+                    : Colors.grey.shade300,
                 child: Wrap(
                   spacing: 4,
                   children: List<Widget>.generate(5, (int index) {
