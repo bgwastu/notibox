@@ -110,9 +110,10 @@ class HomeController extends GetxController {
   Future<void> feedbackButton() async {
     EasyLoading.show();
     try {
-      await launch(githubIssueUrl);
+      await launch('mailto:atticdeveloper@gmail.com');
     } finally {
       EasyLoading.dismiss();
+      EasyLoading.showError("You don't have email client");
     }
   }
 }

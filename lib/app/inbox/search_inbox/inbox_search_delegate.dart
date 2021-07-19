@@ -75,7 +75,7 @@ class InboxSearchDelegate extends SearchDelegate {
               SizedBox(
                 width: 200,
                 child: Text(
-                  '$query is not found in your Inbox List',
+                  '$query is not found in your inbox list',
                   style: Theme.of(context).textTheme.bodyText2,
                   textAlign: TextAlign.center,
                 ),
