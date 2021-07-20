@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:notibox/app/inbox/feedback/feedback_dialog.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/search_inbox/inbox_search_delegate.dart';
 import 'package:notibox/routes/app_pages.dart';
@@ -39,7 +40,8 @@ class HomeView extends GetView<HomeController> {
                 if (index == 1) {
                   Get.toNamed(Routes.settings);
                 } else {
-                  controller.feedbackButton();
+                  Get.dialog(FeedbackDialog());
+                  
                 }
               },
               icon: const Icon(Icons.more_vert))

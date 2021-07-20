@@ -29,6 +29,9 @@ Future<void> main() async {
     appRunner: () => runApp(
       GetMaterialApp(
         title: 'Notibox',
+        navigatorObservers: [
+          SentryNavigatorObserver(),
+        ],
         initialRoute: AppPages.initial,
         getPages: AppPages.routes,
         theme: lightTheme,
@@ -39,7 +42,6 @@ Future<void> main() async {
             : SettingsRepository.isDarkMode()! as bool
                 ? ThemeMode.dark
                 : ThemeMode.light,
-        debugShowCheckedModeBanner: false,
         enableLog: true,
       ),
     ),
