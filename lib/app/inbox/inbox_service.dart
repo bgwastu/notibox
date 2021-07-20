@@ -69,7 +69,7 @@ class InboxService {
 
     try {
       final cacheOptions = CacheOptions(
-        store: token! == 'debug' ? MemCacheStore() : HiveCacheStore(null),
+        store: token! == 'test' ? MemCacheStore() : HiveCacheStore(null),
         policy: CachePolicy.refresh,
         hitCacheOnErrorExcept: [401, 403],
         maxStale: const Duration(days: 7),

@@ -20,7 +20,7 @@ void main() {
 
   test('getListDatabase', () async {
     dioAdapter.onGet(
-      '${baseUrl}databases',
+      'databases',
       (request) => request.reply(200, getListDatabaseResponse),
       headers: {
         'Authorization': 'Bearer $token',
@@ -33,7 +33,7 @@ void main() {
 
   test('getListLabel', () async {
     dioAdapter.onGet(
-      '${baseUrl}databases/$databaseId',
+      'databases/$databaseId',
       (request) => request.reply(200, getDatabaseResponse),
       headers: {
         'Authorization': 'Bearer $token',
@@ -46,7 +46,7 @@ void main() {
   });
 
   test('getListInbox', () async {
-    dioAdapter.onPost('$baseUrl${'databases/$databaseId/query'}',
+    dioAdapter.onPost('databases/$databaseId/query',
         (request) => request.reply(200, getListInboxResponse),
         headers: {
           'Authorization': 'Bearer $token',
@@ -60,7 +60,7 @@ void main() {
   });
 
   test('getListSuggestion', () async {
-    dioAdapter.onPost('$baseUrl${'databases/$databaseId/query'}',
+    dioAdapter.onPost('databases/$databaseId/query',
         (request) => request.reply(200, getListInboxResponse),
         headers: {
           'Authorization': 'Bearer $token',
