@@ -1,16 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:notibox/app/inbox/create_inbox/create_inbox_dialog.dart';
+import 'package:notibox/app/inbox/create_inbox/create_inbox_page.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/app/inbox/view_inbox/view_inbox_dialog.dart';
 import 'package:notibox/services/notification_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   final _notionProvider = Get.put(InboxService());
@@ -18,6 +16,7 @@ class HomeController extends GetxController {
   Rx<String> errorMessage = ''.obs;
   Rx<bool> init = true.obs;
   Rx<bool> isOffline = false.obs;
+  Rx<int> selectedIndex = 0.obs;
   late StreamSubscription<InternetConnectionStatus> internetCheck;
   final indicator = GlobalKey<RefreshIndicatorState>();
 
@@ -52,7 +51,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> createInbox() async {
-    final res = await Get.dialog(CreateInboxDialog());
+    final res = await Get.to(() => const CreateInboxPage());
 
     // Append the new inbox
     if (res != null) {
@@ -61,22 +60,22 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> viewInbox(Inbox inbox, int index) async {
-    final res = await Get.dialog(ViewInboxDialog(inbox));
+  void updateInbox(Inbox inbox) {
+    final index = selectedIndex.value;
+    final pageId = listInbox.value[index].pageId;
+    inbox.pageId = pageId;
+    listInbox.value.replaceRange(index, index + 1, [inbox]);
+    Get.forceAppUpdate();
+  }
 
-    // Update current inbox only
-    if (res != null) {
-      // Status check
-      if (res['status'] == 'update') {
-        final pageId = listInbox.value[index].pageId;
-        (res['data'] as Inbox).pageId = pageId;
-        listInbox.value.replaceRange(index, index + 1, [res['data'] as Inbox]);
-        Get.forceAppUpdate();
-      } else if (res['status'] == 'delete') {
-        listInbox.value.removeAt(index);
-        Get.forceAppUpdate();
-      }
-    }
+  void deleteInbox(int index) {
+    listInbox.value.removeAt(index);
+    Get.forceAppUpdate();
+  }
+
+  Future<void> viewInbox(Inbox inbox, int index) async {
+    Get.dialog(ViewInboxDialog(inbox));
+    selectedIndex.value = index;
   }
 
   Future<void> manualRefresh() async {
@@ -111,6 +110,5 @@ class HomeController extends GetxController {
     //   EasyLoading.dismiss();
     //   EasyLoading.showError("You don't have email client");
     // }
-    
   }
 }

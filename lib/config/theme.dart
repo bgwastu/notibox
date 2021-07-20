@@ -12,6 +12,7 @@ final lightTheme = ThemeData(
     brightness: Brightness.dark,
     color: primaryColor.shade800,
   ),
+  textButtonTheme: TextButtonThemeData(style: ButtonStyle(textStyle: MaterialStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)))),
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
   ),
@@ -24,6 +25,7 @@ final darkTheme = ThemeData(
     secondary: secondaryColor,
     secondaryVariant: secondaryColor,
   ),
+  textButtonTheme: TextButtonThemeData(style: ButtonStyle(textStyle: MaterialStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)))),
   accentColor: secondaryColor,
   errorColor: Colors.red.shade400,
   inputDecorationTheme: const InputDecorationTheme(

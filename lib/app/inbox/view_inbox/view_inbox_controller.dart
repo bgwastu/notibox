@@ -3,17 +3,14 @@ import 'package:get/get.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
-import 'package:notibox/app/inbox/update_inbox/update_inbox_dialog.dart';
+import 'package:notibox/app/inbox/update_inbox/update_inbox_page.dart';
 
 class ViewInboxController extends GetxController {
   final _notionProvider = Get.put(InboxService());
 
-  Future<void> updateInbox(Inbox inbox) async {
-    final res = await Get.dialog(UpdateInboxDialog(inbox));
-    // if updated then return true (refresh)
-    if (res != null) {
-      Get.back(result: {'data': res, 'status': 'update'});
-    }
+  void updateInbox(Inbox inbox) {
+    Get.back();
+    Get.to(() => UpdateInboxPage(inbox: inbox));
   }
 
   Future<void> deleteInbox(Inbox inbox) async {

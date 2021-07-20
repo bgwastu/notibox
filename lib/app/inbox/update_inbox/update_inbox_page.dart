@@ -8,10 +8,9 @@ import 'package:notibox/utils/ui_helpers.dart';
 import 'package:notibox/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-class UpdateInboxDialog extends AlertDialog {
+class UpdateInboxPage extends StatelessWidget {
   final Inbox inbox;
-
-  const UpdateInboxDialog(this.inbox);
+  const UpdateInboxPage({Key? key, required this.inbox}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,67 +18,71 @@ class UpdateInboxDialog extends AlertDialog {
     controller.currentInbox = inbox;
 
     return WillPopScope(
-      onWillPop: () async {
-        if (controller.isDraft()) {
-          final res = await Get.dialog(
-              AlertDialog(
-                title: const Text('Are you sure?'),
-                content: const Text('Your current progress will be removed.'),
-                actions: [
-                  TextButton(
-                      onPressed: () => Get.back(result: false),
-                      child: Text('Cancel'.toUpperCase())),
-                  TextButton(
-                      onPressed: () {
-                        Get.back(result: true);
-                      },
-                      child: Text('Discard'.toUpperCase())),
-                ],
-              ),
-              barrierDismissible: false);
-          return res as bool;
-        }
-
-        return true;
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: AlertDialog(
-          insetPadding: const EdgeInsets.all(8.0),
-          title: const Text('Update Inbox'),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              child: Form(
-                key: controller.formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _title(controller),
-                    verticalSpaceSmall,
-                    _description(controller),
-                    verticalSpaceSmall,
-                    _reminder(controller),
-                    verticalSpaceSmall,
-                    _label(controller),
+        onWillPop: () async {
+          if (controller.isDraft()) {
+            final res = await Get.dialog(
+                AlertDialog(
+                  title: const Text('Are you sure?'),
+                  content: const Text('Your current progress will be removed.'),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Get.back(result: false),
+                        child: Text('Cancel'.toUpperCase())),
+                    TextButton(
+                        onPressed: () {
+                          Get.back(result: true);
+                        },
+                        child: Text('Discard'.toUpperCase())),
                   ],
                 ),
+                barrierDismissible: false);
+            return res as bool;
+          }
+
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Edit Inbox'),
+            leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).maybePop(),
+            ),
+            actions: [_updateInbox(controller)],
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+              key: controller.formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  verticalSpaceSmall,
+                  _title(controller),
+                  verticalSpaceSmall,
+                  _description(controller),
+                  verticalSpaceSmall,
+                  _reminder(controller),
+                  verticalSpaceSmall,
+                  _label(controller),
+                ],
               ),
             ),
           ),
-          actions: [
-            _updateInbox(controller),
-          ],
-        ),
-      ),
-    );
+        ));
   }
 
-  Obx _updateInbox(UpdateInboxController controller) {
-    return Obx(() => TextButton(
-        onPressed: !controller.isReady.value ? null : controller.updateInbox,
-        child: Text('Update Inbox'.toUpperCase())));
+  Widget _updateInbox(UpdateInboxController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: Obx(() => TextButton(
+          onPressed: !controller.isReady.value ? null : controller.updateInbox,
+          child: Text(
+            'Edit'.toUpperCase(),
+            style: Get.textTheme.button!.copyWith(color: Colors.white),
+          ))),
+    );
   }
 
   FutureBuilder<List<Select>> _label(UpdateInboxController controller) {
@@ -148,8 +151,8 @@ class UpdateInboxDialog extends AlertDialog {
     return DateTimeField(
       controller: controller.reminderController,
       format: DateFormat.yMMMd().add_jm(),
-      decoration:
-          const InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
+      decoration: const InputDecoration(
+          labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
@@ -176,7 +179,7 @@ class UpdateInboxDialog extends AlertDialog {
       decoration: const InputDecoration(
         labelText: 'Description',
       ),
-      minLines: 1,
+      minLines: 3,
       maxLines: null,
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:notibox/app/inbox/home_inbox/home_controller.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
@@ -9,6 +10,7 @@ import 'package:notibox/utils/ui_helpers.dart';
 
 class UpdateInboxController extends GetxController {
   final _notionProvider = Get.put(InboxService());
+  final _homeController = Get.find<HomeController>();
   Rx<bool> isReady = false.obs;
   Select? selectedLabel;
   DateTime? reminder;
@@ -76,7 +78,10 @@ class UpdateInboxController extends GetxController {
         await _notionProvider.updateInbox(
             inbox: inbox, pageId: currentInbox.pageId!);
         EasyLoading.dismiss();
-        Get.back(result: inbox);
+        
+        _homeController.updateInbox(inbox);
+        Get.back();
+
       } on HomeException catch (e) {
         await EasyLoading.dismiss();
         EasyLoading.showError(e.message);

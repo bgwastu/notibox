@@ -8,7 +8,8 @@ import 'package:notibox/utils/ui_helpers.dart';
 import 'package:notibox/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CreateInboxDialog extends AlertDialog {
+class CreateInboxPage extends StatelessWidget {
+  const CreateInboxPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CreateInboxController());
@@ -36,44 +37,48 @@ class CreateInboxDialog extends AlertDialog {
 
         return true;
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: AlertDialog(
-          insetPadding: const EdgeInsets.all(8.0),
+      child: Scaffold(
+        appBar: AppBar(
           title: const Text('Create Inbox'),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              child: Form(
-                key: controller.formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _title(controller),
-                    verticalSpaceSmall,
-                    _description(controller),
-                    verticalSpaceSmall,
-                    _reminder(controller),
-                    verticalSpaceSmall,
-                    _label(controller),
-                  ],
-                ),
-              ),
+          leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.maybePop(context)),
+          actions: [_saveButton(controller)],
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                verticalSpaceSmall,
+                _title(controller),
+                verticalSpaceSmall,
+                _description(controller),
+                verticalSpaceSmall,
+                _reminder(controller),
+                verticalSpaceSmall,
+                _label(controller),
+              ],
             ),
           ),
-          actions: [
-            _saveButton(controller),
-          ],
         ),
       ),
     );
   }
 
-  Obx _saveButton(CreateInboxController controller) {
-    return Obx(() => TextButton(
-        onPressed: !controller.isReady.value ? null : controller.saveInbox,
-        child: Text('Save Inbox'.toUpperCase())));
+  Widget _saveButton(CreateInboxController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: Obx(() => TextButton(
+          onPressed: !controller.isReady.value ? null : controller.saveInbox,
+          child: Text(
+            'Save'.toUpperCase(),
+            style: Get.textTheme.button!.copyWith(color: Colors.white),
+          ))),
+    );
   }
 
   FutureBuilder<List<Select>> _label(CreateInboxController controller) {
@@ -141,8 +146,8 @@ class CreateInboxDialog extends AlertDialog {
   DateTimeField _reminder(CreateInboxController controller) {
     return DateTimeField(
       format: DateFormat.yMMMd().add_jm(),
-      decoration:
-          const InputDecoration(labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
+      decoration: const InputDecoration(
+          labelText: 'Reminder', prefixIcon: Icon(Icons.alarm)),
       onShowPicker: (context, currentValue) async {
         final date = await showDatePicker(
             context: context,
@@ -169,7 +174,7 @@ class CreateInboxDialog extends AlertDialog {
       decoration: const InputDecoration(
         labelText: 'Description',
       ),
-      minLines: 1,
+      minLines: 3,
       maxLines: null,
     );
   }
