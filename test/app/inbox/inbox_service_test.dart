@@ -9,8 +9,8 @@ import '../../test_constants.dart';
 void main() {
   
   // DO NOT CHANGE THIS
-  const token = 'debug';
-  const databaseId = 'debug';
+  const token = 'test';
+  const databaseId = 'test';
 
   final dio = Dio();
   final dioAdapter = DioAdapter();

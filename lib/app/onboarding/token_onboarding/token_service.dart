@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/config/constants.dart';
+import 'package:notibox/config/error_interceptor.dart';
 
 class TokenService {
-  final _dio = Get.put(Dio());
+  final _dio = Get.put(Dio()..interceptors.add(ErrorInterceptor()));
 
   Future<bool> checkToken(String token) async {
     try {
@@ -19,7 +21,7 @@ class TokenService {
           return false;
         }
       }
-      rethrow;
+      throw HomeException.fromDioError(e);
     }
   }
 }

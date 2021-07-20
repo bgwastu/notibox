@@ -1,0 +1,23 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Notibox",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--dart-define",
+        "SENTRY_DSN=https://116fda87deea47e5b8a202bc1d7472fa@o921745.ingest.sentry.io/5868431"
+      ]
+    },
+    {
+      "name": "Notibox (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    }
+  ]
+}

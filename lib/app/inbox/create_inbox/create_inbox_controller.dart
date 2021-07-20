@@ -1,11 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/utils/ui_helpers.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 class CreateInboxController extends GetxController {
   final _notionProvider = Get.put(InboxService());
@@ -53,10 +52,9 @@ class CreateInboxController extends GetxController {
         await _notionProvider.createInbox(inbox: inbox);
         EasyLoading.dismiss();
         Get.back(result: inbox);
-      } on DioError catch (e) {
+      } on HomeException catch (e) {
         await EasyLoading.dismiss();
-        await Sentry.captureException(e, stackTrace: e.stackTrace);
-        EasyLoading.showError('An error has occurred');
+        EasyLoading.showError(e.message);
       }
     }
   }

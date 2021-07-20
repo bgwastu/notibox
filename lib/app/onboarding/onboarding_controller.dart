@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/app/onboarding/token_onboarding/token_service.dart';
 import 'package:notibox/app/settings/settings_repository.dart';
 import 'package:notibox/config/constants.dart';
 import 'package:notibox/routes/app_pages.dart';
 import 'package:notibox/utils/ui_helpers.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OnboardingController extends GetxController {
@@ -39,10 +39,9 @@ class OnboardingController extends GetxController {
       } else if (listDatabase.isEmpty) {
         EasyLoading.showError('Database not found', dismissOnTap: true);
       }
-    } catch (e) {
-      await Sentry.captureException(e);
-      EasyLoading.showError('Error has been occurred');
-      rethrow;
+    } on HomeException catch (e) {
+      await EasyLoading.dismiss();
+      EasyLoading.showError(e.message);
     }
   }
 
@@ -76,9 +75,8 @@ class OnboardingController extends GetxController {
           EasyLoading.showError('Token is not valid');
           return;
         }
-      } catch (e) {
-        await Sentry.captureException(e);
-        EasyLoading.showError('Error has occurred');
+      } on HomeException catch (e) {
+        EasyLoading.showError(e.message);
       }
 
       // Save token
@@ -94,7 +92,6 @@ class OnboardingController extends GetxController {
     try {
       await launch(databaseTemplateUrl);
     } catch (e) {
-      await Sentry.captureException(e);
       EasyLoading.showError('Could not launch URL');
     } finally {
       EasyLoading.dismiss();
