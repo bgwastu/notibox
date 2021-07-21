@@ -82,7 +82,6 @@ class HomeView extends GetView<HomeController> {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: controller.listInbox.value.length,
-      padding: const EdgeInsets.only(top: 8),
       itemBuilder: (BuildContext context, int index) {
         final inbox = controller.listInbox.value[index];
         return _listItem(inbox, context, index);
@@ -92,6 +91,7 @@ class HomeView extends GetView<HomeController> {
 
   Card _listItem(Inbox inbox, BuildContext context, int index) {
     return Card(
+      margin: const EdgeInsets.fromLTRB(4, 4, 4, 0),
         child: InkWell(
       onTap: () =>
           inbox.pageId == null ? null : controller.viewInbox(inbox, index),
@@ -131,14 +131,18 @@ class HomeView extends GetView<HomeController> {
             else
               Container(),
             Text(inbox.title, style: Theme.of(context).textTheme.headline6),
-            verticalSpaceSmall,
-            if (inbox.description != null)
-              Text(
-                inbox.description!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(height: 1.3),
+            if (!inbox.description!.isBlank!)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  inbox.description!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(height: 1.3),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               )
             else
               Container(),
