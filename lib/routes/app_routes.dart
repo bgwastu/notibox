@@ -8,6 +8,8 @@ abstract class Routes {
   static const onboarding = _Paths.onboarding;
   static const splash = _Paths.splash;
   static const settings = _Paths.settings;
+  static const updateInbox = _Paths.updateInbox;
+  static const createInbox = _Paths.createInbox;
 }
 
 abstract class _Paths {
@@ -15,4 +17,6 @@ abstract class _Paths {
   static const onboarding = '/onboarding';
   static const splash = '/splash';
   static const settings = '/settings';
+  static const createInbox = '/create-inbox';
+  static const updateInbox = '/update-inbox';
 }

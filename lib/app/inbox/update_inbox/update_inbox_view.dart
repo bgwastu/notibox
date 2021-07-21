@@ -8,14 +8,9 @@ import 'package:notibox/utils/ui_helpers.dart';
 import 'package:notibox/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-class UpdateInboxPage extends StatelessWidget {
-  final Inbox inbox;
-  const UpdateInboxPage({Key? key, required this.inbox}) : super(key: key);
-
+class UpdateInboxView extends GetView<UpdateInboxController> {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UpdateInboxController());
-    controller.currentInbox = inbox;
 
     return WillPopScope(
         onWillPop: () async {
@@ -157,7 +152,7 @@ class UpdateInboxPage extends StatelessWidget {
         final date = await showDatePicker(
             context: context,
             firstDate: DateTime.now(),
-            initialDate: inbox.reminder ?? DateTime.now(),
+            initialDate: controller.reminder ?? DateTime.now(),
             lastDate: DateTime(2100));
         if (date != null) {
           final time = await showTimePicker(

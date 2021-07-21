@@ -120,7 +120,6 @@ class InboxService {
 
   Future<void> deleteInbox({required String pageId}) async {
     refreshCredentials();
-
     try {
       await dio!.patch('pages/$pageId', data: {'archived': true});
     } on DioError catch (e) {

@@ -8,11 +8,9 @@ import 'package:notibox/utils/ui_helpers.dart';
 import 'package:notibox/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CreateInboxPage extends StatelessWidget {
-  const CreateInboxPage({Key? key}) : super(key: key);
+class CreateInboxView extends GetView<CreateInboxController> {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CreateInboxController());
     return WillPopScope(
       onWillPop: () async {
         if (controller.isDraft()) {

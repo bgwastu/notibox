@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:notibox/app/inbox/create_inbox/create_inbox_page.dart';
+import 'package:notibox/app/inbox/create_inbox/create_inbox_view.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/app/inbox/view_inbox/view_inbox_dialog.dart';
+import 'package:notibox/routes/app_pages.dart';
 import 'package:notibox/services/notification_service.dart';
 
 class HomeController extends GetxController {
@@ -16,9 +17,11 @@ class HomeController extends GetxController {
   Rx<String> errorMessage = ''.obs;
   Rx<bool> init = true.obs;
   Rx<bool> isOffline = false.obs;
-  Rx<int> selectedIndex = 0.obs;
   late StreamSubscription<InternetConnectionStatus> internetCheck;
   final indicator = GlobalKey<RefreshIndicatorState>();
+
+  Rx<int> selectedIndex = 0.obs;
+  late Rx<Inbox> selectedInbox;
 
   @override
   void onInit() {
@@ -51,7 +54,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> createInbox() async {
-    final res = await Get.to(() => const CreateInboxPage());
+    final res = await Get.toNamed(Routes.createInbox);
 
     // Append the new inbox
     if (res != null) {
@@ -68,14 +71,15 @@ class HomeController extends GetxController {
     Get.forceAppUpdate();
   }
 
-  void deleteInbox(int index) {
-    listInbox.value.removeAt(index);
+  void deleteInbox() {
+    listInbox.value.removeAt(selectedIndex.value);
     Get.forceAppUpdate();
   }
 
   Future<void> viewInbox(Inbox inbox, int index) async {
-    Get.dialog(ViewInboxDialog(inbox));
     selectedIndex.value = index;
+    selectedInbox = inbox.obs;
+    Get.dialog(ViewInboxDialog(inbox));
   }
 
   Future<void> manualRefresh() async {

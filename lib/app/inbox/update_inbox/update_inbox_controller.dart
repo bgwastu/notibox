@@ -14,17 +14,17 @@ class UpdateInboxController extends GetxController {
   Rx<bool> isReady = false.obs;
   Select? selectedLabel;
   DateTime? reminder;
-  late Inbox currentInbox;
-
   RxInt chipIndex = 0.obs;
+  late Inbox currentInbox;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final reminderController = TextEditingController();
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
+    currentInbox = _homeController.selectedInbox.value;
     titleController.text = currentInbox.title;
     descriptionController.text = currentInbox.description ?? '';
 

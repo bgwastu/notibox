@@ -14,7 +14,6 @@ import 'home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.inbox),
