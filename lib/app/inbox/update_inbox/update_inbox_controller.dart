@@ -9,7 +9,7 @@ import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/utils/ui_helpers.dart';
 
 class UpdateInboxController extends GetxController {
-  final _notionProvider = Get.put(InboxService());
+  final _notionService = Get.put(InboxService());
   final _homeController = Get.find<HomeController>();
   Rx<bool> isReady = false.obs;
   Select? selectedLabel;
@@ -38,7 +38,7 @@ class UpdateInboxController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   Future<List<Select>> getListLabel() async {
-    final listLabel = await _notionProvider.getListLabel();
+    final listLabel = await _notionService.getListLabel();
     final listName = listLabel.map((e) => e.name).toList();
 
     // add into current form
@@ -75,7 +75,7 @@ class UpdateInboxController extends GetxController {
           label: selectedLabel,
           reminder: reminder,
         );
-        await _notionProvider.updateInbox(
+        await _notionService.updateInbox(
             inbox: inbox, pageId: currentInbox.pageId!);
         EasyLoading.dismiss();
         

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:notibox/app/inbox/create_inbox/create_inbox_view.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
@@ -59,7 +58,7 @@ class HomeController extends GetxController {
     // Append the new inbox
     if (res != null) {
       listInbox.value = [res as Inbox, ...listInbox.value];
-      manualRefresh();
+      getListInbox();
     }
   }
 
