@@ -38,9 +38,6 @@ class CreateInboxView extends GetView<CreateInboxController> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Create Inbox'),
-          leading: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => Navigator.maybePop(context)),
           actions: [_saveButton(controller)],
         ),
         body: SingleChildScrollView(

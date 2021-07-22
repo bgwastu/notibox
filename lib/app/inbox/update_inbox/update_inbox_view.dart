@@ -39,10 +39,6 @@ class UpdateInboxView extends GetView<UpdateInboxController> {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Edit Inbox'),
-            leading: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => Navigator.of(context).maybePop(),
-            ),
             actions: [_updateInbox(controller)],
           ),
           body: SingleChildScrollView(
