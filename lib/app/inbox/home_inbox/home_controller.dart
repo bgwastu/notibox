@@ -10,12 +10,14 @@ import 'package:notibox/app/inbox/view_inbox/view_inbox_dialog.dart';
 import 'package:notibox/routes/app_pages.dart';
 import 'package:notibox/services/notification_service.dart';
 
+enum HomeState { Initial, NoInternet, Error, Empty, Loaded }
+
 class HomeController extends GetxController {
   final _notionProvider = Get.put(InboxService());
+  Rx<HomeState> homeState = HomeState.Initial.obs;
+
   Rx<List<Inbox>> listInbox = Rx([]);
   Rx<String> errorMessage = ''.obs;
-  Rx<bool> init = true.obs;
-  Rx<bool> isOffline = false.obs;
   late StreamSubscription<InternetConnectionStatus> internetCheck;
   final indicator = GlobalKey<RefreshIndicatorState>();
 
@@ -25,17 +27,23 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    homeState.value = HomeState.Initial;
     internetCheck = InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
-          isOffline.value = false;
-          manualRefresh();
+          getListInbox();
           break;
         case InternetConnectionStatus.disconnected:
-          isOffline.value = true;
+          homeState.value = HomeState.NoInternet;
           break;
       }
     });
+  }
+
+  bool isReady() {
+    return homeState.value != HomeState.Initial &&
+        homeState.value != HomeState.Error &&
+        homeState.value != HomeState.NoInternet;
   }
 
   @override
@@ -43,7 +51,6 @@ class HomeController extends GetxController {
     super.onReady();
     indicator.currentState!.show();
     await getListInbox();
-    init.value = false;
   }
 
   @override
@@ -81,26 +88,27 @@ class HomeController extends GetxController {
     Get.dialog(ViewInboxDialog(inbox));
   }
 
-  Future<void> manualRefresh() async {
-    indicator.currentState!.show();
-    await getListInbox();
-  }
-
-  bool isError() {
-    return errorMessage.value != '';
-  }
-
-  bool isEmpty() {
-    return listInbox.value.isEmpty;
-  }
-
   Future<void> getListInbox() async {
     try {
-      listInbox.value = await _notionProvider.getListInbox();
-      // Add reminder
-      await createReminder(listInbox.value);
-      errorMessage.value = '';
+      // Function only works when internet was available
+      final hasConnection = await InternetConnectionChecker().hasConnection;
+      if (hasConnection) {
+        listInbox.value = await _notionProvider.getListInbox();
+
+        // Add reminder
+        await createReminder(listInbox.value);
+
+        // State
+        if (listInbox.value.isEmpty) {
+          homeState.value = HomeState.Empty;
+        } else {
+          homeState.value = HomeState.Loaded;
+        }
+      } else {
+        homeState.value = HomeState.NoInternet;
+      }
     } on HomeException catch (e) {
+      homeState.value = HomeState.Error;
       errorMessage.value = e.message;
     }
   }

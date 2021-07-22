@@ -40,40 +40,50 @@ class HomeView extends GetView<HomeController> {
                   Get.toNamed(Routes.settings);
                 } else {
                   Get.dialog(FeedbackDialog());
-                  
                 }
               },
               icon: const Icon(Icons.more_vert))
         ],
       ),
       floatingActionButton: Obx(() => Visibility(
-            visible: !controller.init.value &&
-                !controller.isError() &&
-                !controller.isOffline.value,
+            visible: controller.isReady(),
             child: FloatingActionButton.extended(
               label: Text('Create'.toUpperCase()),
               icon: const Icon(Icons.add),
               onPressed: controller.createInbox,
             ),
           )),
-      body: Obx(() => RefreshIndicator(
-            key: controller.indicator,
-            onRefresh: controller.getListInbox,
-            child: controller.init.value
-                ? Container()
-                : controller.isError()
-                    ? _errorState(controller, context)
-                    : Column(
-                        children: [
-                          if (controller.isOffline.value) _noInternetBanner(),
-                          Expanded(
-                            child: controller.isEmpty()
-                                ? _emptyState(controller, context)
-                                : _listInbox(controller),
-                          ),
-                        ],
-                      ),
-          )),
+      body: RefreshIndicator(
+        key: controller.indicator,
+        onRefresh: controller.getListInbox,
+        child: Obx(() {
+
+          if (controller.homeState.value == HomeState.Initial) {
+            return SizedBox();
+          }
+
+          if (controller.homeState.value == HomeState.Error) {
+            return _errorState(controller, context);
+          }
+
+          return Obx(() =>
+            Column(
+              children: [
+                if (controller.homeState.value == HomeState.NoInternet)
+                  _noInternetBanner(),
+                Expanded(
+                  child: Obx(() {
+                    if (controller.homeState.value == HomeState.Empty) {
+                      return _emptyState(controller, context);
+                    }
+                    return _listInbox(controller);
+                  }),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 
@@ -90,65 +100,63 @@ class HomeView extends GetView<HomeController> {
 
   Card _listItem(Inbox inbox, BuildContext context, int index) {
     return Card(
-      margin: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+        margin: const EdgeInsets.fromLTRB(4, 4, 4, 0),
         child: InkWell(
-      onTap: () =>
-          inbox.pageId == null ? null : controller.viewInbox(inbox, index),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (inbox.reminder != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.notifications,
-                      size: 18,
-                      color: inbox.reminder!.isBefore(DateTime.now())
-                          ? Theme.of(context).errorColor
-                          : null,
+          onTap: () =>
+              inbox.pageId == null ? null : controller.viewInbox(inbox, index),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (inbox.reminder != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.notifications,
+                          size: 18,
+                          color: inbox.reminder!.isBefore(DateTime.now())
+                              ? Theme.of(context).errorColor
+                              : null,
+                        ),
+                        horizontalSpaceTiny,
+                        Text(
+                          DateFormat.yMMMd()
+                              .add_jm()
+                              .format(inbox.reminder!)
+                              .toUpperCase(),
+                          style: inbox.reminder!.isBefore(DateTime.now())
+                              ? Theme.of(context).textTheme.subtitle2?.copyWith(
+                                  color: Theme.of(context).errorColor)
+                              : Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ],
                     ),
-                    horizontalSpaceTiny,
-                    Text(
-                      DateFormat.yMMMd()
-                          .add_jm()
-                          .format(inbox.reminder!)
-                          .toUpperCase(),
-                      style: inbox.reminder!.isBefore(DateTime.now())
-                          ? Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(color: Theme.of(context).errorColor)
-                          : Theme.of(context).textTheme.subtitle2,
+                  )
+                else
+                  Container(),
+                Text(inbox.title, style: Theme.of(context).textTheme.headline6),
+                if (!inbox.description!.isBlank!)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      inbox.description!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(height: 1.3),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
-              )
-            else
-              Container(),
-            Text(inbox.title, style: Theme.of(context).textTheme.headline6),
-            if (!inbox.description!.isBlank!)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  inbox.description!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(height: 1.3),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            else
-              Container(),
-          ],
-        ),
-      ),
-    ));
+                  )
+                else
+                  Container(),
+              ],
+            ),
+          ),
+        ));
   }
 
   Material _noInternetBanner() {
