@@ -17,12 +17,12 @@ class InboxService {
 
   InboxService({this.dio, this.token, this.databaseId}) {
     refreshCredentials();
-    dio ??= Get.put(Dio()
+    dio ??= Dio()
       ..options = BaseOptions(headers: {
         'Authorization': 'Bearer ${token!}',
         'Notion-Version': notionVersion
       }, baseUrl: baseUrl)
-      ..interceptors.add(ErrorInterceptor()));
+      ..interceptors.add(ErrorInterceptor());
   }
 
   void refreshCredentials() {
@@ -30,6 +30,13 @@ class InboxService {
       token = (SettingsRepository.getToken() ?? '') as String;
       databaseId = (SettingsRepository.getDatabaseId() ?? '') as String;
     }
+
+    dio = Dio()
+      ..options = BaseOptions(headers: {
+        'Authorization': 'Bearer ${token!}',
+        'Notion-Version': notionVersion
+      }, baseUrl: baseUrl)
+      ..interceptors.add(ErrorInterceptor());
   }
 
   Future<List<Database>> getListDatabase() async {
