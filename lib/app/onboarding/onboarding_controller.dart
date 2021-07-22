@@ -14,7 +14,7 @@ class OnboardingController extends GetxController {
   final _authService = Get.put(TokenService());
   final _notionProvider = Get.put(InboxService());
 
-  final index = Rx<int>(0);
+  final isTokenValid = false.obs;
   final tokenController = TextEditingController();
   final tokenFormKey = GlobalKey<FormState>();
   final databaseController = TextEditingController();
@@ -83,7 +83,7 @@ class OnboardingController extends GetxController {
       SettingsRepository.setToken(tokenController.text);
 
       await EasyLoading.dismiss();
-      index.value++;
+      isTokenValid.value = true;
     }
   }
 
