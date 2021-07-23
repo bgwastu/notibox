@@ -18,6 +18,7 @@ class UpdateInboxController extends GetxController {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final reminderController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   UpdateInboxController(this.currentInbox) {
     titleController.text = currentInbox.title;
@@ -29,8 +30,6 @@ class UpdateInboxController extends GetxController {
       reminder = currentInbox.reminder;
     }
   }
-
-  final formKey = GlobalKey<FormState>();
 
   Future<List<Select>> getListLabel() async {
     final listLabel = await _notionService.getListLabel();
@@ -74,6 +73,7 @@ class UpdateInboxController extends GetxController {
       try {
         EasyLoading.show();
         final inbox = Inbox(
+          pageId: currentInbox.pageId,
           title: title,
           description: description,
           label: selectedLabel,
