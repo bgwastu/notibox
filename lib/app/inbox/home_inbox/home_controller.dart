@@ -37,12 +37,6 @@ class HomeController extends GetxController {
           break;
       }
     });
-
-    listInbox.listen((list) {
-      if (list.isEmpty) {
-        homeState.value = HomeState.empty;
-      }
-    });
   }
 
   bool isReady() {
@@ -67,18 +61,25 @@ class HomeController extends GetxController {
   Future<void> createInbox(Inbox inbox) async {
     // Append the new inbox
     listInbox.value = [inbox, ...listInbox.value];
+
+    // Update state
+    if (homeState.value == HomeState.empty) {
+      homeState.value = HomeState.loaded;
+    }
   }
 
   void updateInbox({required Inbox inbox, required int index}) {
     final pageId = listInbox.value[index].pageId;
     _notionService.updateInbox(inbox: inbox, pageId: pageId!);
-
     listInbox.value.replaceRange(index, index + 1, [inbox]);
     Get.forceAppUpdate();
   }
 
   void deleteInbox({required int index}) {
     listInbox.value.removeAt(index);
+    if (listInbox.value.isEmpty) {
+      homeState.value = HomeState.empty;
+    }
     Get.forceAppUpdate();
   }
 
@@ -87,11 +88,13 @@ class HomeController extends GetxController {
     selectedInbox = inbox;
     final res = await Navigator.of(Get.context!)
         .push(MaterialPageRoute(builder: (context) => ViewInboxPage(inbox)));
-    if (res == 'delete') {
-      deleteInbox(index: index);
-    }
+
     if (res != null) {
-      updateInbox(inbox: res as Inbox, index: index);
+      if (res == 'delete') {
+        deleteInbox(index: index);
+      } else {
+        updateInbox(inbox: res as Inbox, index: index);
+      }
     }
   }
 
