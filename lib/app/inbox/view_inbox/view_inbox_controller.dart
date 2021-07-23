@@ -10,8 +10,9 @@ class ViewInboxController extends GetxController {
   final _notionProvider = Get.put(InboxService());
 
   Future<void> updateInbox(Inbox inbox) async {
-    final res = await Navigator.push(Get.context!, MaterialPageRoute(builder: (context) => UpdateInboxView(inbox)));
-    if(res != null){
+    final res = await Navigator.push(Get.context!,
+        MaterialPageRoute(builder: (context) => UpdateInboxView(inbox)));
+    if (res != null) {
       Navigator.pop(Get.context!, res);
     }
   }

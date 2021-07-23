@@ -60,12 +60,16 @@ class Inbox {
 
     return Inbox(
       pageId: map['id'] as String,
-      title: listTitle.isNotEmpty ? listTitle[0]['plain_text'] as String : 'Untitled',
-      reminder:
-          DateTime.tryParse((properties['Reminder']?['date']?['start'] ?? '') as String)
-                  ?.toLocal(),
+      title: listTitle.isNotEmpty
+          ? listTitle[0]['plain_text'] as String
+          : 'Untitled',
+      reminder: DateTime.tryParse(
+              (properties['Reminder']?['date']?['start'] ?? '') as String)
+          ?.toLocal(),
       label: label,
-      description: description.isNotEmpty ? description[0]['plain_text'] as String : null,
+      description: description.isNotEmpty
+          ? description[0]['plain_text'] as String
+          : null,
     );
   }
 }
@@ -114,7 +118,8 @@ class Select {
         color = const Color(0xFFE6E6E4);
         break;
     }
-    return Select(id: map['id'] as String, name: map['name'] as String, color: color);
+    return Select(
+        id: map['id'] as String, name: map['name'] as String, color: color);
   }
 
   Map<String, dynamic> toMap() {

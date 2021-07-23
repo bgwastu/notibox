@@ -35,4 +35,3 @@ void setCurrentOverlay({required bool isDarkMode}) {
     statusBarBrightness: isDarkMode ? Brightness.light : Brightness.dark,
   ));
 }
-

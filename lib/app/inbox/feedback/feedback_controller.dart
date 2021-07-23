@@ -26,10 +26,7 @@ class FeedbackController extends GetxController {
       try {
         final id = await Sentry.captureMessage('Feedback');
         Sentry.captureUserFeedback(SentryUserFeedback(
-            name: name,
-            email: email,
-            comments: feedback,
-            eventId: id));
+            name: name, email: email, comments: feedback, eventId: id));
         await EasyLoading.dismiss();
         await EasyLoading.showSuccess('Your feedback has been sent');
         Navigator.pop(Get.context!);

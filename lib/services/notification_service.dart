@@ -6,7 +6,7 @@ Future<void> createReminder(List<Inbox> listInbox) async {
   AwesomeNotifications().cancelAllSchedules();
 
   // Create notification for each inbox (if has reminder)
-  for(final Inbox inbox in listInbox)  {
+  for (final Inbox inbox in listInbox) {
     if (inbox.reminder != null && inbox.reminder!.isAfter(DateTime.now())) {
       await AwesomeNotifications().createNotification(
           content: NotificationContent(

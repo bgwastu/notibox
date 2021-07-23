@@ -6,7 +6,7 @@ class InboxSearchController extends GetxController {
   final _notionProvider = Get.put(InboxService());
 
   RxString searchQuery = ''.obs;
-  
-  Future<List<Inbox>> getListSuggestion() => _notionProvider.getListSuggestion(searchQuery.value); 
 
+  Future<List<Inbox>> getListSuggestion() =>
+      _notionProvider.getListSuggestion(searchQuery.value);
 }

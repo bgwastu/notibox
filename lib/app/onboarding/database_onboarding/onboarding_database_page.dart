@@ -23,7 +23,8 @@ class OnboardingDatabasePage extends StatelessWidget {
                 children: [
                   AspectRatio(
                     aspectRatio: 2 / 1,
-                    child: SvgPicture.asset('assets/images/smartphone_data.svg'),
+                    child:
+                        SvgPicture.asset('assets/images/smartphone_data.svg'),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -58,8 +59,9 @@ class OnboardingDatabasePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                    onPressed: () => controller.isTokenValid.value = false,
-                    child: Text('Back'.toUpperCase()),),
+                  onPressed: () => controller.isTokenValid.value = false,
+                  child: Text('Back'.toUpperCase()),
+                ),
                 ElevatedButton(
                     onPressed: controller.databaseNext,
                     child: Text('Finish'.toUpperCase())),

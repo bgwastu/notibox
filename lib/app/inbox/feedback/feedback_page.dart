@@ -65,8 +65,9 @@ class FeedbackPage extends StatelessWidget {
   Widget _send(FeedbackController controller) {
     return TextButton(
       onPressed: controller.send,
-      child: Text('Send'.toUpperCase(),
-            style: Get.textTheme.button!.copyWith(color: Colors.white),
+      child: Text(
+        'Send'.toUpperCase(),
+        style: Get.textTheme.button!.copyWith(color: Colors.white),
       ),
     );
   }

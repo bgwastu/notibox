@@ -32,7 +32,8 @@ class OnboardingController extends GetxController {
 
       if (listDatabase.length == 1) {
         SettingsRepository.setDatabaseId(listDatabase.first.id);
-        Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context) => HomeView()));
+        Navigator.pushReplacement(
+            Get.context!, MaterialPageRoute(builder: (context) => HomeView()));
       } else if (listDatabase.length > 1) {
         EasyLoading.showError('Integration has detects more than one database',
             dismissOnTap: true);
