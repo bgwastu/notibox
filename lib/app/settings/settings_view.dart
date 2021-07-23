@@ -105,7 +105,7 @@ Widget alertDialog(String title, String currentValue) {
         TextButton(
             onPressed: () {
               if (key.currentState!.validate()) {
-                Get.back(result: result);
+                Navigator.pop(Get.context!, result);
               }
             },
             child: Text('Update'.toUpperCase()))

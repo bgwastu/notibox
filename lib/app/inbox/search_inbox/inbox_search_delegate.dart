@@ -120,7 +120,7 @@ class InboxSearchDelegate extends SearchDelegate {
     return Card(
         child: InkWell(
       onTap: () {
-        Get.back();
+        Navigator.pop(context);
         homeController.viewInbox(inbox, index);
       },
       child: Padding(

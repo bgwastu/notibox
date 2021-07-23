@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:notibox/app/inbox/create_inbox/create_inbox_view.dart';
-import 'package:notibox/app/inbox/feedback/feedback_dialog.dart';
+import 'package:notibox/app/inbox/feedback/feedback_page.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/search_inbox/inbox_search_delegate.dart';
 import 'package:notibox/app/settings/settings_view.dart';
@@ -46,7 +46,7 @@ class HomeView extends StatelessWidget {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => SettingsView()));
                 } else {
-                  Get.dialog(FeedbackDialog());
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackPage()));
                 }
               },
               icon: const Icon(Icons.more_vert))
@@ -90,22 +90,22 @@ class HomeView extends StatelessWidget {
         key: controller.indicator,
         onRefresh: controller.getListInbox,
         child: Obx(() {
-          if (controller.homeState.value == HomeState.Error) {
+          if (controller.homeState.value == HomeState.error) {
             return _errorState(controller, context);
           }
 
-          if (controller.homeState.value == HomeState.Initial) {
+          if (controller.homeState.value == HomeState.initial) {
             return _listShimmer();
           }
 
           return Obx(
             () => Column(
               children: [
-                if (controller.homeState.value == HomeState.NoInternet)
+                if (controller.homeState.value == HomeState.noInternet)
                   _noInternetBanner(),
                 Expanded(
                   child: Obx(() {
-                    if (controller.homeState.value == HomeState.Empty) {
+                    if (controller.homeState.value == HomeState.empty) {
                       return _emptyState(controller, context);
                     }
 

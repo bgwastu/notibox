@@ -33,7 +33,7 @@ class ViewInboxPage extends StatelessWidget {
                         content: const Text('This inbox will be deleted.'),
                         actions: [
                           TextButton(
-                              onPressed: () => Get.back(),
+                              onPressed: () => Navigator.pop(context),
                               child: Text('Cancel'.toUpperCase())),
                           TextButton(
                               onPressed: () => controller.deleteInbox(inbox),

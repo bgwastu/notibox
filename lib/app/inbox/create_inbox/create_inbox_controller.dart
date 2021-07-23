@@ -52,7 +52,7 @@ class CreateInboxController extends GetxController {
         final id = await _notionProvider.createInbox(inbox: inbox);
         inbox.pageId = id;
         EasyLoading.dismiss();
-        Get.back(result: inbox);
+        Navigator.pop(Get.context!, inbox);
       } on HomeException catch (e) {
         await EasyLoading.dismiss();
         EasyLoading.showError(e.message);

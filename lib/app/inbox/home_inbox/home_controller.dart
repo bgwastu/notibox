@@ -9,11 +9,11 @@ import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/app/inbox/view_inbox/view_inbox_page.dart';
 import 'package:notibox/services/notification_service.dart';
 
-enum HomeState { Initial, NoInternet, Error, Empty, Loaded }
+enum HomeState { initial, noInternet, error, empty, loaded }
 
 class HomeController extends GetxController {
   final _notionService = Get.put(InboxService());
-  Rx<HomeState> homeState = HomeState.Initial.obs;
+  Rx<HomeState> homeState = HomeState.initial.obs;
 
   Rx<List<Inbox>> listInbox = Rx([]);
   Rx<String> errorMessage = ''.obs;
@@ -26,29 +26,29 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    homeState.value = HomeState.Initial;
+    homeState.value = HomeState.initial;
     internetCheck = InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
           getListInbox();
           break;
         case InternetConnectionStatus.disconnected:
-          homeState.value = HomeState.NoInternet;
+          homeState.value = HomeState.noInternet;
           break;
       }
     });
 
     listInbox.listen((list) {
       if (list.isEmpty) {
-        homeState.value = HomeState.Empty;
+        homeState.value = HomeState.empty;
       }
     });
   }
 
   bool isReady() {
-    return homeState.value != HomeState.Initial &&
-        homeState.value != HomeState.Error &&
-        homeState.value != HomeState.NoInternet;
+    return homeState.value != HomeState.initial &&
+        homeState.value != HomeState.error &&
+        homeState.value != HomeState.noInternet;
   }
 
   @override
@@ -107,15 +107,15 @@ class HomeController extends GetxController {
 
         // State
         if (listInbox.value.isEmpty) {
-          homeState.value = HomeState.Empty;
+          homeState.value = HomeState.empty;
         } else {
-          homeState.value = HomeState.Loaded;
+          homeState.value = HomeState.loaded;
         }
       } else {
-        homeState.value = HomeState.NoInternet;
+        homeState.value = HomeState.noInternet;
       }
     } on HomeException catch (e) {
-      homeState.value = HomeState.Error;
+      homeState.value = HomeState.error;
       errorMessage.value = e.message;
     }
   }
@@ -126,7 +126,7 @@ class HomeController extends GetxController {
     //   await launch('mailto:atticdeveloper@gmail.com');
     // } finally {
     //   EasyLoading.dismiss();
-    //   EasyLoading.showError("You don't have email client");
+    //   EasyLoading.showerror("You don't have email client");
     // }
   }
 }

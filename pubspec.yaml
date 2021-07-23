@@ -28,7 +28,10 @@ dependencies:
   awesome_notifications: ^0.0.6+9
   package_info_plus: ^1.0.4
   background_fetch: ^1.0.1
-  sentry_flutter: ^6.0.0-beta.2
+  sentry_flutter: 
+    git:
+      url: https://github.com/getsentry/sentry-dart.git
+      path: flutter/
   animations: ^2.0.1
   flutter_staggered_animations: ^1.0.0
 

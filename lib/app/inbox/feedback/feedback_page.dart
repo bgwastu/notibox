@@ -4,66 +4,59 @@ import 'package:get/get.dart';
 import 'package:notibox/app/inbox/feedback/feedback_controller.dart';
 import 'package:notibox/utils/ui_helpers.dart';
 
-class FeedbackDialog extends AlertDialog {
+class FeedbackPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(FeedbackController());
+    final controller = FeedbackController();
 
     return WillPopScope(
       onWillPop: () async {
         if (controller.isDraft()) {
           final res = await showModal(
-            context: context,
-             builder: (context) => 
-              AlertDialog(
-                title: const Text('Are you sure?'),
-                content: const Text('Your feedback draft will be removed.'),
-                actions: [
-                  TextButton(
-                      onPressed: () => Get.back(result: false),
-                      child: Text('Cancel'.toUpperCase())),
-                  TextButton(
-                      onPressed: () {
-                        Get.back(result: true);
-                      },
-                      child: Text('Discard'.toUpperCase())),
-                ],
-              ));
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text('Are you sure?'),
+                    content: const Text('Your feedback draft will be removed.'),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: Text('Cancel'.toUpperCase())),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          child: Text('Discard'.toUpperCase())),
+                    ],
+                  ));
           if (res != null) {
-              return res as bool;
-            }
-            return false;
+            return res as bool;
+          }
+          return false;
         }
 
         return true;
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: AlertDialog(
-          insetPadding: const EdgeInsets.all(8.0),
+      child: Scaffold(
+        appBar: AppBar(
           title: const Text('Feedback'),
-          content: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              child: Form(
-                key: controller.formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _name(controller),
-                    verticalSpaceSmall,
-                    _email(controller),
-                    verticalSpaceSmall,
-                    _feedback(controller),
-                  ],
-                ),
-              ),
+          actions: [_send(controller)],
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _name(controller),
+                verticalSpaceSmall,
+                _email(controller),
+                verticalSpaceSmall,
+                _feedback(controller),
+              ],
             ),
           ),
-          actions: [
-            _send(controller),
-          ],
         ),
       ),
     );
@@ -71,7 +64,11 @@ class FeedbackDialog extends AlertDialog {
 
   Widget _send(FeedbackController controller) {
     return TextButton(
-        onPressed: controller.send, child: Text('Send'.toUpperCase()));
+      onPressed: controller.send,
+      child: Text('Send'.toUpperCase(),
+            style: Get.textTheme.button!.copyWith(color: Colors.white),
+      ),
+    );
   }
 
   TextFormField _email(FeedbackController controller) {

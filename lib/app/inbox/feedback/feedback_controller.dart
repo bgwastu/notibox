@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:notibox/utils/ui_helpers.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class FeedbackController extends GetxController {
   final nameController = TextEditingController();
@@ -23,17 +24,15 @@ class FeedbackController extends GetxController {
       final feedback = feedbackController.text;
 
       try {
-        //TODO: Implement sentry feedback
-        
-        // final id = await Sentry.captureMessage('Feedback');
-        // Sentry.captureUserFeedback(SentryUserFeedback(
-        //     name: name,
-        //     email: email,
-        //     comments: feedback,
-        //     eventId: id));
+        final id = await Sentry.captureMessage('Feedback');
+        Sentry.captureUserFeedback(SentryUserFeedback(
+            name: name,
+            email: email,
+            comments: feedback,
+            eventId: id));
         await EasyLoading.dismiss();
         await EasyLoading.showSuccess('Your feedback has been sent');
-        Get.back();
+        Navigator.pop(Get.context!);
       } catch (_) {
         await EasyLoading.dismiss();
       }
