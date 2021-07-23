@@ -38,7 +38,6 @@ class CreateInboxView extends StatelessWidget {
           }
           return false;
         }
-
         return true;
       },
       child: Scaffold(
