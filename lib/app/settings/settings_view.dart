@@ -23,12 +23,13 @@ class SettingsView extends StatelessWidget {
             subtitle: const Text('Your Notion internal integration token'),
             onTap: () async {
               final res = await showModal(
-                      context: context,
-                      builder: (context) =>
-                          alertDialog('API Token', controller.getToken()))
-                  as String;
+                  context: context,
+                  builder: (context) =>
+                      alertDialog('API Token', controller.getToken()));
 
-              controller.updateToken(res);
+              if (res != null) {
+                controller.updateToken(res as String);
+              }
             },
           ),
           ListTile(
@@ -39,11 +40,12 @@ class SettingsView extends StatelessWidget {
             ),
             onTap: () async {
               final res = await showModal(
-                      context: context,
-                      builder: (context) =>
-                      alertDialog('Database ID', controller.getDatabaseId()))
-                  as String;
-              controller.updateToken(res);
+                  context: context,
+                  builder: (context) =>
+                      alertDialog('Database ID', controller.getDatabaseId()));
+              if (res != null) {
+                controller.updateToken(res as String);
+              }
             },
           ),
           const Divider(),
