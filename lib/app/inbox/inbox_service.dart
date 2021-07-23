@@ -28,14 +28,14 @@ class InboxService {
     if (token != 'test' || databaseId != 'test') {
       token = (SettingsRepository.getToken() ?? '') as String;
       databaseId = (SettingsRepository.getDatabaseId() ?? '') as String;
-    }
 
-    dio = Dio()
-      ..options = BaseOptions(headers: {
-        'Authorization': 'Bearer ${token!}',
-        'Notion-Version': notionVersion
-      }, baseUrl: baseUrl)
-      ..interceptors.add(ErrorInterceptor());
+      dio = Dio()
+        ..options = BaseOptions(headers: {
+          'Authorization': 'Bearer ${token!}',
+          'Notion-Version': notionVersion
+        }, baseUrl: baseUrl)
+        ..interceptors.add(ErrorInterceptor());
+    }
   }
 
   Future<List<Database>> getListDatabase() async {
