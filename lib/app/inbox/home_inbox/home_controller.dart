@@ -12,7 +12,7 @@ import 'package:notibox/services/notification_service.dart';
 enum HomeState { Initial, NoInternet, Error, Empty, Loaded }
 
 class HomeController extends GetxController {
-  final _notionProvider = Get.put(InboxService());
+  final _notionService = Get.put(InboxService());
   Rx<HomeState> homeState = HomeState.Initial.obs;
 
   Rx<List<Inbox>> listInbox = Rx([]);
@@ -71,7 +71,7 @@ class HomeController extends GetxController {
 
   void updateInbox({required Inbox inbox, required int index}) {
     final pageId = listInbox.value[index].pageId;
-    inbox.pageId = pageId;
+    _notionService.updateInbox(inbox: inbox, pageId: pageId!);
 
     listInbox.value.replaceRange(index, index + 1, [inbox]);
     Get.forceAppUpdate();
@@ -100,7 +100,7 @@ class HomeController extends GetxController {
       // Function only works when internet was available
       final hasConnection = await InternetConnectionChecker().hasConnection;
       if (hasConnection) {
-        listInbox.value = await _notionProvider.getListInbox();
+        listInbox.value = await _notionService.getListInbox();
 
         // Add reminder
         await createReminder(listInbox.value);
