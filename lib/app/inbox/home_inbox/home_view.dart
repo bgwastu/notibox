@@ -55,41 +55,15 @@ class HomeView extends StatelessWidget {
       floatingActionButton: Obx(() => Visibility(
             visible: controller.isReady(),
             child: FloatingActionButton(
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CreateInboxView())),
+              onPressed: () async {
+                final inbox = await Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CreateInboxView()));
+                  if (inbox != null) {
+                  controller.createInbox(inbox as Inbox);
+                }
+              },
               child: const Icon(Icons.add),
             ),
-            // child: OpenContainer(
-            //   openBuilder: (BuildContext context, VoidCallback _) {
-            //     return CreateInboxView();
-            //   },
-            //   onClosed: (inbox) {
-            //     if (inbox != null) {
-            //       controller.createInbox(inbox as Inbox);
-            //     }
-            //   },
-            //   closedElevation: 6.0,
-            //   closedShape: const RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.all(
-            //       Radius.circular(fabDimension / 2),
-            //     ),
-            //   ),
-            //   closedColor: Theme.of(context).colorScheme.secondary,
-            //   middleColor: Get.theme.backgroundColor,
-            //   closedBuilder:
-            //       (BuildContext context, VoidCallback openContainer) {
-            //     return SizedBox(
-            //       height: fabDimension,
-            //       width: fabDimension,
-            //       child: Center(
-            //         child: Icon(
-            //           Icons.add,
-            //           color: Theme.of(context).colorScheme.onSecondary,
-            //         ),
-            //       ),
-            //     );
-            //   },
-            // ),
           )),
       body: RefreshIndicator(
         key: controller.indicator,
