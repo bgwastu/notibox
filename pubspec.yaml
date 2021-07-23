@@ -30,6 +30,7 @@ dependencies:
   background_fetch: ^1.0.1
   sentry_flutter: ^6.0.0-beta.2
   animations: ^2.0.1
+  flutter_staggered_animations: ^1.0.0
 
   flutter:
     sdk: flutter

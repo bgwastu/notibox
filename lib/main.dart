@@ -8,8 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:notibox/app/splash/splash_view.dart';
 import 'package:notibox/config/theme.dart';
-import 'package:notibox/routes/app_pages.dart';
 import 'package:notibox/services/background_service.dart';
 import 'package:notibox/services/notification_service.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -32,8 +32,6 @@ Future<void> main() async {
         navigatorObservers: [
           SentryNavigatorObserver(),
         ],
-        initialRoute: AppPages.initial,
-        getPages: AppPages.routes,
         theme: lightTheme,
         builder: EasyLoading.init(),
         darkTheme: darkTheme,
@@ -43,6 +41,7 @@ Future<void> main() async {
                 ? ThemeMode.dark
                 : ThemeMode.light,
         enableLog: true,
+        home: SplashView(),
       ),
     ),
   );

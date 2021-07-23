@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,30 +9,40 @@ import 'package:notibox/utils/ui_helpers.dart';
 import 'package:notibox/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-class UpdateInboxView extends GetView<UpdateInboxController> {
+class UpdateInboxView extends StatelessWidget {
+  final Inbox currentInbox;
+  const UpdateInboxView(this.currentInbox, {Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final controller = UpdateInboxController(currentInbox);
 
     return WillPopScope(
         onWillPop: () async {
           if (controller.isDraft()) {
-            final res = await Get.dialog(
-                AlertDialog(
+            final res = await showModal(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
                   title: const Text('Are you sure?'),
                   content: const Text('Your current progress will be removed.'),
                   actions: [
                     TextButton(
-                        onPressed: () => Get.back(result: false),
+                        onPressed: () => Navigator.pop(context, false),
                         child: Text('Cancel'.toUpperCase())),
                     TextButton(
                         onPressed: () {
-                          Get.back(result: true);
+                          Navigator.pop(context, true);
                         },
                         child: Text('Discard'.toUpperCase())),
                   ],
-                ),
-                barrierDismissible: false);
-            return res as bool;
+                );
+              },
+            );
+            if (res != null) {
+              return res as bool;
+            }
+            return false;
           }
 
           return true;

@@ -4,11 +4,11 @@ import 'package:notibox/utils/ui_helpers.dart';
 
 import 'splash_controller.dart';
 
-class SplashView extends GetView<SplashController> {
+class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     setCurrentOverlay(isDarkMode: Get.isDarkMode);
-    Get.find<SplashController>();
+    Get.put(SplashController());
     return Scaffold(
       body: Center(
         child: SizedBox(

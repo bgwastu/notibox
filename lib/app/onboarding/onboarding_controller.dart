@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
+import 'package:notibox/app/inbox/home_inbox/home_view.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
 import 'package:notibox/app/onboarding/token_onboarding/token_service.dart';
 import 'package:notibox/app/settings/settings_repository.dart';
 import 'package:notibox/config/constants.dart';
-import 'package:notibox/routes/app_pages.dart';
 import 'package:notibox/utils/ui_helpers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,7 +32,7 @@ class OnboardingController extends GetxController {
 
       if (listDatabase.length == 1) {
         SettingsRepository.setDatabaseId(listDatabase.first.id);
-        Get.offNamed(Routes.home);
+        Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context) => HomeView()));
       } else if (listDatabase.length > 1) {
         EasyLoading.showError('Integration has detects more than one database',
             dismissOnTap: true);

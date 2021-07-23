@@ -1,17 +1,21 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:notibox/app/inbox/create_inbox/create_inbox_view.dart';
 import 'package:notibox/app/inbox/feedback/feedback_dialog.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/search_inbox/inbox_search_delegate.dart';
-import 'package:notibox/routes/app_pages.dart';
+import 'package:notibox/app/settings/settings_view.dart';
 import 'package:notibox/utils/ui_helpers.dart';
 import 'package:open_settings/open_settings.dart';
 
 import 'home_controller.dart';
 
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatelessWidget {
+  final controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +27,9 @@ class HomeView extends GetView<HomeController> {
             icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(
-                  context: context,
-                  delegate: InboxSearchDelegate(controller.listInbox.value));
+                context: context,
+                delegate: InboxSearchDelegate(controller.listInbox.value),
+              );
             },
           ),
           PopupMenuButton<int>(
@@ -37,7 +42,8 @@ class HomeView extends GetView<HomeController> {
                   ],
               onSelected: (index) {
                 if (index == 1) {
-                  Get.toNamed(Routes.settings);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SettingsView()));
                 } else {
                   Get.dialog(FeedbackDialog());
                 }
@@ -47,27 +53,53 @@ class HomeView extends GetView<HomeController> {
       ),
       floatingActionButton: Obx(() => Visibility(
             visible: controller.isReady(),
-            child: FloatingActionButton.extended(
-              label: Text('Create'.toUpperCase()),
-              icon: const Icon(Icons.add),
-              onPressed: controller.createInbox,
+            child: OpenContainer(
+              openBuilder: (BuildContext context, VoidCallback _) {
+                return CreateInboxView();
+              },
+              onClosed: (inbox) {
+                if (inbox != null) {
+                  controller.createInbox(inbox as Inbox);
+                }
+              },
+              closedElevation: 6.0,
+              closedShape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(fabDimension / 2),
+                ),
+              ),
+              closedColor: Theme.of(context).colorScheme.secondary,
+              middleColor: Get.theme.backgroundColor,
+              closedBuilder:
+                  (BuildContext context, VoidCallback openContainer) {
+                return SizedBox(
+                  height: fabDimension,
+                  width: fabDimension,
+                  child: Center(
+                    child: Icon(
+                      Icons.add,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                  ),
+                );
+              },
             ),
           )),
       body: RefreshIndicator(
         key: controller.indicator,
         onRefresh: controller.getListInbox,
         child: Obx(() {
-
           if (controller.homeState.value == HomeState.Initial) {
-            return SizedBox();
+            //TODO: initial state
+            return const SizedBox();
           }
 
           if (controller.homeState.value == HomeState.Error) {
             return _errorState(controller, context);
           }
 
-          return Obx(() =>
-            Column(
+          return Obx(
+            () => Column(
               children: [
                 if (controller.homeState.value == HomeState.NoInternet)
                   _noInternetBanner(),
@@ -87,18 +119,31 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  ListView _listInbox(HomeController controller) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: controller.listInbox.value.length,
-      itemBuilder: (BuildContext context, int index) {
-        final inbox = controller.listInbox.value[index];
-        return _listItem(inbox, context, index);
-      },
+  Widget _listInbox(HomeController controller) {
+    return AnimationLimiter(
+      child: Obx(
+        () => ListView.builder(
+          shrinkWrap: true,
+          itemCount: controller.listInbox.value.length,
+          itemBuilder: (BuildContext context, int index) {
+            final inbox = controller.listInbox.value[index];
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(milliseconds: 375),
+              child: SlideAnimation(
+                verticalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: _listItem(inbox, context, index),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
-  Card _listItem(Inbox inbox, BuildContext context, int index) {
+  Widget _listItem(Inbox inbox, BuildContext context, int index) {
     return Card(
         margin: const EdgeInsets.fromLTRB(4, 4, 4, 0),
         child: InkWell(
@@ -138,7 +183,7 @@ class HomeView extends GetView<HomeController> {
                 else
                   Container(),
                 Text(inbox.title, style: Theme.of(context).textTheme.headline6),
-                if (!inbox.description!.isBlank!)
+                if (inbox.description != null && !inbox.description.isBlank!)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(

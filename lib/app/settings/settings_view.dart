@@ -7,10 +7,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'settings_controller.dart';
 
-class SettingsView extends GetView<SettingsController> {
+class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SettingsController>();
+    final controller = Get.put(SettingsController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),

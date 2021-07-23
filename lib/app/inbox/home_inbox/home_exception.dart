@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class HomeException implements Exception {
-  HomeException(String this.message);
+  HomeException(this.message);
 
   HomeException.fromDioError(DioError dioError) {
     switch (dioError.type) {

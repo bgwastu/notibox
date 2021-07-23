@@ -14,7 +14,7 @@ class OnboardingTokenPage extends StatelessWidget {
     return Form(
       key: controller.tokenFormKey,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -24,7 +24,8 @@ class OnboardingTokenPage extends StatelessWidget {
                 children: [
                   AspectRatio(
                     aspectRatio: 2 / 1,
-                    child: SvgPicture.asset('assets/images/phone_maintenance.svg'),
+                    child:
+                        SvgPicture.asset('assets/images/phone_maintenance.svg'),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +42,6 @@ class OnboardingTokenPage extends StatelessWidget {
                           tooltip: 'Get Help'),
                     ],
                   ),
-
                   Text(
                     'This application needs your Notion integration API to be able to work properly.',
                     style: Theme.of(context).textTheme.subtitle1,
@@ -51,7 +51,7 @@ class OnboardingTokenPage extends StatelessWidget {
                   TextFormField(
                     controller: controller.tokenController,
                     decoration:
-                    const InputDecoration(labelText: 'Notion API Token'),
+                        const InputDecoration(labelText: 'Notion API Token'),
                     minLines: 1,
                     maxLines: null,
                     autovalidateMode: AutovalidateMode.onUserInteraction,

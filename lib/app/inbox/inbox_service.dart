@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/onboarding/database_model.dart';
@@ -99,16 +98,17 @@ class InboxService {
     }
   }
 
-  Future<void> createInbox({required Inbox inbox}) async {
+  // Create inbox, return id page
+  Future<String> createInbox({required Inbox inbox}) async {
     refreshCredentials();
-
     try {
-      await dio!.post('pages', data: {
+      final res = await dio!.post('pages', data: {
         'parent': {
           'database_id': databaseId!,
         },
         'properties': inbox.toMap()
       });
+      return res.data['id'] as String;
     } on DioError catch (e) {
       throw HomeException.fromDioError(e);
     }

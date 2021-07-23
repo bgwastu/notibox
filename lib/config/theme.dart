@@ -16,6 +16,11 @@ final lightTheme = ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
   ),
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: <TargetPlatform, PageTransitionsBuilder>{
+      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+    },
+  ),
 );
 
 final darkTheme = ThemeData(
@@ -31,4 +36,5 @@ final darkTheme = ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
   ),
+
 );

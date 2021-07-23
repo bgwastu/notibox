@@ -49,7 +49,8 @@ class CreateInboxController extends GetxController {
           label: selectedLabel,
           reminder: reminder,
         );
-        await _notionProvider.createInbox(inbox: inbox);
+        final id = await _notionProvider.createInbox(inbox: inbox);
+        inbox.pageId = id;
         EasyLoading.dismiss();
         Get.back(result: inbox);
       } on HomeException catch (e) {

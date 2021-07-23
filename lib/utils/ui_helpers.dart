@@ -27,7 +27,7 @@ double screenWidthPercentage(BuildContext context, {double percentage = 1}) =>
 
 // Others
 Future hideInput() => SystemChannels.textInput.invokeMethod('TextInput.hide');
-
+const double fabDimension = 56.0;
 void setCurrentOverlay({required bool isDarkMode}) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,

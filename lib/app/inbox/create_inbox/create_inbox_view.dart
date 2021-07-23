@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,29 +9,34 @@ import 'package:notibox/utils/ui_helpers.dart';
 import 'package:notibox/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CreateInboxView extends GetView<CreateInboxController> {
+class CreateInboxView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final controller = CreateInboxController();
     return WillPopScope(
       onWillPop: () async {
         if (controller.isDraft()) {
-          final res = await Get.dialog(
-              AlertDialog(
-                title: const Text('Are you sure?'),
-                content: const Text('Your current progress will be removed.'),
-                actions: [
-                  TextButton(
-                      onPressed: () => Get.back(result: false),
-                      child: Text('Cancel'.toUpperCase())),
-                  TextButton(
-                      onPressed: () {
-                        Get.back(result: true);
-                      },
-                      child: Text('Discard'.toUpperCase())),
-                ],
-              ),
-              barrierDismissible: false);
-          return res as bool;
+          final res = await showModal(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text('Are you sure?'),
+                    content:
+                        const Text('Your current progress will be removed.'),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: Text('Cancel'.toUpperCase())),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                          child: Text('Discard'.toUpperCase())),
+                    ],
+                  ));
+          if (res != null) {
+            return res as bool;
+          }
+          return false;
         }
 
         return true;

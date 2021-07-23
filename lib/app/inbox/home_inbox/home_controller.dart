@@ -6,8 +6,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:notibox/app/inbox/home_inbox/home_exception.dart';
 import 'package:notibox/app/inbox/inbox_model.dart';
 import 'package:notibox/app/inbox/inbox_service.dart';
-import 'package:notibox/app/inbox/view_inbox/view_inbox_dialog.dart';
-import 'package:notibox/routes/app_pages.dart';
+import 'package:notibox/app/inbox/view_inbox/view_inbox_page.dart';
 import 'package:notibox/services/notification_service.dart';
 
 enum HomeState { Initial, NoInternet, Error, Empty, Loaded }
@@ -21,8 +20,8 @@ class HomeController extends GetxController {
   late StreamSubscription<InternetConnectionStatus> internetCheck;
   final indicator = GlobalKey<RefreshIndicatorState>();
 
-  Rx<int> selectedIndex = 0.obs;
-  late Rx<Inbox> selectedInbox;
+  int selectedIndex = 0;
+  late Inbox selectedInbox;
 
   @override
   void onInit() {
@@ -36,6 +35,12 @@ class HomeController extends GetxController {
         case InternetConnectionStatus.disconnected:
           homeState.value = HomeState.NoInternet;
           break;
+      }
+    });
+
+    listInbox.listen((list) {
+      if (list.isEmpty) {
+        homeState.value = HomeState.Empty;
       }
     });
   }
@@ -59,33 +64,35 @@ class HomeController extends GetxController {
     internetCheck.cancel();
   }
 
-  Future<void> createInbox() async {
-    final res = await Get.toNamed(Routes.createInbox);
-
+  Future<void> createInbox(Inbox inbox) async {
     // Append the new inbox
-    if (res != null) {
-      listInbox.value = [res as Inbox, ...listInbox.value];
-      getListInbox();
-    }
+    listInbox.value = [inbox, ...listInbox.value];
   }
 
-  void updateInbox(Inbox inbox) {
-    final index = selectedIndex.value;
+  void updateInbox({required Inbox inbox, required int index}) {
     final pageId = listInbox.value[index].pageId;
     inbox.pageId = pageId;
+
     listInbox.value.replaceRange(index, index + 1, [inbox]);
     Get.forceAppUpdate();
   }
 
-  void deleteInbox() {
-    listInbox.value.removeAt(selectedIndex.value);
+  void deleteInbox({required int index}) {
+    listInbox.value.removeAt(index);
     Get.forceAppUpdate();
   }
 
   Future<void> viewInbox(Inbox inbox, int index) async {
-    selectedIndex.value = index;
-    selectedInbox = inbox.obs;
-    Get.dialog(ViewInboxDialog(inbox));
+    selectedIndex = index;
+    selectedInbox = inbox;
+    final res = await Navigator.of(Get.context!)
+        .push(MaterialPageRoute(builder: (context) => ViewInboxPage(inbox)));
+    if(res == 'delete'){
+      deleteInbox(index: index);
+    }
+    if(res != null){
+      updateInbox(inbox: res as Inbox, index: index);
+    }
   }
 
   Future<void> getListInbox() async {
