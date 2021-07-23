@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notibox/app/inbox/feedback/feedback_controller.dart';
@@ -11,7 +12,9 @@ class FeedbackDialog extends AlertDialog {
     return WillPopScope(
       onWillPop: () async {
         if (controller.isDraft()) {
-          final res = await Get.dialog(
+          final res = await showModal(
+            context: context,
+             builder: (context) => 
               AlertDialog(
                 title: const Text('Are you sure?'),
                 content: const Text('Your feedback draft will be removed.'),
@@ -25,9 +28,11 @@ class FeedbackDialog extends AlertDialog {
                       },
                       child: Text('Discard'.toUpperCase())),
                 ],
-              ),
-              barrierDismissible: false);
-          return res as bool;
+              ));
+          if (res != null) {
+              return res as bool;
+            }
+            return false;
         }
 
         return true;

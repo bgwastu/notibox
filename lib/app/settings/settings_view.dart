@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,8 +22,12 @@ class SettingsView extends StatelessWidget {
             title: const Text('API Integration Token'),
             subtitle: const Text('Your Notion internal integration token'),
             onTap: () async {
-              final res = await Get.dialog(
-                  alertDialog('API Token', controller.getToken())) as String;
+              final res = await showModal(
+                      context: context,
+                      builder: (context) =>
+                          alertDialog('API Token', controller.getToken()))
+                  as String;
+
               controller.updateToken(res);
             },
           ),
@@ -33,7 +38,9 @@ class SettingsView extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () async {
-              final res = await Get.dialog(
+              final res = await showModal(
+                      context: context,
+                      builder: (context) =>
                       alertDialog('Database ID', controller.getDatabaseId()))
                   as String;
               controller.updateToken(res);
