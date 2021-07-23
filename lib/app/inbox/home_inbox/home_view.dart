@@ -11,6 +11,7 @@ import 'package:notibox/app/inbox/search_inbox/inbox_search_delegate.dart';
 import 'package:notibox/app/settings/settings_view.dart';
 import 'package:notibox/utils/ui_helpers.dart';
 import 'package:open_settings/open_settings.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'home_controller.dart';
 
@@ -89,13 +90,12 @@ class HomeView extends StatelessWidget {
         key: controller.indicator,
         onRefresh: controller.getListInbox,
         child: Obx(() {
-          if (controller.homeState.value == HomeState.Initial) {
-            //TODO: initial state
-            return const SizedBox();
-          }
-
           if (controller.homeState.value == HomeState.Error) {
             return _errorState(controller, context);
+          }
+
+          if (controller.homeState.value == HomeState.Initial) {
+            return _listShimmer();
           }
 
           return Obx(
@@ -108,6 +108,7 @@ class HomeView extends StatelessWidget {
                     if (controller.homeState.value == HomeState.Empty) {
                       return _emptyState(controller, context);
                     }
+
                     return _listInbox(controller);
                   }),
                 ),
@@ -139,6 +140,40 @@ class HomeView extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _listShimmer() {
+    return AnimationLimiter(
+      child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (BuildContext context, int index) {
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 375),
+            child: SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: Shimmer.fromColors(
+                  baseColor: Get.isDarkMode
+                      ? Colors.grey.shade600
+                      : Colors.grey.shade200,
+                  highlightColor: Get.isDarkMode
+                      ? Colors.grey.shade500
+                      : Colors.grey.shade300,
+                  child: Card(
+                    margin: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+                    child: Container(
+                      height: 80,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

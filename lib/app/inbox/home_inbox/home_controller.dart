@@ -87,10 +87,10 @@ class HomeController extends GetxController {
     selectedInbox = inbox;
     final res = await Navigator.of(Get.context!)
         .push(MaterialPageRoute(builder: (context) => ViewInboxPage(inbox)));
-    if(res == 'delete'){
+    if (res == 'delete') {
       deleteInbox(index: index);
     }
-    if(res != null){
+    if (res != null) {
       updateInbox(inbox: res as Inbox, index: index);
     }
   }
