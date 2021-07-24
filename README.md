@@ -1,7 +1,7 @@
 <div align="center">
   <img width="80px" src="assets/logo/logo_light.svg">
   <h1>Notibox</h1>
-  <p>Simple app for store quick notes efficiently in Notion. Built with Flutter.</p>
+  <p>Simple app to store quick notes efficiently in Notion. Built with Flutter.</p>
 </div>
 
 <div align="center">
@@ -50,11 +50,11 @@ You can either download from [Play Store](#) or download the application from [C
 - Many more!
 
 # How to contribute
-Any contribution are reatly appreciated. Here are some points where you can contribute to Notibox.
+Any contribution are really appreciated. Here are some points where you can contribute to Notibox.
 - Helping to create unit or widget tests (please do, I don't know how to do test properly)
 - Report some bug 🪲
 - Give us suggestions
-- Add new functionallity (please open an issue first to discuss what you would like to add)
+- Add new functionality (please open an issue first to discuss what you would like to add)
 
 ## Localization
 For localization, this app is only support in English, and soon in other language. If you are willing to add this feature, don't hesitate to make a PR.
