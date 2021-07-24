@@ -22,6 +22,7 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         leading: const Icon(Icons.inbox),
         title: const Text('Notibox'),
+
         actions: [
           IconButton(
             icon: const Icon(Icons.search),

@@ -66,6 +66,8 @@ class HomeController extends GetxController {
     if (homeState.value == HomeState.empty) {
       homeState.value = HomeState.loaded;
     }
+
+    createReminder(listInbox.value);
   }
 
   void updateInbox({required Inbox inbox, required int index}) {
@@ -73,6 +75,7 @@ class HomeController extends GetxController {
     _notionService.updateInbox(inbox: inbox, pageId: pageId!);
     listInbox.value.replaceRange(index, index + 1, [inbox]);
     Get.forceAppUpdate();
+    createReminder(listInbox.value);
   }
 
   void deleteInbox({required int index}) {
@@ -81,6 +84,7 @@ class HomeController extends GetxController {
       homeState.value = HomeState.empty;
     }
     Get.forceAppUpdate();
+    createReminder(listInbox.value);
   }
 
   Future<void> viewInbox(Inbox inbox, int index) async {
