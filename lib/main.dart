@@ -28,6 +28,7 @@ Future<void> main() async {
     },
     appRunner: () => runApp(
       GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Notibox',
         navigatorObservers: [
           SentryNavigatorObserver(),

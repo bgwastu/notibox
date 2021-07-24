@@ -1,5 +1,5 @@
 name: notibox
-version: 0.1.0-rc.1
+version: 0.1.0-rc.2
 publish_to: none
 description: Inbox app for Notion.
 environment:
