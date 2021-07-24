@@ -11,11 +11,11 @@
 </div>
 <br>
 <div align="center">
-  <a href="https://github.com/atticdev/Notibox/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/atticdev/Notibox"></a>
+  <a href="https://github.com/atticdev/notibox/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/atticdev/notibox"></a>
   <a href="https://codemagic.io/apps/60f521280c5097fa1bfce8d5/60fbe739be21229f0a9ce310/latest_build"><img alt="Codemagic" src="https://api.codemagic.io/apps/60f521280c5097fa1bfce8d5/60fbe739be21229f0a9ce310/status_badge.svg"></a>
-  <a href="https://github.com/atticdev/Notibox/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/atticdev/Notibox?include_prereleases"></a>
+  <a href="https://github.com/atticdev/notibox/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/atticdev/notibox?include_prereleases"></a>
 
-  <a href=""><img alt="GitHub" src="https://img.shields.io/github/license/atticdev/Notibox"></a>
+  <a href=""><img alt="GitHub" src="https://img.shields.io/github/license/atticdev/notibox"></a>
 </div>
 
 <br>
