@@ -42,10 +42,10 @@ You can either download from [Play Store](#) or download the application from [C
 
 
 # Features
-- Offline, all your notes will be available even when there is no network
+- Offline, all notes will be available even when there is no network
 - Reminder
 - Inbox search feature
-- Synced notes
+- Bidirectional sync
 - Customizable label
 - Many more!
 
@@ -69,4 +69,4 @@ Notibox using GetX as state management, the structure itself is using directory 
 - Run the app with `flutter run`
 
 # License
-Distributed under the Apache 2.0 License. See [LICENSE](LICENSE) for more information.
+Distributed under the Apache 2.0 License. See [LICENSE](/LICENSE) for more information.
