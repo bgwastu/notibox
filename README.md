@@ -49,6 +49,11 @@ You can either download from [Play Store](https://play.google.com/store/apps/det
 - Customizable label
 - Many more!
 
+# Guide
+- [How to get Notion Integration API](https://www.notion.so/atticapps/How-to-get-Notion-Integration-API-089ede661a3a4ac8b8d4e732a472ddd4)
+- [How to integrate database into Notibox](https://www.notion.so/atticapps/How-to-integrate-database-into-Notibox-5157f7f4c4b74500afe5ca27d64b5c08)
+- [Notibox template](https://www.notion.so/atticapps/385e58cb01f145eeaab50a76c0324628?v=8ab83494cb714b83a2d133dca6bc9554) 
+
 # How to contribute
 Any contribution are really appreciated. Here are some points where you can contribute to Notibox.
 - Helping to create unit or widget tests (please do, I don't know how to do test properly)
