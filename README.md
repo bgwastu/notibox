@@ -23,6 +23,11 @@
 # Description
 Notibox is an inbox application that integrates with Notion. Used to save your quick notes more quickly and efficiently. Notibox uses the [Notion API](https://developers.notion.com/) to work.
 
+# Demo
+<div align="center">
+  <img src="screenshots/demo.gif"/>
+</div>
+
 # Screenshots
 <table >
   <tr>
