@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-<a href="#">
+<a href="https://play.google.com/store/apps/details?id=com.atticdev.notibox">
   <img width="150px" src="https://camo.githubusercontent.com/312337bc4c1fbc3fb62ec751bddfc5b61b8d0819c8e266c63ea35cd344f879ca/68747470733a2f2f6769746a6f75726e616c2e696f2f696d616765732f616e64726f69642d73746f72652d62616467652e706e67">
 </a>
 </div>
@@ -38,7 +38,7 @@ Notibox is an inbox application that integrates with Notion. Used to save your q
 
 ## Download
 
-You can either download from [Play Store](#) or download the application from [Codemagic](https://codemagic.io/apps/60f521280c5097fa1bfce8d5/60fbe739be21229f0a9ce310/latest_build) by downloading **app-release.apk**.
+You can either download from [Play Store](https://play.google.com/store/apps/details?id=com.atticdev.notibox) or download the application from [Codemagic](https://codemagic.io/apps/60f521280c5097fa1bfce8d5/60fbe739be21229f0a9ce310/latest_build) by downloading **app-release.apk**.
 
 
 # Features
