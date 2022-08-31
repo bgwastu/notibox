@@ -1,6 +1,7 @@
 <div align="center">
   <img width="80px" src="assets/logo/logo_light.svg">
   <h1>Notibox</h1>
+  <b><p>[UNMAINTAINED]</p></b>
   <p>Simple app to store quick notes efficiently in Notion. Built with Flutter.</p>
 </div>
 
